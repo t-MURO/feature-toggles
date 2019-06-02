@@ -6,8 +6,7 @@
   "scripts": {
     "dev": "concurrently --kill-others \"cd backend && npm run dev\" \"cd frontend && npm run serve\"",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "concurrently --kill-others \"cd backend && npm run build\" \"cd frontend && npm run build\"",
-	"install" : "concurrently --kill-others \"cd backend && npm i -D\" \"cd frontend && npm i -D\""
+    "build": "concurrently \"cd backend && npm run build\" \"cd frontend && npm run build\""
   },
   "author": "",
   "license": "ISC",

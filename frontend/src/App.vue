@@ -101,7 +101,7 @@
     <v-btn
       class="add-btn"
       fab
-      color="secondary"
+      color="primary"
       bottom
       right
       fixed

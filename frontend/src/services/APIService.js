@@ -1,5 +1,5 @@
 import axios from "axios";
-const API_URL = "http://localhost:3333";
+const API_URL = "http://localhost:3333/api";
 const TOGGLE_ROUTE = "/toggles/";
 const ENVIRONMENT_ROUTE = "/environments/";
 
