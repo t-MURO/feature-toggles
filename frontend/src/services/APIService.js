@@ -24,8 +24,12 @@ export default class APIService {
     return axios.get(API_URL + ENVIRONMENT_ROUTE).then(res => res.data);
   }
 
-  getEnvironment(id) {
-    return axios.get(API_URL + ENVIRONMENT_ROUTE + id).then(res => res.data);
+  removeEnvironment(environment) {
+    let id;
+    typeof environment == "string"
+      ? (id = environment)
+      : (id = environment._id);
+    return axios.delete(API_URL + ENVIRONMENT_ROUTE + id).then(res => res.data);
   }
 
   createToggle(toggle) {

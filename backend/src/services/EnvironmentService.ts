@@ -31,7 +31,7 @@ export default class EnvironmentService {
     public deleteEnvironment(_id:string):Promise<any>{
         return new Promise((resolve, reject) => {
             EnvironmentModel.findOneAndDelete({_id})
-                .then(() => resolve())
+                .then((res) => resolve(res))
                 .catch(err => reject(err));
         });
     }
