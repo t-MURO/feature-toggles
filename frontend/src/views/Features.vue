@@ -1,11 +1,7 @@
 <template>
   <v-container>
-    <!-- <div>
-      Name: <input type="text" v-model="newToggle.name" />
-      <br />
-      <textarea v-model="newToggle.description" cols="30" rows="5"></textarea>
-      <button @click="createToggle(newToggle)">Save</button>
-    </div> -->
+    <h2 class="display-3">Features</h2>
+    <v-spacer></v-spacer>
     <feature
       v-for="toggle in toggles"
       :key="toggle._id"

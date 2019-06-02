@@ -3,8 +3,8 @@ import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import cors from "cors";
 
-import toggleController from './controllers/toggles';
-import environmentController from './controllers/environment';
+import toggleController from './controllers/ToggleController';
+import environmentController from './controllers/EnvironmentController';
 
 mongoose.set('useCreateIndex', true);
 mongoose.connect('mongodb://localhost:27017/feature-toggles', { useNewUrlParser: true }).then(db => {
@@ -14,14 +14,12 @@ mongoose.connect('mongodb://localhost:27017/feature-toggles', { useNewUrlParser:
 
 const app = express();
 
+app.use(express.static('public'));
+
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.get('/', (req, res) => {
-    console.log('hi')
-    res.send('hi')
-});
 
 app.use('/toggles', toggleController);
 app.use('/environments', environmentController);

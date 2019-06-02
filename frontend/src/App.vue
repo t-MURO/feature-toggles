@@ -176,6 +176,7 @@ export default {
     drawer: null,
     dark: false,
     items: [
+      { icon: "work", text: "Workspace", link: "workspace" },
       { icon: "insert_emoticon", text: "Features", link: "features" },
       { icon: "phonelink", text: "Environments", link: "environments" },
       // {
@@ -194,6 +195,10 @@ export default {
   }),
   props: {
     source: String
+  },
+  created() {
+    // console.log(this.source);
+    this.$store.dispatch("getFeatures");
   }
 };
 </script>

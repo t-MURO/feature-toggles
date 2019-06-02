@@ -1,20 +1,9 @@
-import mongoose, { Schema } from 'mongoose';
+export default class Toggle {
 
-const ToggleSchema = new Schema({
-    name: {
-        type: String,
-        trim: true,
-        unique: true,
-        required: true
-    },
-    isEnabled: {
-        type: Boolean,
-        default: false
-    },
-    description: {
-        type: String,
-        required: false
-    }
-}, { collection: 'toggles' });
-
-export default mongoose.model('Toggle', ToggleSchema);
+    constructor(
+        public name: string,
+        public description: string,
+        public _id?: string,
+        public __v?: string,
+    ){}
+}

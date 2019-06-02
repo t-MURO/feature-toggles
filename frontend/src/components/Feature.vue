@@ -9,7 +9,9 @@
             @change="toggleSwitch($event)"
             v-model="enabled"
             :loading="loading"
+            color="success"
           ></v-switch>
+          <v-btn @click="editToggle(toggle)" color="info">Edit</v-btn>
           <v-btn @click="removeToggle(toggle)" color="error">Delete</v-btn>
         </v-card-actions>
       </v-card>
@@ -55,8 +57,7 @@ export default {
 
 <style lang="scss" scoped>
 .t-layout {
-  width: 75%;
-  margin-bottom: 1em;
+  margin: 1em 0;
   .v-card {
     padding: 1em 1em 0 1em;
   }

@@ -1,26 +1,11 @@
-import mongoose, { Schema } from 'mongoose';
+export default class Environment {
 
-const EnvironmentSchema = new Schema({
-    name: {
-        type: String,
-        trim: true,
-        unique: true,
-        required: true
-    },
-    identifier: {
-        type: String,
-        trim: true,
-        unique: true,
-        required: true
-    },
-    toggles: {
-        type: [String],
-        required: true
-    },
-    description: {
-        type: String,
-        required: false
-    }
-}, { collection: 'environments' });
-
-export default mongoose.model('Environment', EnvironmentSchema);
+    constructor(
+        public name:string,
+        public identifier: string,
+        public toggles: string[],
+        public description: string,
+        public _id?: string,
+        public __v?: string,
+    ){}
+}

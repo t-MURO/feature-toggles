@@ -1,4 +1,4 @@
-const axios = require("axios");
+import axios from "axios";
 const API_URL = "http://localhost:3333";
 const TOGGLE_ROUTE = "/toggles/";
 const ENVIRONMENT_ROUTE = "/environments/";
