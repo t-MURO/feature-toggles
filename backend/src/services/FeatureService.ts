@@ -15,7 +15,7 @@ export default class FeatureService {
     public create(features:Feature|Feature[]):Promise<any>{
         return new Promise((resolve, reject) => {
             FeatureModel.create(features)
-                .then((t) => resolve(t))
+                .then((t:Feature|Feature[]) => resolve(t))
                 .catch((err:Error) => reject(err));
         });
     }
@@ -23,7 +23,7 @@ export default class FeatureService {
     public update(_id: string, feature: Feature):Promise<any>{
         return new Promise((resolve, reject) => {
             FeatureModel.findOneAndUpdate({_id}, feature)
-                .then(t => resolve(t))
+                .then((t:any) => resolve(t))
                 .catch((err:Error) => reject(err))
         });
     }
@@ -32,7 +32,7 @@ export default class FeatureService {
         return new Promise((resolve, reject) => {
             FeatureModel.findOneAndDelete({_id})
                 .then( () => resolve())
-                .catch(err => reject(err));
+                .catch((err: any) => reject(err));
         });
     }
 }

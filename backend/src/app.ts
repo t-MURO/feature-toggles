@@ -29,7 +29,7 @@ app.use('/api/features', featureController);
 app.use('/api/environments', environmentController);
 
 app.use('/api/*', (req, res) => {
-    res.send(404);
+    res.sendStatus(404);
 });
 
 app.use('*', (req, res) => {

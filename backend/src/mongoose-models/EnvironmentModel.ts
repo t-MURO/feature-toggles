@@ -1,26 +1,13 @@
 import mongoose, { Schema } from 'mongoose';
+import { ModelType } from 'typegoose';
+import Environment from '../models/Environment';
 
-const EnvironmentSchema = new Schema({
-    name: {
-        type: String,
-        trim: true,
-        unique: true,
-        required: true
-    },
-    identifier: {
-        type: String,
-        trim: true,
-        unique: true,
-        required: true
-    },
-    features: {
-        type: [String],
-        required: true
-    },
-    description: {
-        type: String,
-        required: false
+const EnvironmentModel:ModelType<Environment> = new Environment().setModelForClass(Environment, {
+    existingMongoose: mongoose,
+    schemaOptions: {
+        collection: 'environments',
+        timestamps: true,
     }
-}, { collection: 'environments' });
+})
 
-export default mongoose.model('Environment', EnvironmentSchema);
+export default EnvironmentModel;

@@ -1,20 +1,12 @@
 import mongoose, { Schema } from 'mongoose';
+import Feature from '../models/Feature';
+import { ModelType } from 'typegoose';
 
-const FeatureSchema = new Schema({
-    name: {
-        type: String,
-        trim: true,
-        unique: true,
-        required: true
-    },
-    isEnabled: {
-        type: Boolean,
-        default: false
-    },
-    description: {
-        type: String,
-        required: false
+const FeatureModel:ModelType<Feature> = new Feature().setModelForClass(Feature, {
+    existingMongoose: mongoose,
+    schemaOptions: {
+        collection: 'features',
+        timestamps: true,
     }
-}, { collection: 'features' });
-
-export default mongoose.model('Feature', FeatureSchema);
+})
+export default FeatureModel

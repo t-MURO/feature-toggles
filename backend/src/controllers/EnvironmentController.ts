@@ -33,7 +33,7 @@ environmentController
 
     .delete('/:id', (req, res, next) => {
         environmentService.deleteEnvironment(req.params.id)
-            .then(() => res.send(204))
+            .then(() => res.sendStatus(204))
             .catch((err:Error) => res.status(400).json(err))
     })
 
