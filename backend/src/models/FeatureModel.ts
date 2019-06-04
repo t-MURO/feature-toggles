@@ -1,5 +1,5 @@
 import mongoose, { Schema } from 'mongoose';
-import Feature from '../models/Feature';
+import Feature from './Feature';
 import { ModelType } from 'typegoose';
 
 const FeatureModel:ModelType<Feature> = new Feature().setModelForClass(Feature, {

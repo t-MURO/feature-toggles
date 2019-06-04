@@ -1,4 +1,4 @@
-import FeatureModel from '../mongoose-models/FeatureModel';
+import FeatureModel from '../models/FeatureModel';
 import Feature from '../models/Feature';
 import { Error } from 'mongoose';
 

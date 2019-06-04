@@ -1,4 +1,4 @@
-import EnvironmentModel from '../mongoose-models/EnvironmentModel';
+import EnvironmentModel from '../models/EnvironmentModel';
 import Environment from '../models/Environment';
 import { Error } from 'mongoose';
 
