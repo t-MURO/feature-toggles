@@ -4,14 +4,18 @@ import mongoose from "mongoose";
 import cors from "cors";
 import path from 'path';
 
-import toggleController from './controllers/ToggleController';
+import featureController from './controllers/FeatureController';
 import environmentController from './controllers/EnvironmentController';
 
-mongoose.set('useCreateIndex', true);
-mongoose.connect('mongodb://localhost:27017/feature-toggles', { useNewUrlParser: true }).then(db => {
-    console.log('db up and running')
-})
-.catch(err => console.log(err));
+mongoose.connect('mongodb://localhost:27017/feature-toggles', {
+        useNewUrlParser: true,
+        useCreateIndex: true,
+        useFindAndModify: false,
+    })
+    .then(db => {
+        console.log('db up and running')
+    })
+    .catch(err => console.log(err));
 
 const app = express();
 
@@ -21,7 +25,7 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.use('/api/toggles', toggleController);
+app.use('/api/features', featureController);
 app.use('/api/environments', environmentController);
 
 app.use('/api/*', (req, res) => {

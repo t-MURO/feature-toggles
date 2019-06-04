@@ -1,4 +1,4 @@
-export default class Toggle {
+export default class Feature {
 
     constructor(
         public name: string,

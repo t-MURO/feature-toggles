@@ -13,7 +13,7 @@ const EnvironmentSchema = new Schema({
         unique: true,
         required: true
     },
-    toggles: {
+    features: {
         type: [String],
         required: true
     },

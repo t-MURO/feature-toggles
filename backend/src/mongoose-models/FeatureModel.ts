@@ -1,6 +1,6 @@
 import mongoose, { Schema } from 'mongoose';
 
-const ToggleSchema = new Schema({
+const FeatureSchema = new Schema({
     name: {
         type: String,
         trim: true,
@@ -15,6 +15,6 @@ const ToggleSchema = new Schema({
         type: String,
         required: false
     }
-}, { collection: 'toggles' });
+}, { collection: 'features' });
 
-export default mongoose.model('Toggle', ToggleSchema);
+export default mongoose.model('Feature', FeatureSchema);

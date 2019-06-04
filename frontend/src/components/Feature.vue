@@ -2,17 +2,17 @@
   <div class="t-layout">
     <v-flex xs12>
       <v-card>
-        <h3>{{ toggle.name }}</h3>
-        <p>{{ toggle.description }}</p>
+        <h3>{{ feature.name }}</h3>
+        <p>{{ feature.description }}</p>
         <v-card-actions>
           <v-switch
-            @change="toggleSwitch($event)"
+            @change="featureSwitch($event)"
             v-model="enabled"
             :loading="loading"
             color="success"
           ></v-switch>
-          <v-btn @click="editToggle(toggle)" color="info">Edit</v-btn>
-          <v-btn @click="removeToggle(toggle)" color="error">Delete</v-btn>
+          <v-btn @click="editFeature(feature)" color="info">Edit</v-btn>
+          <v-btn @click="removeFeature(feature)" color="error">Delete</v-btn>
         </v-card-actions>
       </v-card>
     </v-flex>
@@ -25,7 +25,7 @@ import APIService from "@/services/APIService";
 const apiService = new APIService();
 
 export default {
-  props: ["toggle", "removeToggle", "editToggle"],
+  props: ["feature", "removeFeature", "editFeature"],
   data() {
     return {
       loading: false,
@@ -33,23 +33,23 @@ export default {
     };
   },
   created() {
-    this.enabled = this.toggle.isEnabled;
+    this.enabled = this.feature.isEnabled;
   },
   methods: {
-    toggleSwitch(event) {
-      let toggle = { ...this.toggle };
-      toggle.isEnabled = event;
+    featureSwitch(event) {
+      let feature = { ...this.feature };
+      feature.isEnabled = event;
 
       this.loading = true;
-      apiService.editToggle(toggle).then(res => {
-        this.$emit("toggleUpdate", res.data);
+      apiService.editFeature(feature).then(res => {
+        this.$emit("featureUpdate", res.data);
         this.loading = false;
       });
     }
   },
   computed: {
     isActive() {
-      return this.toggle.isEnabled;
+      return this.feature.isEnabled;
     }
   }
 };

@@ -1,23 +1,20 @@
 import axios from "axios";
 const API_URL = "http://localhost:3333/api";
-const TOGGLE_ROUTE = "/toggles/";
+const FEATURE_ROUTE = "/features/";
 const ENVIRONMENT_ROUTE = "/environments/";
 
 export default class APIService {
-  // constructor(){
-  //     axios.get(API_URL + TOGGLE_ROUTE).then(res => console.log(res.data)).catch(err => console.log('hallo', err));
-  // }
 
-  getToggles() {
-    console.log(API_URL + TOGGLE_ROUTE);
+  getFeatures() {
+    console.log(API_URL + FEATURE_ROUTE);
     return axios
-      .get(API_URL + TOGGLE_ROUTE)
+      .get(API_URL + FEATURE_ROUTE)
       .then(res => res.data)
       .catch(err => console.log("hallo", err));
   }
 
-  getToggle(id) {
-    return axios.get(API_URL + TOGGLE_ROUTE + id).then(res => res.data);
+  getFeature(id) {
+    return axios.get(API_URL + FEATURE_ROUTE + id).then(res => res.data);
   }
 
   getEnvironments() {
@@ -32,19 +29,19 @@ export default class APIService {
     return axios.delete(API_URL + ENVIRONMENT_ROUTE + id).then(res => res.data);
   }
 
-  createToggle(toggle) {
-    return axios.post(API_URL + TOGGLE_ROUTE, toggle).then(res => res.data);
+  createFeature(feature) {
+    return axios.post(API_URL + FEATURE_ROUTE, feature).then(res => res.data);
   }
 
-  editToggle(toggle) {
+  editFeature(feature) {
     return axios
-      .put(API_URL + TOGGLE_ROUTE + toggle._id, toggle)
+      .put(API_URL + FEATURE_ROUTE + feature._id, feature)
       .then(res => res.data);
   }
 
-  removeToggle(toggle) {
+  removeFeature(feature) {
     let id;
-    typeof toggle == "string" ? (id = toggle) : (id = toggle._id);
-    return axios.delete(API_URL + TOGGLE_ROUTE + id).then(res => res.data);
+    typeof feature == "string" ? (id = feature) : (id = feature._id);
+    return axios.delete(API_URL + FEATURE_ROUTE + id).then(res => res.data);
   }
 }

@@ -26,7 +26,7 @@ export default new Vuex.Store({
 
   actions: {
     async getFeatures({ commit }) {
-      const features = await apiService.getToggles();
+      const features = await apiService.getFeature();
       commit("SET_FEATURES", features);
     }
 

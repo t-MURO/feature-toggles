@@ -3,11 +3,11 @@
     <h2 class="display-3">Features</h2>
     <v-spacer></v-spacer>
     <feature
-      v-for="toggle in toggles"
-      :key="toggle._id"
-      :toggle="toggle"
-      :removeToggle="removeToggle"
-      @toggleUpdate="updateToggle(toggle)"
+      v-for="feature in features"
+      :key="feature._id"
+      :feature="feature"
+      :removeFeature="removeFeature"
+      @featureUpdate="updateFeature(feature)"
     ></feature>
   </v-container>
 </template>
@@ -24,37 +24,37 @@ export default {
   },
   data() {
     return {
-      toggles: [],
-      newToggle: {
+      features: [],
+      newFeature: {
         name: "",
         description: ""
       }
     };
   },
   beforeMount() {
-    this.getToggles();
+    this.getFeatures();
   },
   methods: {
-    getToggles() {
-      apiService.getToggles().then(toggles => {
-        this.toggles = toggles;
+    getFeatures() {
+      apiService.getFeatures().then(features => {
+        this.features = features;
       });
     },
-    createToggle(toggle) {
-      apiService.createToggle(toggle).then(t => this.toggles.unshift(t));
+    createFeature(feature) {
+      apiService.createFeature(feature).then(t => this.features.unshift(t));
     },
-    editToggle(toggle) {
-      // toggle.isEnabled = !toggle.isEnabled;
-      apiService.editToggle(toggle).then(t => (toggle = t));
+    editFeature(feature) {
+      // feature.isEnabled = !feature.isEnabled;
+      apiService.editFeature(feature).then(t => (feature = t));
     },
-    removeToggle(toggle) {
-      apiService.removeToggle(toggle).then(() => {
-        this.toggles = this.toggles.filter(t => t._id !== toggle._id);
+    removeFeature(feature) {
+      apiService.removeFeature(feature).then(() => {
+        this.features = this.features.filter(t => t._id !== feature._id);
       });
     },
-    updateToggle(toggle) {
-      const index = this.toggles.findIndex(t => t._id === toggle._id);
-      this.toggles[index] = toggle;
+    updateFeature(feature) {
+      const index = this.features.findIndex(t => t._id === feature._id);
+      this.features[index] = feature;
     }
   }
 };

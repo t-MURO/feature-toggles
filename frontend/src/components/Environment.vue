@@ -6,7 +6,7 @@
         <p>{{ environment.description }}</p>
         <v-card-actions>
           <v-switch
-            @change="toggleSwitch($event)"
+            @change="featureSwitch($event)"
             v-model="enabled"
             :loading="loading"
             color="success"
@@ -37,7 +37,7 @@ export default {
     this.enabled = this.environment.isEnabled;
   },
   methods: {
-    toggleSwitch(event) {
+    featureSwitch(event) {
       console.log(event);
       //   let environment = { ...this.environment };
       //   environment.isEnabled = event;
