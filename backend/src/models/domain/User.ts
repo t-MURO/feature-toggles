@@ -1,7 +1,7 @@
 import {Typegoose, prop, Ref, pre,} from "typegoose";
 import Mongoose from "mongoose";
-import Roles from "../Roles";
-import UserPreferences from "../UserPreferences";
+import Roles from "../enum/Roles";
+import UserPreferences from "./UserPreferences";
 
 @pre<User>('save', function(next){
     this.updatedAt = new Date();
