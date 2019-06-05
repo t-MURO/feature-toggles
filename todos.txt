@@ -1,0 +1,15 @@
+Backend:
+- user model
+- user routes
+- authentication passport?
+- workspace non editable route
+
+-fix routes
+
+Frontend:
+- login screen
+- fix routes
+
+- select workspace homescreen
+
+- use vuex instead of local data

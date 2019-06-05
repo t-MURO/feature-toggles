@@ -6,6 +6,8 @@ import path from 'path';
 
 import featureController from './controllers/FeatureController';
 import environmentController from './controllers/EnvironmentController';
+import userController from "./controllers/UserController";
+import workspaceController from "./controllers/WorkspaceController";
 
 mongoose.connect('mongodb://localhost:27017/feature-toggles', {
         useNewUrlParser: true,
@@ -27,6 +29,8 @@ app.use(bodyParser.json());
 
 app.use('/api/features', featureController);
 app.use('/api/environments', environmentController);
+app.use('/api/users', userController);
+app.use('/api/workspaces', workspaceController);
 
 app.use('/api/*', (req, res) => {
     res.sendStatus(404);

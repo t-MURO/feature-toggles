@@ -1,5 +1,5 @@
-import EnvironmentModel from '../models/EnvironmentModel';
-import Environment from '../models/Environment';
+import EnvironmentModel from '../models/mongoose/EnvironmentModel';
+import Environment from '../models/domain/Environment';
 import { Error } from 'mongoose';
 
 export default class EnvironmentService {

@@ -1,9 +1,13 @@
-import { Typegoose, prop } from "typegoose";
-import { Schema } from "mongoose";
+import {Typegoose, prop, pre} from "typegoose";
+import Mongoose from "mongoose";
 
+@pre<Feature>('save', function(next){
+    this.updatedAt = new Date();
+    next();
+})
 export default class Feature extends Typegoose{
 
-    _id?: Schema.Types.ObjectId;
+    _id?: Mongoose.Types.ObjectId;
     createdAt?: Date;
     updatedAt?: Date;
 

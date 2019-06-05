@@ -20,17 +20,13 @@
           <v-layout row wrap>
             <v-flex xs12 align-center justify-space-between>
               <v-layout align-center>
-                <v-text-field
-                    placeholder="Name"
-                    prepend-icon="description">
+                <v-text-field placeholder="Name" prepend-icon="description">
                 </v-text-field>
               </v-layout>
             </v-flex>
             <v-flex xs12 align-center justify-space-between>
               <v-layout align-center>
-                <v-textarea 
-                placeholder="Description"
-                prepend-icon="title">
+                <v-textarea placeholder="Description" prepend-icon="title">
                 </v-textarea>
               </v-layout>
             </v-flex>
@@ -44,12 +40,12 @@
                 multiple
                 :disabled="features.length < 1"
               ></v-select>
-            <v-flex xs12>
-              <v-text-field
-                prepend-icon="lock_open"
-                placeholder="Identifier"
-              ></v-text-field>
-            </v-flex>
+              <v-flex xs12>
+                <v-text-field
+                  prepend-icon="lock_open"
+                  placeholder="Identifier"
+                ></v-text-field>
+              </v-flex>
             </v-flex>
           </v-layout>
         </v-container>
@@ -85,8 +81,8 @@ export default {
       dialog: false,
       fts: [],
       type: "",
-    //   features: []
-      features: ['redesign', 'newRoute', 'editButton']
+      //   features: []
+      features: ["redesign", "newRoute", "editButton"]
     };
   },
   methods: {

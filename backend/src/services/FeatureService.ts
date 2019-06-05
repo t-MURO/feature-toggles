@@ -1,5 +1,5 @@
-import FeatureModel from '../models/FeatureModel';
-import Feature from '../models/Feature';
+import FeatureModel from '../models/mongoose/FeatureModel';
+import Feature from '../models/domain/Feature';
 import { Error } from 'mongoose';
 
 export default class FeatureService {

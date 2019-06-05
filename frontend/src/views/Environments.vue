@@ -13,11 +13,11 @@
 </template>
 
 <script>
-import APIService from "@/services/APIService";
+import APIService from "../services/APIService";
 import Environment from "../components/Environment";
 
 const apiService = new APIService();
-// asdasd
+
 export default {
   components: {
     environment: Environment

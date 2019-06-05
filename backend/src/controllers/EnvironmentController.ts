@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import EnvironmentService from '../services/EnvironmentService';
-import Environment from '../models/Environment';
+import Environment from '../models/domain/Environment';
 
 const environmentController = Router();
 const environmentService = new EnvironmentService();

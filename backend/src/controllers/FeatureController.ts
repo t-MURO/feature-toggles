@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import Feature from '../models/Feature';
+import Feature from '../models/domain/Feature';
 import FeatureService from '../services/FeatureService';
 
 const featureController = Router();

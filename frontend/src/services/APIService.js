@@ -4,7 +4,7 @@ const FEATURE_ROUTE = "/features/";
 const ENVIRONMENT_ROUTE = "/environments/";
 
 export default class APIService {
-
+  
   getFeatures() {
     console.log(API_URL + FEATURE_ROUTE);
     return axios

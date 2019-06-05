@@ -1,8 +1,12 @@
-import { Typegoose, prop,  } from "typegoose";
-import { Schema } from "mongoose";
+import {Typegoose, prop, pre,} from "typegoose";
+import Mongoose from "mongoose";
 
+@pre<Workspace>('save', function(next){
+    this.updatedAt = new Date();
+    next();
+})
 export default class Workspace extends Typegoose {
-    _id?: Schema.Types.ObjectId;
+    _id?: Mongoose.Types.ObjectId;
     createdAt?: Date;
     updatedAt?: Date;
 
@@ -13,13 +17,13 @@ export default class Workspace extends Typegoose {
     description?: string;
 
     @prop({required: true, default: []})
-    environments!: Schema.Types.ObjectId[];
+    environments!: Mongoose.Types.ObjectId[];
 
     @prop({required: true})
-    owner!: Schema.Types.ObjectId;
+    owner!: Mongoose.Types.ObjectId;
 
     @prop({required: true, default: []})
-    members!: Schema.Types.ObjectId[];
+    members!: Mongoose.Types.ObjectId[];
 
     @prop({required: true, trim: true, lowercase: true, validate: {
         validator: validateRoute,

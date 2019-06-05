@@ -1,5 +1,5 @@
-import WorkspaceModel from '../models/WorkspaceModel';
-import Workspace from '../models/Workspace';
+import WorkspaceModel from '../models/mongoose/WorkspaceModel';
+import Workspace from '../models/domain/Workspace';
 import { Error } from 'mongoose';
 
 export default class WorkspaceService {

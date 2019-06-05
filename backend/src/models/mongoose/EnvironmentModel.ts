@@ -1,6 +1,6 @@
-import mongoose, { Schema } from 'mongoose';
+import mongoose from 'mongoose';
 import { ModelType } from 'typegoose';
-import Environment from './Environment';
+import Environment from '../domain/Environment';
 
 const EnvironmentModel:ModelType<Environment> = new Environment().setModelForClass(Environment, {
     existingMongoose: mongoose,

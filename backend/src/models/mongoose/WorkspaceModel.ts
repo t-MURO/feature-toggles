@@ -1,5 +1,5 @@
-import mongoose, { Schema } from 'mongoose';
-import Workspace from './Workspace';
+import mongoose from 'mongoose';
+import Workspace from '../domain/Workspace';
 import { ModelType } from 'typegoose';
 
 const WorkspaceModel:ModelType<Workspace> = new Workspace().setModelForClass(Workspace, {
