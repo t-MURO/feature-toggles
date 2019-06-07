@@ -1,13 +1,23 @@
-import express from "express";
+import express, {Request, Response} from "express";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import cors from "cors";
 import path from 'path';
+import jwt from "jsonwebtoken";
+
+const cookieParser  = require("cookie-parser");
+
+import auth from './controllers/AuthenticationController';
 
 import featureController from './controllers/FeatureController';
 import environmentController from './controllers/EnvironmentController';
 import userController from "./controllers/UserController";
 import workspaceController from "./controllers/WorkspaceController";
+import Roles from "./models/enum/Roles";
+import User from "./models/domain/User";
+import {ObjectID} from "bson";
+
+const PORT = process.env.PORT || 3333;
 
 mongoose.connect('mongodb://localhost:27017/feature-toggles', {
         useNewUrlParser: true,
@@ -26,6 +36,7 @@ app.use(express.static('public'));
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(cookieParser());
 
 app.use('/api/features', featureController);
 app.use('/api/environments', environmentController);
@@ -36,8 +47,23 @@ app.use('/api/*', (req, res) => {
     res.sendStatus(404);
 });
 
-app.use('*', (req, res) => {
-    res.sendfile(path.join(__dirname, 'public', 'index.html'));
+// app.use('/login', auth);
+
+app.use('/login', auth,(req:Request, res:Response) => {
+    console.log(req.cookies);
+    const user = new User();
+    user._id = new ObjectID("5cf24bba6da2d83f48ccae3a");
+    user.email = "test@g.com";
+    user.role = Roles.ADMIN;
+    jwt.sign({user: user}, "asdasdassd",{expiresIn: "10s"}, (err:any, token:string) => {
+        res.setHeader('Set-Cookie', `access_token=${token}`);
+        res.json(token);
+    })
+
 });
 
-app.listen(3333, () => console.log('running'));
+app.use('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+app.listen(PORT, () => console.log('running'));
