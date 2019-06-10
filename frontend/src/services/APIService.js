@@ -2,6 +2,7 @@ import axios from "axios";
 const API_URL = "http://localhost:3333/api";
 const FEATURE_ROUTE = "/features/";
 const ENVIRONMENT_ROUTE = "/environments/";
+const USER_ROUTE = "/users/";
 
 export default class APIService {
   
@@ -43,5 +44,9 @@ export default class APIService {
     let id;
     typeof feature == "string" ? (id = feature) : (id = feature._id);
     return axios.delete(API_URL + FEATURE_ROUTE + id).then(res => res.data);
+  }
+
+  getUser(){
+    return axios.get(API_URL + USER_ROUTE + 'me').then(res => res.data);
   }
 }

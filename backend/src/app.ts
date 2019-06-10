@@ -7,7 +7,7 @@ import jwt from "jsonwebtoken";
 
 const cookieParser  = require("cookie-parser");
 
-import auth from './controllers/AuthenticationController';
+import auth from './middleware/auth';
 
 import featureController from './controllers/FeatureController';
 import environmentController from './controllers/EnvironmentController';
@@ -38,6 +38,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
 
+// app.use('/api/*', auth);
 app.use('/api/features', featureController);
 app.use('/api/environments', environmentController);
 app.use('/api/users', userController);
@@ -49,13 +50,13 @@ app.use('/api/*', (req, res) => {
 
 // app.use('/login', auth);
 
-app.use('/login', auth,(req:Request, res:Response) => {
+app.use('/login', (req:Request, res:Response) => {
     console.log(req.cookies);
     const user = new User();
     user._id = new ObjectID("5cf24bba6da2d83f48ccae3a");
     user.email = "test@g.com";
     user.role = Roles.ADMIN;
-    jwt.sign({user: user}, "asdasdassd",{expiresIn: "10s"}, (err:any, token:string) => {
+    jwt.sign({user: user}, "asdasdassd",{expiresIn: "30m"}, (err:any, token:string) => {
         res.setHeader('Set-Cookie', `access_token=${token}`);
         res.json(token);
     })

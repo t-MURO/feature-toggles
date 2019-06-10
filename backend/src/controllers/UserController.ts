@@ -7,6 +7,11 @@ const userService = new UserService();
 
 userController
 
+    .get('/me', ((req, res) => {
+        const token = req.cookies["access_token"];
+        // res.lol = 'test';
+    }))
+
     .get('/:id', (req, res, next) => {
         userService.findOneById(req.params.id)
             .then(user => res.json(user))

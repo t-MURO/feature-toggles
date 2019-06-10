@@ -1,4 +1,4 @@
-import jwt, {TokenExpiredError} from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import {Request, Response} from "express";
 
 export default function authorize(req:Request, res:Response, next:Function) {
@@ -7,14 +7,14 @@ export default function authorize(req:Request, res:Response, next:Function) {
         console.log('token: ', token);
         try{
             console.log(jwt.verify(token, "asdasdassd"));
+            next();
         } catch (e) {
-            console.log(e)
-            next()
+            console.log(e);
+            return res.status(401).end();
         }
         // jwt.verify(token, "asdasdassd", (payload) => {
         //     console.log('payload', payload)
         //     next();
         // });
     }
-    next();
 }

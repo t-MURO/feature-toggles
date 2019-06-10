@@ -11,7 +11,8 @@ export default new Vuex.Store({
     workspace: null,
     workspaces: [],
     environments: [],
-    features: []
+    features: [],
+    user: null,
   },
 
   mutations: {
@@ -21,6 +22,10 @@ export default new Vuex.Store({
 
     SET_FEATURES(state, features) {
       state.features = features;
+    },
+
+    SET_USER(state, user) {
+      state.user = user;
     }
   },
 
@@ -28,11 +33,16 @@ export default new Vuex.Store({
     async getFeatures({ commit }) {
       const features = await apiService.getFeature();
       commit("SET_FEATURES", features);
-    }
+    },
 
-    // getFeatures(){
-    //
-    // },
+    async getUser({ commit }) {
+      try{
+        const user = await apiService.getUser();
+        commit("SET_USER", user);
+      } catch (e){
+        this.$router.push('/login');
+      }
+    },
   },
 
   getters: {}
