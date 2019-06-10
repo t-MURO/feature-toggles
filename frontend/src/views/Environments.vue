@@ -16,8 +16,6 @@
 import APIService from "../services/APIService";
 import Environment from "../components/Environment";
 
-const apiService = new APIService();
-
 export default {
   components: {
     environment: Environment
@@ -38,12 +36,12 @@ export default {
   },
   methods: {
     getEnvironments() {
-      apiService.getEnvironments().then(envs => {
+      APIService.getEnvironments().then(envs => {
         this.environments = envs;
       });
     },
     removeEnvironment(environment) {
-      apiService.removeEnvironment(environment).then(() => {
+      APIService.removeEnvironment(environment).then(() => {
         this.environments = this.environments.filter(
           env => env._id !== environment._id
         );

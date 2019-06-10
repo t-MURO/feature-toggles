@@ -1,20 +1,21 @@
 import jwt from "jsonwebtoken";
-import {Request, Response} from "express";
+import {Response} from "express";
+import CustomRequest from "../models/interfaces/CustomRequest";
 
-export default function authorize(req:Request, res:Response, next:Function) {
+export default function authorize(req:CustomRequest, res:Response, next:Function) {
+
     const token: string = req.cookies['access_token'];
     if(token && token.length > 0){
-        console.log('token: ', token);
         try{
-            console.log(jwt.verify(token, "asdasdassd"));
+        console.log('token: ', token);
+            const tokenData:any = jwt.verify(token, "asdasdassd");
+            req.user = tokenData.user;
             next();
         } catch (e) {
-            console.log(e);
+            next();
             return res.status(401).end();
         }
-        // jwt.verify(token, "asdasdassd", (payload) => {
-        //     console.log('payload', payload)
-        //     next();
-        // });
     }
+    // next();
+    return res.status(401).end();
 }

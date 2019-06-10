@@ -1,7 +1,9 @@
-import UserRequestData from "./transfer/UserRequestData";
+import UserTokenData from "./transfer/UserTokenData";
 
-declare namespace Express {
-    export interface Request {
-        user?: UserRequestData;
+declare global {
+    namespace Express {
+        interface Request {
+            user?: UserTokenData;
+        }
     }
 }

@@ -1,20 +1,21 @@
 <template>
-<div>
-  <app v-if="true" />
-  <!-- <router-view></router-view> -->
-
-</div>
+  <v-app id="inspire">
+    <router-view></router-view>
+  </v-app>
 </template>
 
 <script>
-import App from './views/App.vue';
-
 export default {
   components: {
-    "app": App
+    // app: App
   },
   created() {
     this.$store.dispatch("getUser");
+  },
+  computed: {
+    user() {
+      return this.$store.state.user;
+    }
   }
 };
 </script>

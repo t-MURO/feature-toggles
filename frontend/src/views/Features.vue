@@ -16,8 +16,6 @@
 import APIService from "@/services/APIService";
 import Feature from "../components/Feature";
 
-const apiService = new APIService();
-
 export default {
   components: {
     feature: Feature
@@ -36,19 +34,19 @@ export default {
   },
   methods: {
     getFeatures() {
-      apiService.getFeatures().then(features => {
+      APIService.getFeatures().then(features => {
         this.features = features;
       });
     },
     createFeature(feature) {
-      apiService.createFeature(feature).then(t => this.features.unshift(t));
+      APIService.createFeature(feature).then(t => this.features.unshift(t));
     },
     editFeature(feature) {
       // feature.isEnabled = !feature.isEnabled;
-      apiService.editFeature(feature).then(t => (feature = t));
+      APIService.editFeature(feature).then(t => (feature = t));
     },
     removeFeature(feature) {
-      apiService.removeFeature(feature).then(() => {
+      APIService.removeFeature(feature).then(() => {
         this.features = this.features.filter(t => t._id !== feature._id);
       });
     },

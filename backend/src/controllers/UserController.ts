@@ -1,15 +1,22 @@
 import { Router } from 'express';
 import User from '../models/domain/User';
 import UserService from '../services/UserService';
+import CustomRequest from "../models/interfaces/CustomRequest";
 
 const userController = Router();
 const userService = new UserService();
 
 userController
 
-    .get('/me', ((req, res) => {
-        const token = req.cookies["access_token"];
-        // res.lol = 'test';
+    .get('/me', ((req: CustomRequest, res) => {
+
+        console.log('test');
+        res.json('asdds')
+        // if(req.user){
+        //     return res.json(req.user);
+        // } else {
+        //     return res.status(401).end();
+        // }
     }))
 
     .get('/:id', (req, res, next) => {

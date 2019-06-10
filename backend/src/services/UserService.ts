@@ -4,11 +4,17 @@ import { Error } from 'mongoose';
 
 export default class UserService {
 
-    public findOneById(_id: string):Promise<User|Error>{
+    public findOneByEmail(email: string):Promise<User>{
+        return new Promise((resolve, reject) => {
+            UserModel.findOne({email: email.trim().toLowerCase()}, (err:Error, user: User) => err ? reject(err) : resolve(user));
+        });
+    }
+
+    public findOneById(_id: string):Promise<User>{
         return new Promise((resolve, reject) => UserModel.findById(_id, (err:Error, user:User) => err ? reject(err) : resolve(user)));
     }
 
-    public findAll():Promise<User[]|Error>{
+    public findAll():Promise<User[]>{
         return new Promise((resolve, reject) => UserModel.find({}, (err:Error, users:User[]) => err ? reject(err) : resolve(users)));
     }
 

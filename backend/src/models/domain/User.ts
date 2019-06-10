@@ -8,7 +8,7 @@ import UserPreferences from "./UserPreferences";
     next();
 })
 export default class User extends Typegoose {
-    _id?: Mongoose.Types.ObjectId;
+    _id!: Mongoose.Types.ObjectId;
     createdAt?: Date;
     updatedAt?: Date;
 
@@ -22,10 +22,10 @@ export default class User extends Typegoose {
     lastLogin?: Date;
 
     @prop({default: Roles.USER})
-    role!: string;
+    role!: Roles;
 
     @prop({default: new UserPreferences})
-    preferences?: UserPreferences;
+    preferences!: UserPreferences;
 }
 
 function validateEmail(value: string):boolean {

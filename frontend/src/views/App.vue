@@ -120,7 +120,7 @@ export default {
       // },
 
       { icon: "settings", text: "Settings", link: "settings" },
-      { icon: "exit_to_app", text: "Log out", link: "logout" }
+      { icon: "exit_to_app", text: "Log out", link: "/logout" }
     ]
   }),
   props: {

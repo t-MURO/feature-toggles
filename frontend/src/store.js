@@ -1,10 +1,10 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import router from "./router";
+
 import APIService from "./services/APIService";
 
 Vue.use(Vuex);
-
-const apiService = new APIService();
 
 export default new Vuex.Store({
   state: {
@@ -12,7 +12,7 @@ export default new Vuex.Store({
     workspaces: [],
     environments: [],
     features: [],
-    user: null,
+    user: null
   },
 
   mutations: {
@@ -26,23 +26,24 @@ export default new Vuex.Store({
 
     SET_USER(state, user) {
       state.user = user;
+      console.log(user)
     }
   },
 
   actions: {
     async getFeatures({ commit }) {
-      const features = await apiService.getFeature();
+      const features = await APIService.getFeature();
       commit("SET_FEATURES", features);
     },
 
     async getUser({ commit }) {
-      try{
-        const user = await apiService.getUser();
+      try {
+        const user = await APIService.getUser();
         commit("SET_USER", user);
-      } catch (e){
-        this.$router.push('/login');
+      } catch (e) {
+        router.push("/login");
       }
-    },
+    }
   },
 
   getters: {}

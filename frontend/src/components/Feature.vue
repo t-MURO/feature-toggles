@@ -22,8 +22,6 @@
 <script>
 import APIService from "@/services/APIService";
 
-const apiService = new APIService();
-
 export default {
   props: ["feature", "removeFeature", "editFeature"],
   data() {
@@ -41,7 +39,7 @@ export default {
       feature.isEnabled = event;
 
       this.loading = true;
-      apiService.editFeature(feature).then(res => {
+      APIService.editFeature(feature).then(res => {
         this.$emit("featureUpdate", res.data);
         this.loading = false;
       });
