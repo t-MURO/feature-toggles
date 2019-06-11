@@ -1,21 +1,23 @@
 import jwt from "jsonwebtoken";
 import {Response} from "express";
 import CustomRequest from "../models/interfaces/CustomRequest";
+import {API_AUTH_SECRET, AUTH_COOKIE_NAME} from "../config/config";
 
 export default function authorize(req:CustomRequest, res:Response, next:Function) {
+    console.log("auth");
 
-    const token: string = req.cookies['access_token'];
+    const token: string = req.cookies[AUTH_COOKIE_NAME];
+    console.log('token: ', token);
+
     if(token && token.length > 0){
         try{
-        console.log('token: ', token);
-            const tokenData:any = jwt.verify(token, "asdasdassd");
+            const tokenData:any = jwt.verify(token, API_AUTH_SECRET);
             req.user = tokenData.user;
             next();
         } catch (e) {
-            next();
-            return res.status(401).end();
+            return res.status(401).send("Auth failed.");
         }
+    } else {
+        return res.status(401).send("Auth failed.");
     }
-    // next();
-    return res.status(401).end();
 }

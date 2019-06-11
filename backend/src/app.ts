@@ -18,6 +18,8 @@ import loginController from './controllers/LoginController';
 
 const PORT = process.env.PORT || 3333;
 
+const whitelist = ['http://localhost:8080'];
+
 mongoose.connect('mongodb://localhost:27017/feature-toggles', {
         useNewUrlParser: true,
         useCreateIndex: true,
@@ -32,17 +34,21 @@ const app = express();
 
 app.use(express.static('public'));
 
-app.use(cors());
+app.use(cors({
+    origin: whitelist,
+    credentials: true,
+}));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
 
 app.use('/', (req, res, next) => {
     console.log('req');
+    // if(req.body) console.log(req.body);
     next();
 });
 
-// app.use('/api/*', auth);
+app.use('/api/*', auth);
 app.use('/api/features', featureController);
 app.use('/api/environments', environmentController);
 app.use('/api/users', userController);
@@ -52,20 +58,8 @@ app.use('/api/*', (req, res) => {
     res.sendStatus(404);
 });
 
-// app.use('/login', (req:Request, res:Response) => {
-//     console.log(req.cookies);
-//     const user = new User();
-//     user._id = new ObjectID("5cf24bba6da2d83f48ccae3a");
-//     user.email = "test@g.com";
-//     user.role = Roles.ADMIN;
-//     jwt.sign({user: user}, "asdasdassd",{expiresIn: "30m"}, (err:any, token:string) => {
-//         res.setHeader('Set-Cookie', `access_token=${token}`);
-//         res.json(token);
-//     })
-//
-// });
 
-app.post(['/login', '/register'], loginController);
+app.post(['/login', '/register', '/logout'], loginController);
 
 app.use('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));

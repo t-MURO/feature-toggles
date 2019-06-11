@@ -10,13 +10,12 @@ userController
 
     .get('/me', ((req: CustomRequest, res) => {
 
-        console.log('test');
-        res.json('asdds')
-        // if(req.user){
-        //     return res.json(req.user);
-        // } else {
-        //     return res.status(401).end();
-        // }
+        console.log('/me');
+        if(req.user){
+            return res.json(req.user);
+        } else {
+            return res.status(401).end();
+        }
     }))
 
     .get('/:id', (req, res, next) => {

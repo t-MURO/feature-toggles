@@ -1,8 +1,8 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import router from "./router";
+import router from "../router";
 
-import APIService from "./services/APIService";
+import APIService from "../services/APIService";
 
 Vue.use(Vuex);
 
@@ -26,12 +26,13 @@ export default new Vuex.Store({
 
     SET_USER(state, user) {
       state.user = user;
-      console.log(user)
+      console.log(user);
     }
   },
 
   actions: {
-    async getFeatures({ commit }) {
+    async getFeatures({ commit, state }) {
+      if (!state.user) return;
       const features = await APIService.getFeature();
       commit("SET_FEATURES", features);
     },
@@ -43,6 +44,18 @@ export default new Vuex.Store({
       } catch (e) {
         router.push("/login");
       }
+    },
+
+    logout({ commit }) {
+      console.log("ok");
+      APIService.logout()
+        // .then(() => {
+        //   commit("SET_USER", null);
+        // })
+        .finally(() => {
+          commit("SET_USER", null);
+          router.push("/login");
+        });
     }
   },
 

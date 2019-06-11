@@ -15,7 +15,9 @@ featureController
 
     .get('/', (req, res, next) => {
         featureService.findAll()
-            .then(feature => res.json(feature))
+            .then(features => {
+                res.json(features)
+            })
             .catch(err => res.json(err));
     })
 
@@ -35,6 +37,6 @@ featureController
         featureService.delete(req.params.id)
             .then(() => res.sendStatus(204))
             .catch((err:Error) => res.status(400).json(err))
-    })
+    });
 
 export default featureController;

@@ -84,6 +84,9 @@
       <v-btn icon>
         <v-icon>notifications</v-icon>
       </v-btn>
+      <v-btn icon @click="logout">
+        <v-icon>exit_to_app</v-icon>
+      </v-btn>
     </v-toolbar>
     <v-content>
       <v-container fluid>
@@ -95,6 +98,7 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 import CreateDialog from "../components/CreateDialog.vue";
 
 export default {
@@ -106,9 +110,9 @@ export default {
     drawer: null,
     dark: false,
     items: [
-      { icon: "work", text: "Workspace", link: "workspace" },
-      { icon: "insert_emoticon", text: "Features", link: "features" },
-      { icon: "phonelink", text: "Environments", link: "environments" },
+      { icon: "work", text: "Workspace", link: "/w/workspace" },
+      { icon: "insert_emoticon", text: "Features", link: "/w/features" },
+      { icon: "phonelink", text: "Environments", link: "/w/environments" },
       // {
       //   icon: 'keyboard_arrow_up',
       //   'icon-alt': 'keyboard_arrow_down',
@@ -119,8 +123,7 @@ export default {
       //   ]
       // },
 
-      { icon: "settings", text: "Settings", link: "settings" },
-      { icon: "exit_to_app", text: "Log out", link: "/logout" }
+      { icon: "settings", text: "Settings", link: "settings" }
     ]
   }),
   props: {
@@ -129,6 +132,9 @@ export default {
   created() {
     // console.log(this.source);
     this.$store.dispatch("getFeatures");
+  },
+  methods: {
+    ...mapActions(["logout"])
   }
 };
 </script>
