@@ -1,5 +1,5 @@
 <template>
-  <v-app :dark="dark" id="inspire">
+  <v-app id="inspire">
     <v-navigation-drawer
       v-model="drawer"
       :clipped="$vuetify.breakpoint.lgAndUp"
@@ -78,7 +78,7 @@
         class="hidden-sm-and-down"
       ></v-text-field>
       <v-spacer></v-spacer>
-      <v-btn @click="dark = !dark" icon>
+      <v-btn @click="setDarkMode(!getDarkMode)" icon>
         <v-icon>brightness_6</v-icon>
       </v-btn>
       <v-btn icon>
@@ -98,7 +98,7 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+  import {mapActions, mapGetters} from "vuex";
 import CreateDialog from "../components/CreateDialog.vue";
 
 export default {
@@ -130,11 +130,13 @@ export default {
     source: String
   },
   created() {
-    // console.log(this.source);
     this.$store.dispatch("getFeatures");
   },
   methods: {
-    ...mapActions(["logout"])
+    ...mapActions(["logout", "setDarkMode"])
+  },
+  computed: {
+    ...mapGetters(["getDarkMode"])
   }
 };
 </script>

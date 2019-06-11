@@ -12,7 +12,8 @@ export default new Vuex.Store({
     workspaces: [],
     environments: [],
     features: [],
-    user: null
+    user: null,
+    darkMode: false
   },
 
   mutations: {
@@ -27,6 +28,10 @@ export default new Vuex.Store({
     SET_USER(state, user) {
       state.user = user;
       console.log(user);
+    },
+
+    SET_DARKMODE(state, darkMode) {
+      state.darkMode = darkMode;
     }
   },
 
@@ -56,8 +61,23 @@ export default new Vuex.Store({
           commit("SET_USER", null);
           router.push("/login");
         });
+    },
+
+    loadDarkMode({ commit }) {
+      const darkModeString = window.localStorage.getItem("darkMode");
+      const darkMode = darkModeString === "true";
+      console.log(typeof darkMode);
+      commit("SET_DARKMODE", darkMode);
+    },
+
+    setDarkMode({ commit }, darkMode) {
+      console.log(typeof darkMode);
+      window.localStorage.setItem("darkMode", darkMode);
+      commit("SET_DARKMODE", darkMode);
     }
   },
 
-  getters: {}
+  getters: {
+    getDarkMode: state => state.darkMode
+  }
 });

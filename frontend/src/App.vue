@@ -1,18 +1,25 @@
 <template>
-  <v-app id="inspire">
+  <v-app :dark="getDarkMode" id="inspire">
     <router-view></router-view>
   </v-app>
 </template>
 
 <script>
+  import {mapActions, mapGetters} from "vuex";
+
 export default {
   components: {
     // app: App
   },
   created() {
+    this.loadDarkMode();
     this.$store.dispatch("getUser");
   },
+  methods: {
+    ...mapActions(["loadDarkMode", "setDarkMode"])
+  },
   computed: {
+    ...mapGetters(['getDarkMode']),
     user() {
       return this.$store.state.user;
     }
