@@ -64,7 +64,7 @@ export default {
       APIService.login(this.email, this.password)
         .then(user => {
           this.$store.commit("SET_USER", user);
-          this.$router.push("/");
+          this.$router.push("/w/features");
         })
         .catch(err => {
           alert("auth failed");

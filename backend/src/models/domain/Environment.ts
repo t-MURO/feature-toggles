@@ -1,8 +1,8 @@
 import {Typegoose, prop, pre} from "typegoose";
 import Mongoose from "mongoose";
 
-@pre<Environment>('save', function(next){
-    this.updatedAt = new Date();
+@pre<Environment>('findOneAndUpdate', function(this: any, next){
+    this._update.updatedAt = new Date();
     next();
 })
 export default class Environment extends Typegoose{

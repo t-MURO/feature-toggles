@@ -3,8 +3,8 @@ import Mongoose from "mongoose";
 import Roles from "../enum/Roles";
 import UserPreferences from "./UserPreferences";
 
-@pre<User>('save', function(next){
-    this.updatedAt = new Date();
+@pre<User>('findOneAndUpdate', function(this: any, next){
+    this._update.updatedAt = new Date();
     next();
 })
 export default class User extends Typegoose {

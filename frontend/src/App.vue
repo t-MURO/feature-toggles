@@ -5,7 +5,7 @@
 </template>
 
 <script>
-  import {mapActions, mapGetters} from "vuex";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   components: {
@@ -19,7 +19,7 @@ export default {
     ...mapActions(["loadDarkMode", "setDarkMode"])
   },
   computed: {
-    ...mapGetters(['getDarkMode']),
+    ...mapGetters(["getDarkMode"]),
     user() {
       return this.$store.state.user;
     }
