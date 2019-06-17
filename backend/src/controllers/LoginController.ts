@@ -1,10 +1,9 @@
 import {Router} from "express";
-import jwt from "jsonwebtoken";
 import User from '../models/domain/User';
 import UserService from '../services/UserService';
-import {API_AUTH_SECRET, AUTH_COOKIE_NAME, TOKEN_EXPIRY_TIME} from "../config/config";
-import {toUserSimple, toUserTokenData} from '../util/UserUtilities';
-import {generateToken} from "../util/AuthUtilities";
+import { AUTH_COOKIE_NAME, TOKEN_EXPIRY_TIME} from "../config/config";
+import { toUserSimple } from '../util/UserUtilities';
+import { generateToken } from "../util/AuthUtilities";
 
 const loginController = Router();
 const userService = new UserService();
@@ -20,15 +19,6 @@ loginController
                 const userSimple = toUserSimple(user);
                 res.cookie(AUTH_COOKIE_NAME, token, {maxAge: TOKEN_EXPIRY_TIME * 1000});
                 return res.json(userSimple);
-
-                // jwt.sign({user: userTokenData}, API_AUTH_SECRET, {expiresIn: TOKEN_EXPIRY_TIME}, (err: any, token: string) => {
-                //     if(err) {
-                //         console.log(err);
-                //         res.status(400).json('Auth failed.')
-                //     } else {
-                //
-                //     }
-                // });
             }
             else return res.status(400).json("Auth failed.")
         } catch (e) {

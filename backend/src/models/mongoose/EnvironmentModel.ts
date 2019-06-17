@@ -8,6 +8,6 @@ const EnvironmentModel:ModelType<Environment> = new Environment().setModelForCla
         collection: 'environments',
         timestamps: true,
     }
-})
+});
 
 export default EnvironmentModel;

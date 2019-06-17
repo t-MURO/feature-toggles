@@ -8,5 +8,5 @@ const WorkspaceModel:ModelType<Workspace> = new Workspace().setModelForClass(Wor
         collection: 'workspaces',
         timestamps: true,
     }
-})
+});
 export default WorkspaceModel

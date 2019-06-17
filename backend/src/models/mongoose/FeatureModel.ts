@@ -8,5 +8,5 @@ const FeatureModel:ModelType<Feature> = new Feature().setModelForClass(Feature, 
         collection: 'features',
         timestamps: true,
     }
-})
+});
 export default FeatureModel
