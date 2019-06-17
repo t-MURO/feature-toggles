@@ -32,7 +32,7 @@ mongoose.connect('mongodb://localhost:27017/feature-toggles', {
 
 const app = express();
 
-app.use(express.static('public'));
+app.use(express.static(path.resolve(__dirname, 'public')));
 
 app.use(cors({
     origin: whitelist,
@@ -42,11 +42,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-app.use('/', (req, res, next) => {
-    console.log('req');
-    // if(req.body) console.log(req.body);
-    next();
-});
+// app.use('/', (req, res, next) => {
+//     console.log('req');
+//     if(req.body) console.log(req.body);
+//     next();
+// });
 
 app.use('/api/*', auth);
 app.use('/api/features', featureController);
@@ -55,7 +55,8 @@ app.use('/api/users', userController);
 app.use('/api/workspaces', workspaceController);
 
 app.use('/api/*', (req, res) => {
-    res.sendStatus(404);
+    res.status(404).end();
+    // res.redirect("/404");
 });
 
 

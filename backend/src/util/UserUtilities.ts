@@ -8,8 +8,8 @@ export function toUserSimple(user: User): UserPublic {
     else throw new Error("creation of UserSimple failed");
 }
 
-export function toUserTokenData(user: User): UserTokenData {
+export function toUserTokenData(user: User|UserTokenData): UserTokenData {
     const {_id, email, role} = user;
-    if(_id && email && role) return new UserTokenData(_id.toHexString(), email, role);
+    if(_id && email && role) return new UserTokenData(_id.toString(), email, role);
     else throw new Error("creation of UserTokenData failed");
 }
