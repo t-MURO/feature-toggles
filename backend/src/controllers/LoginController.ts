@@ -21,10 +21,10 @@ loginController
                 res.cookie(AUTH_COOKIE_NAME, token, {maxAge: TOKEN_EXPIRY_TIME * 1000});
                 return res.json(userSimple);
             }
-            else return res.status(400).json("Auth failed.")
+            else return res.status(400).json({message: "Authentication failed."});
         } catch (e) {
             console.log(e);
-            return res.status(400).json("Auth failed.")
+            return res.status(400).json({message: "Authentication failed."});
         }
     }))
 

@@ -51,6 +51,10 @@ export default new Vuex.Store({
       }
     },
 
+    setUser({ commit }, user) {
+      commit("SET_USER", user);
+    },
+
     logout({ commit }) {
       console.log("ok");
       APIService.logout()

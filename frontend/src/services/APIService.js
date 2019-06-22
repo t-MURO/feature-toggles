@@ -3,7 +3,7 @@ const BASE_URL = "http://localhost:3333/";
 const API_URL = BASE_URL + "api/";
 const FEATURE_ROUTE = "features/";
 const ENVIRONMENT_ROUTE = "environments/";
-const USER_ROUTE = "users/";
+// const USER_ROUTE = "users/";
 
 const api = axios.create({
   withCredentials: true,
@@ -54,9 +54,9 @@ export default class APIService {
     return api.delete(FEATURE_ROUTE + id).then(res => res.data);
   }
 
-  static getUser() {
-    return api.get(USER_ROUTE + "me").then(res => res.data);
-  }
+  // static getUser() {
+  //   return api.get(USER_ROUTE + "me").then(res => res.data);
+  // }
 
   static login(email, password) {
     return user.post("login", { email, password }).then(res => res.data);
@@ -64,5 +64,9 @@ export default class APIService {
 
   static logout() {
     return user.post("logout").then(res => res.data);
+  }
+
+  static register(email, password) {
+    return user.post("register", { email, password }).then(res => res.data);
   }
 }
