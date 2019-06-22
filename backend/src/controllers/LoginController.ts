@@ -4,6 +4,7 @@ import UserService from '../services/UserService';
 import { AUTH_COOKIE_NAME, TOKEN_EXPIRY_TIME} from "../config/config";
 import { toUserSimple } from '../util/UserUtilities';
 import { generateToken } from "../util/AuthUtilities";
+import {MongoError} from "mongodb";
 
 const loginController = Router();
 const userService = new UserService();
@@ -28,8 +29,17 @@ loginController
     }))
 
     .post('/register', (async (req, res, next) => {
-        const user = req.body;
-        userService.create(user).then(() => res.end()).catch(() => res.status(400).end());
+        const user:User = req.body;
+        userService.create(user)
+            .then(() => res.status(201).end())
+            .catch((err:MongoError) => {
+                res.status(400);
+                if(err.code === 11000){
+                    return res.json({message: "Email address already in use"})
+                } else {
+                    return res.end();
+                }
+        });
     }))
 
     .post('/logout', (async (req, res, next) => {

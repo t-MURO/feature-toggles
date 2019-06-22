@@ -1,6 +1,7 @@
 import UserModel from '../models/mongoose/UserModel';
 import User from '../models/domain/User';
 import { Error } from 'mongoose';
+import {MongoError} from "mongodb";
 
 export default class UserService {
 
@@ -22,7 +23,7 @@ export default class UserService {
         return new Promise((resolve, reject) => {
             UserModel.create(users)
                 .then((t:User|User[]) => resolve(t))
-                .catch((err:Error) => reject(err));
+                .catch((err:MongoError) => reject(err));
         });
     }
 
