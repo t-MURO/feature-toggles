@@ -3,9 +3,8 @@ import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import cors from "cors";
 import path from 'path';
-import jwt from "jsonwebtoken";
+import cookieParser from "cookie-parser";
 
-const cookieParser  = require("cookie-parser");
 
 import auth from './middleware/auth';
 
@@ -38,6 +37,7 @@ app.use(cors({
     origin: whitelist,
     credentials: true,
 }));
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
