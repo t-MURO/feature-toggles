@@ -1,10 +1,11 @@
 import FeatureModel from '../models/mongoose/FeatureModel';
 import Feature from '../models/domain/Feature';
 import { Error } from 'mongoose';
+import MongoRepository from "../interfaces/repository";
 
-export default class FeatureService {
+export default class FeatureService implements MongoRepository<Feature>{
 
-    public findOneById(_id: string):Promise<Feature|Error>{
+    public findOne(_id: string):Promise<Feature|Error>{
         return new Promise((resolve, reject) => FeatureModel.findById(_id, (err:Error, feature:Feature) => err ? reject(err) : resolve(feature)));
     }
 
@@ -20,9 +21,9 @@ export default class FeatureService {
         });
     }
 
-    public update(_id: string, feature: Feature):Promise<any>{
+    public update(feature: Feature):Promise<any>{
         return new Promise((resolve, reject) => {
-            FeatureModel.findOneAndUpdate({_id}, feature)
+            FeatureModel.findOneAndUpdate({_id: feature._id}, feature)
                 .then((t:any) => resolve(t))
                 .catch((err:Error) => reject(err))
         });

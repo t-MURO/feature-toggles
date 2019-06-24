@@ -8,31 +8,32 @@ const environmentService = new EnvironmentService();
 environmentController
 
     .get('/:id', (req, res, next) => {
-        environmentService.getEnvironment(req.params.id)
+        environmentService.findOne(req.params.id)
             .then(environment => res.json(environment))
             .catch(err => res.json(err));
     })
 
     .get('/', (req, res, next) => {
-        environmentService.getEnvironments()
+        environmentService.findAll()
             .then(environments => res.json(environments))
             .catch(err => res.json(err));
     })
 
     .post('/', (req, res, next) => {
-        environmentService.createEnvironment(req.body)
+        environmentService.create(req.body)
             .then((environment:Environment) => res.json(environment))
             .catch((err:Error) => res.status(400).send(err))
     })
 
     .put('/:id', (req, res, next) => {
-        environmentService.updateEnvironment(req.params.id, req.body)
+        req.body._id = req.params.id;
+        environmentService.update(req.body)
             .then(environment => res.status(200).json)
             .catch(err => res.status(400).json(err));
     })
 
     .delete('/:id', (req, res, next) => {
-        environmentService.deleteEnvironment(req.params.id)
+        environmentService.delete(req.params.id)
             .then(() => res.sendStatus(204))
             .catch((err:Error) => res.status(400).json(err))
     })

@@ -2,8 +2,9 @@ import UserModel from '../models/mongoose/UserModel';
 import User from '../models/domain/User';
 import { Error } from 'mongoose';
 import {MongoError} from "mongodb";
+import MongoRepository from "../interfaces/repository";
 
-export default class UserService {
+export default class UserService implements MongoRepository<User> {
 
     public findOneByEmail(email: string):Promise<User>{
         return new Promise((resolve, reject) => {
@@ -11,7 +12,7 @@ export default class UserService {
         });
     }
 
-    public findOneById(_id: string):Promise<User>{
+    public findOne(_id: string):Promise<User>{
         return new Promise((resolve, reject) => UserModel.findById(_id, (err:Error, user:User) => err ? reject(err) : resolve(user)));
     }
 
@@ -27,9 +28,9 @@ export default class UserService {
         });
     }
 
-    public update(_id: string, user: User):Promise<any>{
+    public update(user: User):Promise<any>{
         return new Promise((resolve, reject) => {
-            UserModel.findOneAndUpdate({_id}, user)
+            UserModel.findOneAndUpdate({_id: user._id}, user)
                 .then((t:any) => resolve(t))
                 .catch((err:Error) => reject(err))
         });

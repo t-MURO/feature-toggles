@@ -9,7 +9,6 @@ const userService = new UserService();
 userController
 
     .get('/me', ((req: CustomRequest, res) => {
-
         console.log('/me');
         if(req.user){
             return res.json(req.user);
@@ -19,7 +18,7 @@ userController
     }))
 
     .get('/:id', (req, res, next) => {
-        userService.findOneById(req.params.id)
+        userService.findOne(req.params.id)
             .then(user => res.json(user))
             .catch(err => res.json(err));
     })
@@ -37,7 +36,8 @@ userController
     })
 
     .put('/:id', (req, res, next) => {
-        userService.update(req.params.id, req.body)
+        req.body._id = req.params.id;
+        userService.update(req.body)
             .then(user => res.status(200).json(user))
             .catch(err => res.status(400).json(err));
     })

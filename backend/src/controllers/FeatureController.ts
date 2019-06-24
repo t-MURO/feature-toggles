@@ -8,7 +8,7 @@ const featureService = new FeatureService();
 featureController
 
     .get('/:id', (req, res, next) => {
-        featureService.findOneById(req.params.id)
+        featureService.findOne(req.params.id)
             .then(feature => res.json(feature))
             .catch(err => res.json(err));
     })
@@ -28,7 +28,8 @@ featureController
     })
 
     .put('/:id', (req, res, next) => {
-        featureService.update(req.params.id, req.body)
+        req.body._id = req.params.id;
+        featureService.update(req.body)
             .then(feature => res.status(200).json(feature))
             .catch(err => res.status(400).json(err));
     })
