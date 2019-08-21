@@ -15,41 +15,63 @@ export default new Router({
   routes: [
     {
       path: "/login",
-      name: "login2",
+      name: "login",
       component: Login
     },
     {
       path: "/",
       name: "app",
       component: App,
-      children: []
-    },
-    {
-      path: "/:id",
-      name: "app",
-      component: App,
       children: [
         {
-          path: "features",
+          path: "/features",
           name: "feats",
           component: Features
         },
         {
-          path: "environments",
+          path: "/environments",
           name: "environments",
           component: Environments
         },
         {
-          path: "workspace",
+          path: "/workspace",
           name: "workspace",
           component: Workspaces
         },
         {
-          path: "settings",
+          path: "/settings",
           name: "settings",
           component: Settings
         }
       ]
     }
+
+    // {
+    //   path: "/:id",
+    //   name: "app",
+    //   component: App,
+    //   children: [
+    //     {
+    //       path: "features",
+    //       name: "feats",
+    //       component: Features
+    //     },
+    //     {
+    //       path: "environments",
+    //       name: "environments",
+    //       component: Environments
+    //     },
+    //     {
+    //       path: "workspace",
+    //       name: "workspace",
+    //       component: Workspaces
+    //     },
+    //     {
+    //       path: "settings",
+    //       name: "settings",
+    //       component: Settings
+    //     }
+    //   ]
+    // }
   ]
 });

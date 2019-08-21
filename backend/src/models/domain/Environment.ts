@@ -1,5 +1,6 @@
 import {Typegoose, prop, pre} from "typegoose";
 import Mongoose from "mongoose";
+import Feature from "./Feature";
 
 @pre<Environment>('findOneAndUpdate', function(this: any, next){
     this._update.updatedAt = new Date();
@@ -22,4 +23,6 @@ export default class Environment extends Typegoose{
 
     @prop()
     description?: string;
+
+    featuresComplete?: Feature[];
 }

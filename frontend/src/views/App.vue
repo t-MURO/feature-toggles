@@ -110,9 +110,9 @@ export default {
     drawer: null,
     dark: false,
     items: [
-      { icon: "work", text: "Workspace", link: "/w/workspace" },
-      { icon: "insert_emoticon", text: "Features", link: "/w/features" },
-      { icon: "phonelink", text: "Environments", link: "/w/environments" },
+      { icon: "work", text: "Workspace", link: "/workspace" },
+      { icon: "insert_emoticon", text: "Features", link: "/features" },
+      { icon: "phonelink", text: "Environments", link: "/environments" },
       // {
       //   icon: 'keyboard_arrow_up',
       //   'icon-alt': 'keyboard_arrow_down',
@@ -128,9 +128,6 @@ export default {
   }),
   props: {
     source: String
-  },
-  created() {
-    this.$store.dispatch("getFeatures");
   },
   methods: {
     ...mapActions(["logout", "setDarkMode"])
