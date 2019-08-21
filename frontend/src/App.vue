@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { mapActions, mapGetters, mapState } from "vuex";
 
 export default {
   components: {
@@ -20,6 +20,12 @@ export default {
   },
   computed: {
     ...mapGetters(["getDarkMode"]),
+
+    // documentation purposes below
+    ...mapGetters("api", ["getTest"]),
+    ...mapState("api", {
+      a: state => state.test
+    }),
     user() {
       return this.$store.state.user;
     }

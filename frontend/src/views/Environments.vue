@@ -2,44 +2,33 @@
   <v-container>
     <h2 class="display-3">Environments</h2>
     <v-spacer></v-spacer>
-    <environment
-      v-for="environment in environments"
-      :key="environment._id"
-      :environment="environment"
-      :removeEnvironment="removeEnvironment"
-      @environmentUpdate="updateEnvironment(environment)"
-    ></environment>
+    <div v-if="environments">
+      <environment
+        v-for="environment in environments"
+        :key="environment._id"
+        :environment="environment"
+        :removeEnvironment="removeEnvironment"
+        :editEnvironment="editEnvironment"
+        @environmentUpdate="updateEnvironment(environment)"
+      ></environment>
+    </div>
   </v-container>
 </template>
 
 <script>
 import APIService from "../services/APIService";
 import Environment from "../components/Environment";
+import { mapActions, mapState } from "vuex";
 
 export default {
   components: {
     environment: Environment
   },
-  data() {
-    return {
-      environments: [],
-      newEnvironment: {
-        name: "",
-        description: "",
-        identifier: ""
-      }
-    };
-  },
   beforeMount() {
-    console.log("test");
     this.getEnvironments();
   },
   methods: {
-    getEnvironments() {
-      APIService.getEnvironments().then(envs => {
-        this.environments = envs;
-      });
-    },
+    ...mapActions("api", ["getEnvironments"]),
     removeEnvironment(environment) {
       APIService.removeEnvironment(environment).then(() => {
         this.environments = this.environments.filter(
@@ -50,6 +39,11 @@ export default {
     editEnvironment(s) {
       console.log(s);
     }
+  },
+  computed: {
+    ...mapState("api", {
+      environments: state => state.environments
+    })
   }
 };
 </script>
