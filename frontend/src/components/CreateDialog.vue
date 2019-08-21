@@ -2,10 +2,10 @@
   <div>
     <v-dialog v-model="dialog" width="800px">
       <v-card>
-        <v-card-title class=" title">
+        <v-card-title class="title">
           Create
           <v-spacer></v-spacer>
-          <v-btn-toggle v-model="type">
+          <v-btn-toggle v-model="type" mandatory>
             <v-btn flat value="feature">
               <span>Feature</span>
               <v-icon>insert_emoticon</v-icon>
@@ -16,7 +16,27 @@
             </v-btn>
           </v-btn-toggle>
         </v-card-title>
-        <v-container grid-list-sm class="pa-4">
+
+        <!-- FEATURE -->
+        <v-container v-if="type === 'feature'" grid-list-sm class="pa-4">
+          <v-layout row wrap>
+            <v-flex xs12 align-center justify-space-between>
+              <v-layout align-center>
+                <v-text-field placeholder="Name" prepend-icon="description">
+                </v-text-field>
+              </v-layout>
+            </v-flex>
+            <v-flex xs12 align-center justify-space-between>
+              <v-layout align-center>
+                <v-textarea placeholder="Description" prepend-icon="title">
+                </v-textarea>
+              </v-layout>
+            </v-flex>
+          </v-layout>
+        </v-container>
+
+        <!-- ENVIRONMENT -->
+        <v-container v-if="type === 'environment'" grid-list-sm class="pa-4">
           <v-layout row wrap>
             <v-flex xs12 align-center justify-space-between>
               <v-layout align-center>
@@ -93,6 +113,10 @@ export default {
         this.type = "environment";
       else this.type = "feature";
     }
+    // test(){
+    //   console.log(this.type);
+    //   console.log("lol")
+    // }
   }
 };
 </script>
