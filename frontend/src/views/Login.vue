@@ -50,7 +50,7 @@
                 ></v-text-field>
               </v-card-text>
               <v-card-actions>
-                <v-btn flat color="primary" @click="switchForm()">
+                <v-btn text color="primary" @click="switchForm()">
                   Register
                 </v-btn>
                 <v-spacer></v-spacer>
@@ -112,7 +112,7 @@
                 ></v-text-field>
               </v-card-text>
               <v-card-actions>
-                <v-btn flat color="primary" @click="switchForm()">
+                <v-btn text color="primary" @click="switchForm()">
                   Login
                 </v-btn>
                 <v-spacer></v-spacer>

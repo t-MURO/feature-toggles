@@ -1,5 +1,5 @@
 <template>
-  <v-app id="inspire">
+  <v-app>
     <v-navigation-drawer
       v-model="drawer"
       :clipped="$vuetify.breakpoint.lgAndUp"
@@ -26,51 +26,51 @@
             append-icon=""
           >
             <template v-slot:activator>
-              <v-list-tile>
-                <v-list-tile-content>
-                  <v-list-tile-title>
+              <v-list-item>
+                <v-list-item-content>
+                  <v-list-item-title>
                     {{ item.text }}
-                  </v-list-tile-title>
-                </v-list-tile-content>
-              </v-list-tile>
+                  </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
             </template>
-            <v-list-tile
+            <v-list-item
               v-for="(child, i) in item.children"
               :key="i"
               :to="item.link"
             >
-              <v-list-tile-action v-if="child.icon">
+              <v-list-item-action v-if="child.icon">
                 <v-icon>{{ child.icon }}</v-icon>
-              </v-list-tile-action>
-              <v-list-tile-content>
-                <v-list-tile-title>
+              </v-list-item-action>
+              <v-list-item-content>
+                <v-list-item-title>
                   {{ child.text }}
-                </v-list-tile-title>
-              </v-list-tile-content>
-            </v-list-tile>
+                </v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
           </v-list-group>
-          <v-list-tile v-else :key="item.text" :to="item.link">
-            <v-list-tile-action>
+          <v-list-item v-else :key="item.text" :to="item.link">
+            <v-list-item-action>
               <v-icon>{{ item.icon }}</v-icon>
-            </v-list-tile-action>
-            <v-list-tile-content>
-              <v-list-tile-title>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>
                 {{ item.text }}
-              </v-list-tile-title>
-            </v-list-tile-content>
-          </v-list-tile>
+              </v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
         </template>
       </v-list>
     </v-navigation-drawer>
-    <v-toolbar :clipped-left="$vuetify.breakpoint.lgAndUp" app fixed>
+    <v-app-bar :clipped-left="$vuetify.breakpoint.lgAndUp" app fixed>
       <v-toolbar-title style="width: 300px" class="ml-0 pl-3">
-        <v-toolbar-side-icon
+        <v-app-bar-nav-icon
           @click.stop="drawer = !drawer"
-        ></v-toolbar-side-icon>
+        ></v-app-bar-nav-icon>
         <span class="hidden-sm-and-down">Feature Toggles</span>
       </v-toolbar-title>
       <v-text-field
-        flat
+        text
         solo-inverted
         hide-details
         prepend-inner-icon="search"
@@ -78,7 +78,7 @@
         class="hidden-sm-and-down"
       ></v-text-field>
       <v-spacer></v-spacer>
-      <v-btn @click="setDarkMode(!getDarkMode)" icon>
+      <v-btn @click="setDarkMode(!$vuetify.theme.dark)" icon>
         <v-icon>brightness_6</v-icon>
       </v-btn>
       <v-btn icon>
@@ -87,7 +87,7 @@
       <v-btn icon @click="logout">
         <v-icon>exit_to_app</v-icon>
       </v-btn>
-    </v-toolbar>
+    </v-app-bar>
     <v-content>
       <v-container fluid>
         <router-view></router-view>
@@ -134,7 +134,7 @@ export default {
   },
   computed: {
     ...mapGetters(["getDarkMode"])
-  }
+  },
 };
 </script>
 <style lang="scss" scoped>

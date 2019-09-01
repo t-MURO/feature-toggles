@@ -11,6 +11,7 @@
             :loading="loading"
             color="success"
           ></v-switch>
+          <v-spacer></v-spacer>
           <v-btn @click="editFeature(feature)" color="info">Edit</v-btn>
           <v-btn @click="removeFeature(feature)" color="error">Delete</v-btn>
         </v-card-actions>

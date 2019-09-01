@@ -1,5 +1,5 @@
 <template>
-  <v-app :dark="getDarkMode" id="inspire">
+  <v-app id="inspire">
     <router-view></router-view>
   </v-app>
 </template>
@@ -8,9 +8,6 @@
 import { mapActions, mapGetters, mapState } from "vuex";
 
 export default {
-  components: {
-    // app: App
-  },
   created() {
     this.loadDarkMode();
     this.$store.dispatch("getUser");
@@ -29,6 +26,12 @@ export default {
     user() {
       return this.$store.state.user;
     }
+  },
+  watch: {
+    // using regular function for 'this' context
+    getDarkMode: function(dark){
+      this.$vuetify.theme.dark = dark;
+    }  
   }
 };
 </script>

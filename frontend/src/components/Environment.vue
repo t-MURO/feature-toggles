@@ -11,6 +11,7 @@
             :loading="loading"
             color="success"
           ></v-switch>
+          <v-spacer></v-spacer>
           <v-btn @click="editEnvironment(environment)" color="info">Edit</v-btn>
           <v-btn @click="removeEnvironment(environment)" color="error"
             >Delete</v-btn

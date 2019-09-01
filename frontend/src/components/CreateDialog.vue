@@ -6,11 +6,11 @@
           Create
           <v-spacer></v-spacer>
           <v-btn-toggle v-model="type" mandatory>
-            <v-btn flat value="feature">
+            <v-btn text value="feature">
               <span>Feature</span>
               <v-icon>insert_emoticon</v-icon>
             </v-btn>
-            <v-btn flat value="environment">
+            <v-btn text value="environment">
               <span>Environment</span>
               <v-icon>phonelink</v-icon>
             </v-btn>
@@ -70,10 +70,9 @@
           </v-layout>
         </v-container>
         <v-card-actions>
-          <v-btn flat color="primary">More</v-btn>
+          <v-btn text color="primary" @click="dialog = false">Cancel</v-btn>
           <v-spacer></v-spacer>
-          <v-btn flat color="primary" @click="dialog = false">Cancel</v-btn>
-          <v-btn flat @click="dialog = false">Save</v-btn>
+          <v-btn color="success" @click="dialog = false">Save</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -113,10 +112,6 @@ export default {
         this.type = "environment";
       else this.type = "feature";
     }
-    // test(){
-    //   console.log(this.type);
-    //   console.log("lol")
-    // }
   }
 };
 </script>
