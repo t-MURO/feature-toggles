@@ -18,17 +18,13 @@
 <script>
 import APIService from "../services/APIService";
 import Environment from "../components/Environment";
-import { mapActions, mapState } from "vuex";
+import { mapState } from "vuex";
 
 export default {
   components: {
     environment: Environment
   },
-  beforeMount() {
-    this.getEnvironments();
-  },
   methods: {
-    ...mapActions("api", ["getEnvironments"]),
     removeEnvironment(environment) {
       APIService.removeEnvironment(environment).then(() => {
         this.environments = this.environments.filter(

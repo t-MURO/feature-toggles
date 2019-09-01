@@ -24,6 +24,11 @@ const apiModule = {
   },
 
   actions: {
+    loadInitialData({ dispatch }) {
+      dispatch("getFeatures");
+      dispatch("getEnvironments");
+    },
+
     async getUser({ commit }) {
       try {
         const user = await APIService.getUser();
@@ -42,12 +47,45 @@ const apiModule = {
       }
     },
 
+    async createFeature({ commit, state }, feature) {
+      try {
+        const updatedFeature = await APIService.createFeature(feature);
+        const updatedFeatures = [updatedFeature, ...state.features];
+        commit("SET_FEATURES", updatedFeatures);
+      } catch (e) {
+        console.log(e);
+        alert("error creating feature");
+      }
+    },
+
     async getEnvironments({ commit }) {
       try {
         const environments = await APIService.getEnvironments();
         commit("SET_ENVIRONMENTS", environments);
       } catch (e) {
         alert("error fetching envs");
+      }
+    },
+
+    async createEnvironment({ commit, state }, environment) {
+      try {
+        const updatedEnvironment = await APIService.createEnvironment(
+          environment
+        );
+        const updatedEnvironments = [updatedEnvironment, ...state.environments];
+        commit("SET_ENVIRONMENTS", updatedEnvironments);
+      } catch (e) {
+        console.log(e);
+        alert("error creating feature");
+      }
+    },
+
+    async removeFeature({ commit, state }, id) {
+      try {
+        await APIService.removeFeature(id);
+        commit("SET_FEATURES", state.features.filter(f => f._id !== id));
+      } catch (e) {
+        alert("could not delete feature");
       }
     },
 

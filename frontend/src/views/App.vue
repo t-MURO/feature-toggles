@@ -64,9 +64,7 @@
     </v-navigation-drawer>
     <v-app-bar :clipped-left="$vuetify.breakpoint.lgAndUp" app fixed>
       <v-toolbar-title style="width: 300px" class="ml-0 pl-3">
-        <v-app-bar-nav-icon
-          @click.stop="drawer = !drawer"
-        ></v-app-bar-nav-icon>
+        <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
         <span class="hidden-sm-and-down">Feature Toggles</span>
       </v-toolbar-title>
       <v-text-field
@@ -111,7 +109,7 @@ export default {
     dark: false,
     items: [
       { icon: "work", text: "Workspace", link: "/workspace" },
-      { icon: "insert_emoticon", text: "Features", link: "/features" },
+      { icon: "power_settings_new", text: "Features", link: "/features" },
       { icon: "phonelink", text: "Environments", link: "/environments" },
       // {
       //   icon: 'keyboard_arrow_up',
@@ -126,15 +124,19 @@ export default {
       { icon: "settings", text: "Settings", link: "settings" }
     ]
   }),
+  created() {
+    this.loadInitialData();
+  },
   props: {
     source: String
   },
   methods: {
-    ...mapActions(["logout", "setDarkMode"])
+    ...mapActions(["logout", "setDarkMode"]),
+    ...mapActions("api", ["loadInitialData"])
   },
   computed: {
     ...mapGetters(["getDarkMode"])
-  },
+  }
 };
 </script>
 <style lang="scss" scoped>

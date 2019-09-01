@@ -1,3 +1,4 @@
+import crypto from "crypto";
 import {Typegoose, prop, pre} from "typegoose";
 import Mongoose from "mongoose";
 import Feature from "./Feature";
@@ -15,7 +16,7 @@ export default class Environment extends Typegoose{
     @prop({required: true, trim: true, unique: true})
     name!: string;
 
-    @prop({required: true, unique: true})
+    @prop({required: true, unique: true, default: crypto.randomBytes(4).toString("hex")})
     identifier!: string;
 
     @prop({required: true, default: []})

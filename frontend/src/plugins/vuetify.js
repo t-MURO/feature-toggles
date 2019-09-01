@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Vuetify from "vuetify";
 import "vuetify/dist/vuetify.min.css";
-import colors from 'vuetify/lib/util/colors'
+import colors from "vuetify/lib/util/colors";
 
 Vue.use(Vuetify);
 
@@ -11,7 +11,6 @@ const opts = {
   },
   theme: {
     themes: {
-      dark: true,
       light: {
         primary: "#a1887f",
         secondary: "#424242",
@@ -24,9 +23,9 @@ const opts = {
       dark: {
         primary: colors.blue.lighten3 // todo add dark theme
       }
-    },
+    }
   },
-  customProperties: true,
-}
+  customProperties: true
+};
 
 export default new Vuetify(opts);

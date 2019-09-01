@@ -32,6 +32,10 @@ export default class APIService {
     return api.get(ENVIRONMENT_ROUTE).then(res => res.data);
   }
 
+  static createEnvironment(environment) {
+    return api.post(ENVIRONMENT_ROUTE, environment).then(res => res.data);
+  }
+
   static removeEnvironment(environment) {
     let id;
     typeof environment == "string"
@@ -48,9 +52,7 @@ export default class APIService {
     return api.put(FEATURE_ROUTE + feature._id, feature).then(res => res.data);
   }
 
-  static removeFeature(feature) {
-    let id;
-    typeof feature == "string" ? (id = feature) : (id = feature._id);
+  static removeFeature(id) {
     return api.delete(FEATURE_ROUTE + id).then(res => res.data);
   }
 

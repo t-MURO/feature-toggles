@@ -29,9 +29,9 @@ export default {
   },
   watch: {
     // using regular function for 'this' context
-    getDarkMode: function(dark){
+    getDarkMode: function(dark) {
       this.$vuetify.theme.dark = dark;
-    }  
+    }
   }
 };
 </script>

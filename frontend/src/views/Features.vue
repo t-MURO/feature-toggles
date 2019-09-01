@@ -13,47 +13,24 @@
 </template>
 
 <script>
-import APIService from "@/services/APIService";
 import Feature from "../components/Feature";
+import { mapState, mapActions } from "vuex";
 
 export default {
   components: {
     feature: Feature
   },
-  data() {
-    return {
-      features: [],
-      newFeature: {
-        name: "",
-        description: ""
-      }
-    };
-  },
-  beforeMount() {
-    this.getFeatures();
-  },
   methods: {
-    getFeatures() {
-      APIService.getFeatures().then(features => {
-        this.features = features;
-      });
-    },
-    createFeature(feature) {
-      APIService.createFeature(feature).then(t => this.features.unshift(t));
-    },
-    editFeature(feature) {
-      // feature.isEnabled = !feature.isEnabled;
-      APIService.editFeature(feature).then(t => (feature = t));
-    },
-    removeFeature(feature) {
-      APIService.removeFeature(feature).then(() => {
-        this.features = this.features.filter(t => t._id !== feature._id);
-      });
-    },
+    ...mapActions("api", ["removeFeature"]),
     updateFeature(feature) {
       const index = this.features.findIndex(t => t._id === feature._id);
       this.features[index] = feature;
     }
+  },
+  computed: {
+    ...mapState("api", {
+      features: state => state.features
+    })
   }
 };
 </script>

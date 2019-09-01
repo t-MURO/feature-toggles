@@ -1,3 +1,4 @@
+import crypto from "crypto";
 import EnvironmentModel from '../models/mongoose/EnvironmentModel';
 import Environment from '../models/domain/Environment';
 import { Error } from 'mongoose';
@@ -14,6 +15,9 @@ export default class EnvironmentService implements MongoRepository<Environment>{
     }
 
     public create(environment:Environment):Promise<any>{
+        if(!environment.identifier || environment.identifier.trim().length <= 0) {
+            environment.identifier = crypto.randomBytes(4).toString("hex");
+        }
         return new Promise((resolve, reject) => {
             EnvironmentModel.create(environment)
                 .then((env) => resolve(env))

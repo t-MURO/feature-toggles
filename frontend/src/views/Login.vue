@@ -97,7 +97,6 @@
                   :rules="rules.passwordRules"
                   name="password"
                   label="Password"
-                  id="password"
                   type="password"
                   v-model="registerForm.password"
                 ></v-text-field>
@@ -177,7 +176,7 @@ export default {
           this.$router.push("/");
         })
         .catch(err => {
-          console.log(err.response.data.message)
+          console.log(err.response.data.message);
           this.loginErrorMessage = err.response.data.message;
           this.loginHasErrors = true;
         });
