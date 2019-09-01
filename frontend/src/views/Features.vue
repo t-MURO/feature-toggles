@@ -7,6 +7,7 @@
       :key="feature._id"
       :feature="feature"
       :removeFeature="removeFeature"
+      :editFeature="editFeature"
       @featureUpdate="updateFeature(feature)"
     ></feature>
   </v-container>
@@ -21,7 +22,7 @@ export default {
     feature: Feature
   },
   methods: {
-    ...mapActions("api", ["removeFeature"]),
+    ...mapActions("api", ["removeFeature", "editFeature"]),
     updateFeature(feature) {
       const index = this.features.findIndex(t => t._id === feature._id);
       this.features[index] = feature;

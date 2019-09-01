@@ -58,6 +58,19 @@ const apiModule = {
       }
     },
 
+    async editFeature({ commit, state }, feature) {
+      try {
+        const updatedFeature = await APIService.editFeature(feature);
+        const index = state.features.findIndex(f => f._id === feature._id);
+        if (index < 0) throw new Error("updated feature doesn't exist");
+        let updatedFeatures = [...state.features];
+        updatedFeatures[index] = updatedFeature;
+        commit("SET_FEATURES", updatedFeatures);
+      } catch (e) {
+        console.log(e);
+      }
+    },
+
     async getEnvironments({ commit }) {
       try {
         const environments = await APIService.getEnvironments();
@@ -77,6 +90,19 @@ const apiModule = {
       } catch (e) {
         console.log(e);
         alert("error creating feature");
+      }
+    },
+
+    async editEnvironment({ commit, state }, environment) {
+      try {
+        const updatedEnvironment = await APIService.editEnvironment(environment);
+        const index = state.environments.findIndex(t => t._id === environment._id);
+        if (index < 0) throw new Error("updated environment doesn't exist");
+        let updatedEnvironments = [...state.environments];
+        updatedEnvironments[index] = updatedEnvironment;
+        commit("SET_ENVIRONMENTS", updatedEnvironments);
+      } catch (e) {
+        console.log(e);
       }
     },
 

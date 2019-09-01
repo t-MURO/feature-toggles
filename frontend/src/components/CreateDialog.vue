@@ -104,10 +104,21 @@
                   :items="features"
                   item-text="name"
                   item-value="_id"
+                  clearable
                   chips
+                  deletable-chips
                   multiple
+                  hide-selected
                   :disabled="features.length < 1"
-                ></v-select>
+                >
+                  <template slot="item" slot-scope="data">
+                    {{ data.item.name }} 
+                    <v-spacer></v-spacer>
+                    <template v-if="data.item.isEnabled">
+                      Enabled ✔️
+                    </template>
+                  </template>
+                </v-select>
                 <v-flex xs12>
                   <v-text-field
                     prepend-icon="lock_open"
@@ -138,11 +149,8 @@
       bottom
       right
       fixed
-      @click="
-        dialog = !dialog;
-        setType();
-      "
-    >
+      @click="dialog = !dialog; setType();"
+      >
       <v-icon>add</v-icon>
     </v-btn>
   </div>
@@ -228,10 +236,7 @@ export default {
     ...mapState("api", {
       features: state => state.features,
       environments: state => state.environments
-    }),
-    featureNames: function() {
-      return this.features.map(f => f.name);
-    }
+    })
   }
 };
 </script>

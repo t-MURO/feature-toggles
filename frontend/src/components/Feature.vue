@@ -7,15 +7,19 @@
         <v-card-actions>
           <v-switch
             @change="featureSwitch($event)"
-            v-model="enabled"
+            v-model="feature.isEnabled"
             :loading="loading"
             color="success"
           ></v-switch>
           <v-spacer></v-spacer>
-          <v-btn @click="editFeature(feature)" color="info">Edit</v-btn>
-          <v-btn @click="removeFeature(feature._id)" color="error"
-            >Delete</v-btn
-          >
+          <v-btn @click="editFeature(feature)" color="info">
+            <v-icon left>settings</v-icon>
+            Configure
+          </v-btn>
+          <v-btn @click="removeFeature(feature._id)" color="error">
+            <v-icon left>delete</v-icon>
+            Delete
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-flex>
@@ -23,8 +27,6 @@
 </template>
 
 <script>
-import APIService from "@/services/APIService";
-
 export default {
   props: ["feature", "removeFeature", "editFeature"],
   data() {
@@ -40,17 +42,10 @@ export default {
     featureSwitch(event) {
       let feature = { ...this.feature };
       feature.isEnabled = event;
-
       this.loading = true;
-      APIService.editFeature(feature).then(res => {
-        this.$emit("featureUpdate", res.data);
+      this.editFeature(feature).then(() => {
         this.loading = false;
       });
-    }
-  },
-  computed: {
-    isActive() {
-      return this.feature.isEnabled;
     }
   }
 };

@@ -12,10 +12,13 @@
             color="success"
           ></v-switch>
           <v-spacer></v-spacer>
-          <v-btn @click="editEnvironment(environment)" color="info">Edit</v-btn>
-          <v-btn @click="removeEnvironment(environment)" color="error"
-            >Delete</v-btn
+          <v-btn @click="editEnvironment(environment)" color="info">
+            <v-icon left>settings</v-icon> Configure</v-btn
           >
+          <v-btn @click="removeEnvironment(environment)" color="error">
+            <v-icon left>delete</v-icon>
+            Delete
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-flex>

@@ -23,7 +23,7 @@ export default class FeatureService implements MongoRepository<Feature>{
 
     public update(feature: Feature):Promise<any>{
         return new Promise((resolve, reject) => {
-            FeatureModel.findOneAndUpdate({_id: feature._id}, feature)
+            FeatureModel.findOneAndUpdate({_id: feature._id}, feature, {new: true})
                 .then((t:any) => resolve(t))
                 .catch((err:Error) => reject(err))
         });

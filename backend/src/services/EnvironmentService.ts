@@ -27,7 +27,7 @@ export default class EnvironmentService implements MongoRepository<Environment>{
 
     public update(environment: Environment):Promise<any>{
         return new Promise((resolve, reject) => {
-            EnvironmentModel.findOneAndUpdate({_id: environment._id}, environment)
+            EnvironmentModel.findOneAndUpdate({_id: environment._id}, environment, {new: true})
                 .then(t => resolve(t))
                 .catch((err:Error) => reject(err))
         });
