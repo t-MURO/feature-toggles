@@ -3,19 +3,37 @@
     <v-flex xs12>
       <v-card>
         <h3>{{ environment.name }}</h3>
+        <br />
         <p>{{ environment.description }}</p>
+        <p>
+          Identifier: <strong>{{ environment.identifier }}</strong>
+        </p>
+
+        <v-list dense>
+          <v-list-item-group color="primary">
+            <v-list-item
+              v-for="feature in getFeatures(environment.features)"
+              :key="feature._id"
+            >
+              <v-list-item-icon>
+                <feature-switch :feature="feature"></feature-switch>
+              </v-list-item-icon>
+              <v-list-item-content>
+                <v-list-item-title v-text="feature.name"></v-list-item-title>
+              </v-list-item-content>
+              <v-list-item-action>
+                <v-btn small>
+                  Hallo
+                </v-btn>
+              </v-list-item-action>
+            </v-list-item>
+          </v-list-item-group>
+        </v-list>
+
         <v-card-actions>
-          <v-switch
-            @change="featureSwitch($event)"
-            v-model="enabled"
-            :loading="loading"
-            color="success"
-          ></v-switch>
           <v-spacer></v-spacer>
-          <v-btn @click="editEnvironment(environment)" color="info">
-            <v-icon left>settings</v-icon> Configure</v-btn
-          >
-          <v-btn @click="removeEnvironment(environment)" color="error">
+          <v-btn color="info"> <v-icon left>settings</v-icon> Configure</v-btn>
+          <v-btn @click="removeEnvironment(environment._id)" color="error">
             <v-icon left>delete</v-icon>
             Delete
           </v-btn>
@@ -26,37 +44,14 @@
 </template>
 
 <script>
-// import APIService from "@/services/APIService";
-// const apiService = new APIService();
+import { mapGetters } from "vuex";
+import FeatureSwitch from "./Features/Switch";
 
 export default {
-  props: ["environment", "removeEnvironment", "editEnvironment"],
-  data() {
-    return {
-      loading: false,
-      enabled: false
-    };
-  },
-  created() {
-    this.enabled = this.environment.isEnabled;
-  },
-  methods: {
-    featureSwitch(event) {
-      console.log(event);
-      //   let environment = { ...this.environment };
-      //   environment.isEnabled = event;
-
-      //   this.loading = true;
-      //   apiService.editEnvironment(environment).then(res => {
-      //     this.$emit("environmentUpdate", res.data);
-      //     this.loading = false;
-      //   });
-    }
-  },
+  components: { FeatureSwitch },
+  props: ["environment", "removeEnvironment"],
   computed: {
-    isActive() {
-      return this.environment.isEnabled;
-    }
+    ...mapGetters("api", ["getFeatures"])
   }
 };
 </script>

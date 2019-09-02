@@ -112,7 +112,7 @@
                   :disabled="features.length < 1"
                 >
                   <template slot="item" slot-scope="data">
-                    {{ data.item.name }} 
+                    {{ data.item.name }}
                     <v-spacer></v-spacer>
                     <template v-if="data.item.isEnabled">
                       Enabled ✔️
@@ -149,8 +149,11 @@
       bottom
       right
       fixed
-      @click="dialog = !dialog; setType();"
-      >
+      @click="
+        dialog = !dialog;
+        setType();
+      "
+    >
       <v-icon>add</v-icon>
     </v-btn>
   </div>

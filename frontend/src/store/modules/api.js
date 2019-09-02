@@ -95,8 +95,12 @@ const apiModule = {
 
     async editEnvironment({ commit, state }, environment) {
       try {
-        const updatedEnvironment = await APIService.editEnvironment(environment);
-        const index = state.environments.findIndex(t => t._id === environment._id);
+        const updatedEnvironment = await APIService.editEnvironment(
+          environment
+        );
+        const index = state.environments.findIndex(
+          t => t._id === environment._id
+        );
         if (index < 0) throw new Error("updated environment doesn't exist");
         let updatedEnvironments = [...state.environments];
         updatedEnvironments[index] = updatedEnvironment;
@@ -129,9 +133,14 @@ const apiModule = {
   },
 
   getters: {
-    getFeatures: state => state.features,
-    getEnvironments: state => state.environments,
-    getTest: state => state.test
+    getEnvironments: state => environmentIds =>
+      environmentIds.map(env =>
+        state.environments.find(e => e._id === env._id)
+      ),
+    getEnvironmentsForFeature: state => featureId =>
+      state.environments.filter(e => e.features.includes(featureId)),
+    getFeatures: state => featureIds =>
+      featureIds.map(id => state.features.find(f => f._id === id))
   }
 };
 
