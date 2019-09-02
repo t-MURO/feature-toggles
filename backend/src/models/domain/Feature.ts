@@ -11,7 +11,7 @@ export default class Feature extends Typegoose{
     createdAt?: Date;
     updatedAt?: Date;
 
-    @prop({required: true, unique: true})
+    @prop({required: true, unique: true, maxlength: 30, validate: validateName})
     name!: string;
 
     @prop({default: false})
@@ -20,4 +20,8 @@ export default class Feature extends Typegoose{
     @prop()
     description?: string;
     
+}
+
+function validateName(value: string):boolean {
+    return /^[a-zA-Z_$][0-9a-zA-Z_$]*$/.test(value);
 }

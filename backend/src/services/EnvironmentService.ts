@@ -2,7 +2,7 @@ import crypto from "crypto";
 import EnvironmentModel from '../models/mongoose/EnvironmentModel';
 import Environment from '../models/domain/Environment';
 import { Error } from 'mongoose';
-import MongoRepository from "../interfaces/repository";
+import MongoRepository from "../models/interfaces/repository";
 
 export default class EnvironmentService implements MongoRepository<Environment>{
 

@@ -4,8 +4,6 @@ export default interface MongoRepository<T> {
 
     findAll(): Promise<T[]|Error>;
 
-    // find(options:any):Promise<T[]|Error>;
-
     create(resource: T|T[]): Promise<T|T[]|Error>;
 
     update(resource: T): Promise<T|Error>;

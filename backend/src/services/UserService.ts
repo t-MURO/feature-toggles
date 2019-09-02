@@ -2,7 +2,7 @@ import UserModel from '../models/mongoose/UserModel';
 import User from '../models/domain/User';
 import { Error } from 'mongoose';
 import {MongoError} from "mongodb";
-import MongoRepository from "../interfaces/repository";
+import MongoRepository from "../models/interfaces/repository";
 
 export default class UserService implements MongoRepository<User> {
 

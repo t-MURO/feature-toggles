@@ -1,7 +1,7 @@
 import FeatureModel from '../models/mongoose/FeatureModel';
 import Feature from '../models/domain/Feature';
 import { Error } from 'mongoose';
-import MongoRepository from "../interfaces/repository";
+import MongoRepository from "../models/interfaces/repository";
 
 export default class FeatureService implements MongoRepository<Feature>{
 
