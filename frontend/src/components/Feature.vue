@@ -4,15 +4,18 @@
       <v-card>
         <h3>{{ feature.name }}</h3>
         <p>{{ feature.description }}</p>
+        <p>
+          Used in:
+          <strong>{{
+            getEnvironmentsForFeature(feature._id)
+              .map(e => e.name)
+              .join(", ")
+          }}</strong>
+        </p>
         <v-card-actions>
-          <v-switch
-            @change="featureSwitch($event)"
-            v-model="feature.isEnabled"
-            :loading="loading"
-            color="success"
-          ></v-switch>
+          <feature-switch :feature="feature"></feature-switch>
           <v-spacer></v-spacer>
-          <v-btn @click="editFeature(feature)" color="info">
+          <v-btn color="info">
             <v-icon left>settings</v-icon>
             Configure
           </v-btn>
@@ -27,7 +30,10 @@
 </template>
 
 <script>
+import FeatureSwitch from "./Features/Switch";
+import { mapGetters } from "vuex";
 export default {
+  components: { FeatureSwitch },
   props: ["feature", "removeFeature", "editFeature"],
   data() {
     return {
@@ -47,6 +53,9 @@ export default {
         this.loading = false;
       });
     }
+  },
+  computed: {
+    ...mapGetters("api", ["getEnvironmentsForFeature"])
   }
 };
 </script>

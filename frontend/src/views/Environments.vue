@@ -8,33 +8,21 @@
         :key="environment._id"
         :environment="environment"
         :removeEnvironment="removeEnvironment"
-        :editEnvironment="editEnvironment"
-        @environmentUpdate="updateEnvironment(environment)"
       ></environment>
     </div>
   </v-container>
 </template>
 
 <script>
-import APIService from "../services/APIService";
 import Environment from "../components/Environment";
-import { mapState } from "vuex";
+import { mapActions, mapState } from "vuex";
 
 export default {
   components: {
     environment: Environment
   },
   methods: {
-    removeEnvironment(environment) {
-      APIService.removeEnvironment(environment).then(() => {
-        this.environments = this.environments.filter(
-          env => env._id !== environment._id
-        );
-      });
-    },
-    editEnvironment(s) {
-      console.log(s);
-    }
+    ...mapActions("api", ["removeEnvironment"])
   },
   computed: {
     ...mapState("api", {
