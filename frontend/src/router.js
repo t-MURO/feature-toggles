@@ -4,7 +4,7 @@ import Features from "./views/Features";
 import Environments from "./views/Environments";
 import Login from "./views/Login";
 import App from "./views/App";
-import Workspaces from "./views/Workspace";
+import Playground from "./views/Playground";
 import Settings from "./views/Settings";
 
 Vue.use(Router);
@@ -34,9 +34,9 @@ export default new Router({
           component: Environments
         },
         {
-          path: "/workspace",
+          path: "/playground",
           name: "workspace",
-          component: Workspaces
+          component: Playground
         },
         {
           path: "/settings",
