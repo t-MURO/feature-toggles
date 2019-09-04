@@ -8,22 +8,27 @@
         <p>
           Identifier: <strong>{{ environment.identifier }}</strong>
         </p>
-
-        <v-list dense>
+        <v-list dense subheader>
+          <v-subheader>FEATURES</v-subheader>
           <v-list-item-group color="primary">
             <v-list-item
               v-for="feature in getFeatures(environment.features)"
               :key="feature._id"
             >
-              <v-list-item-icon>
+            <!-- to="/features" -->
+
+              <v-list-item-icon @click.prevent>
                 <feature-switch :feature="feature"></feature-switch>
               </v-list-item-icon>
               <v-list-item-content>
                 <v-list-item-title v-text="feature.name"></v-list-item-title>
               </v-list-item-content>
               <v-list-item-action>
+                <!-- <v-btn color="accent" small>
+                  Configure
+                </v-btn> -->
                 <v-btn small>
-                  Hallo
+                  Remove
                 </v-btn>
               </v-list-item-action>
             </v-list-item>

@@ -46,7 +46,7 @@
               </v-flex>
               <v-flex xs12 align-center justify-space-between>
                 <v-layout align-center>
-                  <v-textarea placeholder="Description" prepend-icon="title">
+                  <v-textarea placeholder="Description" prepend-icon="title" v-model="featureForm.feature.description">
                   </v-textarea>
                 </v-layout>
               </v-flex>
@@ -115,7 +115,7 @@
                     {{ data.item.name }}
                     <v-spacer></v-spacer>
                     <template v-if="data.item.isEnabled">
-                      Enabled ✔️
+                      <span v-if="$vuetify.breakpoint.smAndUp">Enabled </span>✔️
                     </template>
                   </template>
                 </v-select>
@@ -123,6 +123,7 @@
                   <v-text-field
                     prepend-icon="lock_open"
                     placeholder="Identifier"
+                    v-model="environmentForm.environment.identifier"
                   ></v-text-field>
                 </v-flex>
               </v-flex>
@@ -181,7 +182,6 @@ export default {
           ]
         },
         valid: false,
-        validate: () => this.$refs.environment.validate(),
         environment: {
           name: "",
           description: "",
@@ -195,7 +195,9 @@ export default {
             v => !!v || "Name is required",
             v =>
               this.features.findIndex(f => f.name === v) < 0 ||
-              "No duplicate names allowed"
+              "No duplicate names allowed",
+            v => !/^[0-9][*]*/.test(v) || "Name cannot start with a number",
+            v => /^[a-zA-Z_$][0-9a-zA-Z_$]*$/.test(v) || "Name can only contain upper and lower case letters, numbers, $ and _"
           ]
         },
         valid: false,
@@ -204,8 +206,6 @@ export default {
           description: ""
         }
       },
-      rules: {},
-      fts: [],
       type: ""
     };
   },

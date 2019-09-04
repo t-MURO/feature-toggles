@@ -4,7 +4,7 @@
       <v-card>
         <h3>{{ feature.name }}</h3>
         <p>{{ feature.description }}</p>
-        <p>
+        <p v-if="getEnvironmentsForFeature(feature._id).length > 0">
           Used in:
           <strong>{{
             getEnvironmentsForFeature(feature._id)
