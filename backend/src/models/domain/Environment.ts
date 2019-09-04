@@ -10,7 +10,15 @@ import Feature from "./Feature";
 export default class Environment extends Typegoose{
 
     _id?: Mongoose.Types.ObjectId;
+
+    @prop({required: true})
+    createdBy!: string;
+
     createdAt?: Date;
+
+    @prop({required: true})
+    updatedBy!: string;
+
     updatedAt?: Date;
 
     @prop({required: true, trim: true, unique: true})

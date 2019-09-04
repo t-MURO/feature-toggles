@@ -8,7 +8,15 @@ import Mongoose from "mongoose";
 export default class Feature extends Typegoose{
 
     _id?: Mongoose.Types.ObjectId;
+
+    @prop({required: true})
+    createdBy!: string;
+
     createdAt?: Date;
+
+    @prop({required: true})
+    updatedBy!: string;
+
     updatedAt?: Date;
 
     @prop({required: true, unique: true, maxlength: 30, validate: validateName})

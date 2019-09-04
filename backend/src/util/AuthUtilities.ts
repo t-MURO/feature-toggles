@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 import { API_AUTH_SECRET, TOKEN_EXPIRY_TIME } from "../config/config";
 import User from "../models/domain/User";
 
-export function generateToken(user:User): Promise<string> {
+export const generateToken = (user:User): Promise<string> => {
     return new Promise((resolve, reject) => {
         const userTokenData = toUserTokenData(user);
         jwt.sign(
@@ -12,4 +12,4 @@ export function generateToken(user:User): Promise<string> {
             { expiresIn: TOKEN_EXPIRY_TIME },
             (err: Error, token: string) => err ? reject(err) : resolve(token)
         )});
-}
+};

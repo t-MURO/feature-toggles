@@ -9,8 +9,8 @@ export default class FeatureService implements MongoRepository<Feature>{
         return new Promise((resolve, reject) => FeatureModel.findById(_id, (err:Error, feature:Feature) => err ? reject(err) : resolve(feature)));
     }
 
-    public findAll():Promise<Feature[]|Error>{
-        return new Promise((resolve, reject) => FeatureModel.find({}, (err:Error, features:Feature[]) => err ? reject(err) : resolve(features)));
+    public findAll(conditions?:any):Promise<Feature[]|Error>{
+        return new Promise((resolve, reject) => FeatureModel.find(conditions || {}, (err:Error, features:Feature[]) => err ? reject(err) : resolve(features)));
     }
 
     public create(features:Feature|Feature[]):Promise<any>{
