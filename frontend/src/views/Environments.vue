@@ -9,6 +9,7 @@
         :environment="environment"
         :removeEnvironment="removeEnvironment"
       ></environment>
+      <p class="mt-4" v-if="environments.length === 0">No environments configured.</p>
     </div>
   </v-container>
 </template>
