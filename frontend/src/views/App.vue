@@ -108,7 +108,7 @@ export default {
     drawer: null,
     dark: false,
     items: [
-      { icon: "work", text: "Workspace", link: "/workspace" },
+      { icon: "work", text: "Playground", link: "/playground" },
       { icon: "power_settings_new", text: "Features", link: "/features" },
       { icon: "phonelink", text: "Environments", link: "/environments" },
       // {
