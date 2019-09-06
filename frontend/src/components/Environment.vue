@@ -8,7 +8,7 @@
         <p>
           Identifier: <strong>{{ environment.identifier }}</strong>
         </p>
-        <v-list dense subheader>
+        <v-list v-if="getFeatures(environment.features).length > 0" dense subheader>
           <v-subheader>FEATURES</v-subheader>
           <v-list-item-group color="primary">
             <v-list-item
@@ -27,7 +27,7 @@
                 <!-- <v-btn color="accent" small>
                   Configure
                 </v-btn> -->
-                <v-btn small>
+                <v-btn small @click="removeFeature(environment, feature._id)">
                   Remove
                 </v-btn>
               </v-list-item-action>
@@ -49,12 +49,20 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 import FeatureSwitch from "./Features/Switch";
 
 export default {
   components: { FeatureSwitch },
   props: ["environment", "removeEnvironment"],
+  methods: {
+    ...mapActions("api", ["editEnvironment"]),
+    removeFeature(environment, featureId){
+      let env = {...environment};
+      env.features = environment.features.filter(id => id !== featureId);
+      this.editEnvironment(env);
+    }
+  },
   computed: {
     ...mapGetters("api", ["getFeatures"])
   }

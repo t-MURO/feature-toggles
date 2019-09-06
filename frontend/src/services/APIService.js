@@ -44,6 +44,10 @@ export default class APIService {
     return api.delete(ENVIRONMENT_ROUTE + id).then(res => res.data);
   }
 
+  static editEnvironment(environment) {
+    return api.put(ENVIRONMENT_ROUTE + environment._id, environment).then(res => res.data);
+  }
+
   static createFeature(feature) {
     return api.post(FEATURE_ROUTE, feature).then(res => res.data);
   }
