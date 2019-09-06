@@ -9,11 +9,13 @@
           Identifier: <strong>{{ environment.identifier }}</strong>
         </p>
         <v-list v-if="getFeatures(environment.features).length > 0" dense subheader>
+          <hr>
           <v-subheader>FEATURES</v-subheader>
           <v-list-item-group color="primary">
             <v-list-item
               v-for="feature in getFeatures(environment.features)"
               :key="feature._id"
+              :ripple="false"
             >
             <!-- to="/features" -->
 
@@ -33,6 +35,11 @@
               </v-list-item-action>
             </v-list-item>
           </v-list-item-group>
+          <v-toolbar elevation="0" flat>
+              <v-spacer></v-spacer>
+              <v-btn color="success">Add</v-btn>
+          </v-toolbar>
+          <hr>
         </v-list>
 
         <v-card-actions>
