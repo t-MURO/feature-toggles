@@ -7,7 +7,7 @@
     "dev": "concurrently --kill-others \"cd backend && npm run dev\" \"cd frontend && npm run serve\"",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "concurrently \"cd backend && npm run build\" \"cd frontend && npm run build\"",
-    "edit": "node startEditors"
+    "edit": "node startEditors -v"
   },
   "author": "",
   "license": "ISC",
