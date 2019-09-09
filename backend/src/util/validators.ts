@@ -1,0 +1,1 @@
+export const validateStringArray = (arr: any[]) => arr.every(v => typeof v === "string");

@@ -11,6 +11,21 @@ const userService = new UserService();
 
 loginController
 
+    .post("/service-login", (async (req, res, next) => {
+        const loginData = req.body;
+        try {
+            const user:User = await userService.findOneByEmail(loginData.email);
+            if(user.password === loginData.password){
+                const token = await generateToken(user);
+                return res.json({access_token: token});
+            }
+            else return res.status(400).json({message: "Authentication failed."});
+        } catch (e) {
+            console.log(e);
+            return res.status(400).json({message: "Authentication failed."});
+        }
+    }))
+
     .post("/login", (async (req, res, next) => {
         const loginData = req.body;
         try {
