@@ -9,7 +9,7 @@
             <v-btn :small="$vuetify.breakpoint.smAndDown" text value="feature">
               <span>Feature</span>
               <v-icon v-if="$vuetify.breakpoint.smAndUp"
-                >insert_emoticon</v-icon
+                >power_settings_new</v-icon
               >
             </v-btn>
             <v-btn
@@ -46,13 +46,20 @@
               </v-flex>
               <v-flex xs12 align-center justify-space-between>
                 <v-layout align-center>
-                  <v-textarea placeholder="Description" prepend-icon="title" v-model="featureForm.feature.description">
+                  <v-textarea
+                    placeholder="Description"
+                    prepend-icon="title"
+                    v-model="featureForm.feature.description"
+                  >
                   </v-textarea>
                 </v-layout>
               </v-flex>
             </v-layout>
             <v-card-actions>
               <v-btn text color="primary" @click="dialog = false">Cancel</v-btn>
+              <v-btn text color="primary" @click="$refs.feature.reset()"
+                >Reset</v-btn
+              >
               <v-spacer></v-spacer>
               <v-btn
                 color="success"
@@ -130,6 +137,9 @@
             </v-layout>
             <v-card-actions>
               <v-btn text color="primary" @click="dialog = false">Cancel</v-btn>
+              <v-btn text color="primary" @click="$refs.environment.reset()">
+                Reset
+              </v-btn>
               <v-spacer></v-spacer>
               <v-btn
                 color="success"
@@ -197,7 +207,9 @@ export default {
               this.features.findIndex(f => f.name === v) < 0 ||
               "No duplicate names allowed",
             v => !/^[0-9][*]*/.test(v) || "Name cannot start with a number",
-            v => /^[a-zA-Z_$][0-9a-zA-Z_$]*$/.test(v) || "Name can only contain upper and lower case letters, numbers, $ and _"
+            v =>
+              /^[a-zA-Z_$][0-9a-zA-Z_$]*$/.test(v) ||
+              "Name can only contain upper and lower case letters, numbers, $ and _"
           ]
         },
         valid: false,
@@ -223,6 +235,7 @@ export default {
         return;
       }
       this.createFeature(this.featureForm.feature).then(() => {
+        this.$refs.feature.reset();
         this.dialog = false;
       });
     },
@@ -231,6 +244,7 @@ export default {
         return;
       }
       this.createEnvironment(this.environmentForm.environment).then(() => {
+        this.$refs.environment.reset();
         this.dialog = false;
       });
     }

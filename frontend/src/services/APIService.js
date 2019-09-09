@@ -45,7 +45,9 @@ export default class APIService {
   }
 
   static editEnvironment(environment) {
-    return api.put(ENVIRONMENT_ROUTE + environment._id, environment).then(res => res.data);
+    return api
+      .put(ENVIRONMENT_ROUTE + environment._id, environment)
+      .then(res => res.data);
   }
 
   static createFeature(feature) {

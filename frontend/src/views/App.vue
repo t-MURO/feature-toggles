@@ -91,7 +91,7 @@
         <router-view></router-view>
       </v-container>
     </v-content>
-    <create-dialog v-model="dialog"></create-dialog>
+    <create-button></create-button>
   </v-app>
 </template>
 
@@ -101,10 +101,9 @@ import CreateDialog from "../components/CreateDialog.vue";
 
 export default {
   components: {
-    "create-dialog": CreateDialog
+    "create-button": CreateDialog
   },
   data: () => ({
-    dialog: false,
     drawer: null,
     dark: false,
     items: [
