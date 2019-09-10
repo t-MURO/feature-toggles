@@ -48,6 +48,7 @@ export default {
   methods: {
     ...mapActions("api", ["editEnvironment"]),
     saveEnvironment() {
+      if (this.selectedFeatures.length === 0) return this.close();
       this.loading = true;
       this.environment.features.push(...this.selectedFeatures.map(f => f._id));
       this.editEnvironment(this.environment).then(() => {

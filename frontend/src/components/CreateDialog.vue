@@ -22,6 +22,7 @@
             </v-btn>
           </v-btn-toggle>
         </v-card-title>
+        <v-divider></v-divider>
 
         <!-- FEATURE -->
         <v-container v-if="type === 'feature'" grid-list-sm class="pa-4">
