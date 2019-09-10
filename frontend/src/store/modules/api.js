@@ -112,8 +112,12 @@ const apiModule = {
 
     async removeFeature({ commit, state }, id) {
       try {
-        await APIService.removeFeature(id);
-        commit("SET_FEATURES", state.features.filter(f => f._id !== id));
+        const feature = await APIService.removeFeature(id);
+        const index = state.features.findIndex(f => f._id === feature._id);
+        if (index < 0) throw new Error("updated feature doesn't exist");
+        let updatedFeatures = [...state.features];
+        updatedFeatures[index] = feature;
+        commit("SET_FEATURES", updatedFeatures);
       } catch (e) {
         alert("could not delete feature");
       }

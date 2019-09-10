@@ -43,7 +43,7 @@ featureController
 
     .delete('/:id', (req: CustomRequest, res, next) => {
         featureService.delete(req.params.id)
-            .then(() => res.sendStatus(204))
+            .then((feature) => res.json(feature))
             .catch((err:Error) => res.status(400).json(err))
     });
 

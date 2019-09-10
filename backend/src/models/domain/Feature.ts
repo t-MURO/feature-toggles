@@ -1,11 +1,16 @@
 import {Typegoose, prop, pre} from "typegoose";
 import Mongoose from "mongoose";
 
+export enum FeatureStatus {
+    REQUESTED="REQUESTED",
+    ACTIVE="ACTIVE",
+    DELETED="DELETED"
+}
 @pre<Feature>('findOneAndUpdate', function(this: any, next){
     this._update.updatedAt = new Date();
     next();
 })
-export default class Feature extends Typegoose{
+export default class Feature extends Typegoose {
 
     _id?: Mongoose.Types.ObjectId;
 
@@ -28,6 +33,8 @@ export default class Feature extends Typegoose{
     @prop()
     description?: string;
     
+    @prop({required: true, default: FeatureStatus.ACTIVE, enum: FeatureStatus})
+    status?: FeatureStatus;
 }
 
 function validateName(value: string):boolean {

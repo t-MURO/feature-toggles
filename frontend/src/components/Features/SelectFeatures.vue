@@ -22,9 +22,9 @@
     <v-card-actions>
       <v-btn text color="primary" @click="close()">Cancel</v-btn>
       <v-spacer></v-spacer>
-      <v-btn color="success" :loading="loading" @click="saveEnvironment()"
-        >Add</v-btn
-      >
+      <v-btn color="success" :loading="loading" @click="saveEnvironment()">
+        Add
+      </v-btn>
     </v-card-actions>
   </v-card>
 </template>
