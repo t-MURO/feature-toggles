@@ -6,8 +6,12 @@ import MongoRepository from "../models/interfaces/repository";
 
 export default class EnvironmentService implements MongoRepository<Environment>{
 
-    public findOne(_id: string):Promise<Environment|Error>{
+    public findOne(_id: string):Promise<Environment>{
         return new Promise((resolve, reject) => EnvironmentModel.findOne({_id}, (err:Error, environment:Environment) => err ? reject(err) : resolve(environment)));
+    }
+
+    public findOneByIdentifier(identifier: string|any):Promise<Environment> {
+        return new Promise((resolve, reject) => EnvironmentModel.findOne({identifier}, (err:Error, environment:Environment) => err ? reject(err) : resolve(environment)));
     }
 
     public findAll():Promise<Environment[]|Error>{

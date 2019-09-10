@@ -9,7 +9,7 @@ export default class FeatureService implements MongoRepository<Feature>{
         return new Promise((resolve, reject) => FeatureModel.findById(_id, (err:Error, feature:Feature) => err ? reject(err) : resolve(feature)));
     }
 
-    public findAll(conditions?:any):Promise<Feature[]|Error>{
+    public findAll(conditions?:any):Promise<Feature[]>{
         return new Promise((resolve, reject) => FeatureModel.find(conditions || {}, (err:Error, features:Feature[]) => err ? reject(err) : resolve(features)));
     }
 
@@ -21,7 +21,7 @@ export default class FeatureService implements MongoRepository<Feature>{
         });
     }
 
-    public update(feature: Feature):Promise<any>{
+    public update(feature: Feature):Promise<Feature>{
         return new Promise((resolve, reject) => {
             FeatureModel.findOneAndUpdate({_id: feature._id}, feature, {new: true})
                 .then((t:any) => resolve(t))
