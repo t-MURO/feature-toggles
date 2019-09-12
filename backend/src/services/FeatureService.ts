@@ -29,12 +29,8 @@ export default class FeatureService implements MongoRepository<Feature>{
         });
     }
 
-    public delete(_id:string):Promise<Feature>{
-        // return new Promise((resolve, reject) => {
-        //     FeatureModel.findOneAndDelete({_id})
-        //         .then( () => resolve())
-        //         .catch((err: any) => reject(err));
-        // });
+    
+    public remove(_id:string):Promise<Feature> {
         return new Promise(async (resolve, reject) => {
             try {
                 let feature: Feature = await this.findOne(_id);
@@ -46,5 +42,14 @@ export default class FeatureService implements MongoRepository<Feature>{
                 reject(e);
             }
         });
+    }
+
+    public delete(_id:string):Promise<any>{
+        return new Promise((resolve, reject) => {
+            FeatureModel.findOneAndDelete({_id})
+                .then( () => resolve())
+                .catch((err: any) => reject(err));
+        });
+
     }
 }

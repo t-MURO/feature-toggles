@@ -59,6 +59,10 @@ export default class APIService {
   }
 
   static removeFeature(id) {
+    return api.delete(`${FEATURE_ROUTE}/remove/${id}`).then(res => res.data);
+  }
+
+  static deleteFeature(id) {
     return api.delete(FEATURE_ROUTE + id).then(res => res.data);
   }
 
