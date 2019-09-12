@@ -1,32 +1,31 @@
 <template>
-  <div class="t-layout">
-    <v-flex xs12>
-      <v-card>
-        <h3>{{ feature.name }}</h3>
-        <p>{{ feature.description }}</p>
-        <p v-if="getEnvironmentsForFeature(feature._id).length > 0">
-          Used in:
-          <strong>{{
-            getEnvironmentsForFeature(feature._id)
-              .map(e => e.name)
-              .join(", ")
-          }}</strong>
-        </p>
-        <v-card-actions>
-          <feature-switch :feature="feature"></feature-switch>
-          <v-spacer></v-spacer>
-          <v-btn color="info">
-            <v-icon left>settings</v-icon>
-            Configure
-          </v-btn>
-          <v-btn @click="removeFeature(feature._id)" color="error">
-            <v-icon left>delete</v-icon>
-            Delete
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-flex>
-  </div>
+  <v-card class="feature">
+    <v-card-title>{{ feature.name }}</v-card-title>
+    <v-divider></v-divider>
+    <v-card-text>
+      <p>{{ feature.description }}</p>
+      <p v-if="getEnvironmentsForFeature(feature._id).length > 0">
+        Used in:
+        <strong>{{
+          getEnvironmentsForFeature(feature._id)
+            .map(e => e.name)
+            .join(", ")
+        }}</strong>
+      </p>
+      <feature-switch :feature="feature"></feature-switch>
+    </v-card-text>
+    <v-card-actions>
+      <v-spacer></v-spacer>
+      <v-btn color="info">
+        <v-icon left>settings</v-icon>
+        Configure
+      </v-btn>
+      <v-btn @click="removeFeature(feature._id)" color="error">
+        <v-icon left>delete</v-icon>
+        Delete
+      </v-btn>
+    </v-card-actions>
+  </v-card>
 </template>
 
 <script>
@@ -61,10 +60,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.t-layout {
+.feature {
   margin: 1em 0;
-  .v-card {
-    padding: 1em 1em 0 1em;
-  }
 }
 </style>

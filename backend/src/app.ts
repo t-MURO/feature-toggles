@@ -13,6 +13,7 @@ import environmentController from './controllers/EnvironmentController';
 import userController from "./controllers/UserController";
 import workspaceController from "./controllers/WorkspaceController";
 import loginController from './controllers/LoginController';
+import toggleController from "./controllers/ToggleController";
 
 
 const PORT = process.env.PORT || 3333;
@@ -48,6 +49,7 @@ app.use(cookieParser());
 //     next();
 // });
 
+app.use('/api/toggles', toggleController);
 app.use('/api/*', auth);
 app.use('/api/features', featureController);
 app.use('/api/environments', environmentController);
