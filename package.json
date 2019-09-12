@@ -6,8 +6,10 @@
   "scripts": {
     "dev": "concurrently --kill-others \"cd backend && npm run dev\" \"cd frontend && npm run serve\"",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "concurrently \"cd backend && npm run build\" \"cd frontend && npm run build\"",
-    "edit": "node startEditors -v"
+    "build": "concurrently \"cd backend && npm run build\" \"cd frontend && npm run build-server\"",
+    "edit": "node startEditors -v",
+    "postinstall": "concurrently \"cd backend && npm i\" \"cd frontend && npm i\"",
+    "audit-fix": "concurrently \" npm audit fix\" \"cd backend && npm audit fix\" \"cd frontend && npm audit fix\""
   },
   "author": "",
   "license": "ISC",
