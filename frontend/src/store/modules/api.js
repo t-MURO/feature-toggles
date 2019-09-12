@@ -25,7 +25,7 @@ const apiModule = {
 
   actions: {
     loadInitialData({ dispatch }) {
-      dispatch("getFeatures");
+      dispatch("getFeaturesByIds");
       dispatch("getEnvironments");
     },
 
@@ -38,9 +38,9 @@ const apiModule = {
       }
     },
 
-    async getFeatures({ commit }) {
+    async getFeaturesByIds({ commit }) {
       try {
-        const features = await APIService.getFeatures();
+        const features = await APIService.getFeaturesByIds();
         commit("SET_FEATURES", features);
       } catch (e) {
         alert("error while fetching features");
@@ -143,8 +143,10 @@ const apiModule = {
       ),
     getEnvironmentsForFeature: state => featureId =>
       state.environments.filter(e => e.features.includes(featureId)),
-    getFeatures: state => featureIds =>
-      featureIds.map(id => state.features.find(f => f._id === id))
+    getFeaturesByIds: state => featureIds =>
+      featureIds.map(id => state.features.find(f => f._id === id)),
+    getFeatures: state => state.features.filter(f => f.status !== "DELETED"),
+    getAllFeatures: state => state.features
   }
 };
 

@@ -9,7 +9,7 @@
         Identifier: <strong>{{ environment.identifier }}</strong>
       </p>
       <v-list
-        v-if="getFeatures(environment.features).length > 0"
+        v-if="getFeaturesByIds(environment.features).length > 0"
         dense
         subheader
       >
@@ -17,7 +17,7 @@
         <v-subheader>FEATURES</v-subheader>
         <v-list-item-group color="primary">
           <v-list-item
-            v-for="feature in getFeatures(environment.features)"
+            v-for="feature in getFeaturesByIds(environment.features)"
             :key="feature._id"
             :ripple="false"
           >
@@ -28,6 +28,7 @@
             </v-list-item-icon>
             <v-list-item-content>
               <v-list-item-title v-text="feature.name"></v-list-item-title>
+              <!-- <v-chip color="error" v-if="feature.status === 'DELETED'">Deleted</v-chip> -->
             </v-list-item-content>
             <v-list-item-action>
               <!-- <v-btn color="accent" small>
@@ -88,7 +89,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters("api", ["getFeatures"])
+    ...mapGetters("api", ["getFeaturesByIds"])
   }
 };
 </script>

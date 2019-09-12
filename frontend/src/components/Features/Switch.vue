@@ -3,6 +3,7 @@
     v-model="feature.isEnabled"
     @change="featureSwitch($event)"
     :loading="loading"
+    :disabled="feature.status === 'DELETED'"
   ></v-switch>
 </template>
 

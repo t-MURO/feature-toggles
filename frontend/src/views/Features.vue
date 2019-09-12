@@ -3,19 +3,19 @@
     <h2 class="display-3">Features</h2>
     <v-spacer></v-spacer>
     <feature
-      v-for="feature in features"
+      v-for="feature in getFeatures"
       :key="feature._id"
       :feature="feature"
       :removeFeature="removeFeature"
       :editFeature="editFeature"
     ></feature>
-    <p class="mt-4" v-if="features.length === 0">No features configured.</p>
+    <p class="mt-4" v-if="getFeatures.length === 0">No features configured.</p>
   </v-container>
 </template>
 
 <script>
 import Feature from "../components/Feature";
-import { mapState, mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   components: {
@@ -25,9 +25,7 @@ export default {
     ...mapActions("api", ["removeFeature", "editFeature"])
   },
   computed: {
-    ...mapState("api", {
-      features: state => state.features
-    })
+    ...mapGetters("api", ["getFeatures"])
   }
 };
 </script>

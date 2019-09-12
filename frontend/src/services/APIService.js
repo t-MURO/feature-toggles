@@ -16,8 +16,7 @@ const user = axios.create({
 });
 
 export default class APIService {
-  static getFeatures() {
-    // console.log(API_URL + FEATURE_ROUTE);
+  static getFeaturesByIds() {
     return api
       .get(FEATURE_ROUTE)
       .then(res => res.data)
