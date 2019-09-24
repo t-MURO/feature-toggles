@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -62,11 +62,9 @@ export default {
   },
   props: ["environment"],
   computed: {
-    ...mapState("api", {
-      features: state => state.features
-    }),
+    ...mapGetters("api", ["getFeatures"]),
     filteredFeatures() {
-      return this.features.filter(
+      return this.getFeatures.filter(
         f => !this.environment.features.includes(f._id)
       );
     }
