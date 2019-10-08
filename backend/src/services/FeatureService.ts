@@ -1,11 +1,11 @@
 import FeatureModel from '../models/mongoose/FeatureModel';
-import Feature from '../models/domain/Feature';
+import Feature, { FeatureStatus } from '../models/domain/Feature';
 import { Error } from 'mongoose';
 import MongoRepository from "../models/interfaces/repository";
 
 export default class FeatureService implements MongoRepository<Feature>{
 
-    public findOne(_id: string):Promise<Feature|Error>{
+    public findOne(_id: string):Promise<Feature>{
         return new Promise((resolve, reject) => FeatureModel.findById(_id, (err:Error, feature:Feature) => err ? reject(err) : resolve(feature)));
     }
 
@@ -29,11 +29,27 @@ export default class FeatureService implements MongoRepository<Feature>{
         });
     }
 
+    
+    public remove(_id:string):Promise<Feature> {
+        return new Promise(async (resolve, reject) => {
+            try {
+                let feature: Feature = await this.findOne(_id);
+                feature.status = FeatureStatus.DELETED;
+                feature.isEnabled = false;
+                feature = await this.update(feature);
+                resolve(feature);
+            } catch (e) {
+                reject(e);
+            }
+        });
+    }
+
     public delete(_id:string):Promise<any>{
         return new Promise((resolve, reject) => {
             FeatureModel.findOneAndDelete({_id})
                 .then( () => resolve())
                 .catch((err: any) => reject(err));
         });
+
     }
 }

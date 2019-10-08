@@ -41,10 +41,16 @@ featureController
             .catch(err => res.status(400).json(err));
     })
 
+    .delete('/remove/:id', async (req, res, next) => {
+        featureService.remove(req.params.id)
+            .then((feature) => res.json(feature))
+            .catch((err) => res.status(400).json(err));
+    })
+
     .delete('/:id', (req: CustomRequest, res, next) => {
         featureService.delete(req.params.id)
-            .then(() => res.sendStatus(204))
-            .catch((err:Error) => res.status(400).json(err))
+            .then((feature) => res.json(feature))
+            .catch((err:Error) => res.status(400).json(err));
     });
 
 export default featureController;

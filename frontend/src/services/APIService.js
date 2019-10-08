@@ -16,8 +16,7 @@ const user = axios.create({
 });
 
 export default class APIService {
-  static getFeatures() {
-    // console.log(API_URL + FEATURE_ROUTE);
+  static getFeaturesByIds() {
     return api
       .get(FEATURE_ROUTE)
       .then(res => res.data)
@@ -59,6 +58,10 @@ export default class APIService {
   }
 
   static removeFeature(id) {
+    return api.delete(`${FEATURE_ROUTE}/remove/${id}`).then(res => res.data);
+  }
+
+  static deleteFeature(id) {
     return api.delete(FEATURE_ROUTE + id).then(res => res.data);
   }
 

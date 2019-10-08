@@ -109,7 +109,7 @@
                   prepend-icon="power_settings_new"
                   placeholder="Features"
                   v-model="environmentForm.environment.features"
-                  :items="features"
+                  :items="getFeatures"
                   item-text="name"
                   item-value="_id"
                   clearable
@@ -117,7 +117,7 @@
                   deletable-chips
                   multiple
                   hide-selected
-                  :disabled="features.length < 1"
+                  :disabled="getFeatures.length < 1"
                 >
                   <template slot="item" slot-scope="data">
                     {{ data.item.name }}
@@ -172,7 +172,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapState, mapGetters } from "vuex";
 
 export default {
   data() {
@@ -251,6 +251,7 @@ export default {
     }
   },
   computed: {
+    ...mapGetters("api", ["getFeatures"]),
     ...mapState("api", {
       features: state => state.features,
       environments: state => state.environments

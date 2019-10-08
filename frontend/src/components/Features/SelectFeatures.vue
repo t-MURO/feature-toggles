@@ -22,15 +22,15 @@
     <v-card-actions>
       <v-btn text color="primary" @click="close()">Cancel</v-btn>
       <v-spacer></v-spacer>
-      <v-btn color="success" :loading="loading" @click="saveEnvironment()"
-        >Add</v-btn
-      >
+      <v-btn color="success" :loading="loading" @click="saveEnvironment()">
+        Add
+      </v-btn>
     </v-card-actions>
   </v-card>
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -62,11 +62,9 @@ export default {
   },
   props: ["environment"],
   computed: {
-    ...mapState("api", {
-      features: state => state.features
-    }),
+    ...mapGetters("api", ["getFeatures"]),
     filteredFeatures() {
-      return this.features.filter(
+      return this.getFeatures.filter(
         f => !this.environment.features.includes(f._id)
       );
     }
