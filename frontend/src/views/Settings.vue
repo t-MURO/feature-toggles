@@ -1,7 +1,7 @@
 <template>
-  <div class="t-layout">
+  <v-container>
     <h2 class="display-3">Settings</h2>
-  </div>
+  </v-container>
 </template>
 
 <script>
@@ -11,10 +11,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.t-layout {
-  margin: 1em 0;
-  .v-card {
-    padding: 1em 1em 0 1em;
-  }
-}
 </style>

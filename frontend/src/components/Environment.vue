@@ -20,6 +20,7 @@
             v-for="feature in getFeaturesByIds(environment.features)"
             :key="feature._id"
             :ripple="false"
+            :inactive="feature.status === 'DELETED'"
           >
             <!-- to="/features" -->
 
