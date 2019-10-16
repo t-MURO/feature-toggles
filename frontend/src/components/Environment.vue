@@ -27,7 +27,12 @@
             <v-list-item-icon @click.prevent>
               <feature-switch :feature="feature"></feature-switch>
             </v-list-item-icon>
-              <v-chip class="mr-4" color="error" v-if="feature.status === 'DELETED'">Deleted</v-chip>
+            <v-chip
+              class="mr-4"
+              color="error"
+              v-if="feature.status === 'DELETED'"
+              >Deleted</v-chip
+            >
             <v-list-item-content>
               <v-list-item-title v-text="feature.name"></v-list-item-title>
             </v-list-item-content>

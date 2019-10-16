@@ -29,12 +29,8 @@ export default new Vuex.Store({
 
   actions: {
     async getUser({ commit }) {
-      try {
-        const user = await APIService.getUser();
-        commit("SET_USER", user);
-      } catch (e) {
-        router.push("/login");
-      }
+      const user = await APIService.getUser();
+      commit("SET_USER", user);
     },
 
     setUser({ commit }, user) {
