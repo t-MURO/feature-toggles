@@ -10,7 +10,6 @@ import { mapActions, mapGetters } from "vuex";
 export default {
   created() {
     this.loadDarkMode();
-    this.$store.dispatch("getUser");
   },
   methods: {
     ...mapActions(["loadDarkMode", "setDarkMode"])

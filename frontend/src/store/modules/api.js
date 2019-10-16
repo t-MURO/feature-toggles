@@ -1,5 +1,4 @@
 import APIService from "../../services/APIService";
-import router from "../../router";
 
 const apiModule = {
   namespaced: true,
@@ -34,7 +33,7 @@ const apiModule = {
         const user = await APIService.getUser();
         commit("SET_USER", user);
       } catch (e) {
-        router.push("/login");
+        console.log(e);
       }
     },
 

@@ -6,15 +6,32 @@ import Login from "./views/Login";
 import App from "./views/App";
 import Playground from "./views/Playground";
 import Settings from "./views/Settings";
+import store from "./store/store";
 
 Vue.use(Router);
 
-export default new Router({
+const LOGIN_ROUTE = "/login"
+const NON_GUARDED_ROUTES = [LOGIN_ROUTE];
+
+const authenticate = async (to, from, next) => {
+  if (NON_GUARDED_ROUTES.includes(to.path) || store.state.user) {
+    return next();
+  } else {
+    try {
+      await store.dispatch("getUser");
+      return next();
+    } catch (e) {
+      return next({ path: LOGIN_ROUTE });
+    }
+  }
+};
+
+const router = new Router({
   mode: "history",
   base: process.env.BASE_URL,
   routes: [
     {
-      path: "/login",
+      path: LOGIN_ROUTE,
       name: "login",
       component: Login
     },
@@ -45,33 +62,9 @@ export default new Router({
         }
       ]
     }
-
-    // {
-    //   path: "/:id",
-    //   name: "app",
-    //   component: App,
-    //   children: [
-    //     {
-    //       path: "features",
-    //       name: "feats",
-    //       component: Features
-    //     },
-    //     {
-    //       path: "environments",
-    //       name: "environments",
-    //       component: Environments
-    //     },
-    //     {
-    //       path: "workspace",
-    //       name: "workspace",
-    //       component: Workspaces
-    //     },
-    //     {
-    //       path: "settings",
-    //       name: "settings",
-    //       component: Settings
-    //     }
-    //   ]
-    // }
   ]
 });
+
+router.beforeEach(authenticate);
+
+export default router;
