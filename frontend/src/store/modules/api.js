@@ -145,7 +145,9 @@ const apiModule = {
     getFeaturesByIds: state => featureIds =>
       featureIds.map(id => state.features.find(f => f._id === id)),
     getFeatures: state => state.features.filter(f => f.status !== "DELETED"),
-    getAllFeatures: state => state.features
+    getAllFeatures: state => state.features,
+    getFeature: state => id => state.features.find(f => f._id === id),
+    getEnvironment: state => id => state.environments.find(e => e._id === id)
   }
 };
 

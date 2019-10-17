@@ -1,6 +1,8 @@
 <template>
   <v-card class="feature">
-    <v-card-title>{{ feature.name }}</v-card-title>
+    <router-link :to="feature._id" append>
+      <v-card-title>{{ feature.name }}</v-card-title>
+    </router-link>
     <v-divider></v-divider>
     <v-card-text>
       <p>{{ feature.description }}</p>
@@ -62,5 +64,8 @@ export default {
 <style lang="scss" scoped>
 .feature {
   margin: 1em 0;
+}
+a {
+  text-decoration: none;
 }
 </style>

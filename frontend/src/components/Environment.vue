@@ -1,8 +1,10 @@
 <template>
   <v-card class="environment">
-    <v-card-title primary-title>
-      {{ environment.name }}
-    </v-card-title>
+    <router-link :to="environment._id" append>
+      <v-card-title primary-title>
+        {{ environment.name }}
+      </v-card-title>
+    </router-link>
     <v-card-text>
       <p>{{ environment.description }}</p>
       <p>
@@ -103,5 +105,8 @@ export default {
 <style lang="scss" scoped>
 .environment {
   margin: 1em 0;
+}
+a {
+  text-decoration: none;
 }
 </style>
