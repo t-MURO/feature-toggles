@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <h2 class="display-3">Environments</h2>
+    <h2 class="display-1">Environments</h2>
     <v-spacer></v-spacer>
     <div v-if="environments">
       <environment
