@@ -10,52 +10,11 @@
       <p>
         Identifier: <strong>{{ environment.identifier }}</strong>
       </p>
-      <v-list
-        v-if="getFeaturesByIds(environment.features).length > 0"
-        dense
-        subheader
-      >
-        <v-divider></v-divider>
-        <v-subheader>FEATURES</v-subheader>
-        <v-list-item-group color="primary">
-          <v-list-item
-            v-for="feature in getFeaturesByIds(environment.features)"
-            :key="feature._id"
-            :ripple="false"
-            :inactive="feature.status === 'DELETED'"
-          >
-            <!-- to="/features" -->
 
-            <v-list-item-icon @click.prevent>
-              <feature-switch :feature="feature"></feature-switch>
-            </v-list-item-icon>
-            <v-chip
-              class="mr-4"
-              color="error"
-              v-if="feature.status === 'DELETED'"
-              >Deleted</v-chip
-            >
-            <v-list-item-content>
-              <v-list-item-title v-text="feature.name"></v-list-item-title>
-            </v-list-item-content>
-            <v-list-item-action>
-              <!-- <v-btn color="accent" small>
-                  Configure
-                </v-btn> -->
-              <v-btn small @click="removeFeature(environment, feature._id)">
-                Remove
-              </v-btn>
-            </v-list-item-action>
-          </v-list-item>
-        </v-list-item-group>
-        <v-toolbar elevation="0" flat>
-          <v-spacer></v-spacer>
-          <v-btn color="success" @click="selectFeaturesDialog = true"
-            >Add
-          </v-btn>
-        </v-toolbar>
-        <v-divider></v-divider>
-      </v-list>
+      <environment-feature-list
+        :environment="environment"
+        v-if="getFeaturesByIds(environment.features).length > 0"
+      ></environment-feature-list>
       <v-btn v-else @click="selectFeaturesDialog = true">Add Features</v-btn>
     </v-card-text>
     <v-card-actions>
@@ -77,11 +36,11 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
-import FeatureSwitch from "./Features/Switch";
 import SelectFeatures from "./Features/SelectFeatures";
+import EnvironmentFeatureList from "./EnvironmentFeatureList";
 
 export default {
-  components: { FeatureSwitch, SelectFeatures },
+  components: { SelectFeatures, EnvironmentFeatureList },
   data() {
     return {
       selectFeaturesDialog: false
