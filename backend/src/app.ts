@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import cors from "cors";
 import path from 'path';
 import cookieParser from "cookie-parser";
+import morgan from "morgan";
 
 
 import auth from './middleware/auth';
@@ -31,6 +32,8 @@ mongoose.connect('mongodb://localhost:27017/feature-toggles', {
     .catch(err => console.log(err));
 
 const app = express();
+
+app.use(morgan('dev'));
 
 app.use(express.static(path.resolve(__dirname, 'public')));
 
