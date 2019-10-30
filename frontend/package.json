@@ -8,10 +8,18 @@
     "lint": "vue-cli-service lint",
     "build-server": "vue-cli-service build --dest ../backend/src/public"
   },
+  "main": "dist/frontend.umd.js",
+  "module": "dist/frontend.common.min.js",
+  "files": [
+    "dist/*.css",
+    "dist/*.map",
+    "dist/*.js",
+    "src/*"
+  ],
   "dependencies": {
     "@babel/polyfill": "^7.0.0-rc.1",
     "axios": "^0.19.0",
-    "core-js": "^2.6.5",
+    "core-js": "^3.3.2",
     "material-design-icons-iconfont": "^3.0.3",
     "register-service-worker": "^1.6.2",
     "roboto-fontface": "*",
@@ -22,11 +30,11 @@
     "vuex": "^3.0.1"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.6.0",
-    "@vue/cli-plugin-eslint": "^3.6.0",
-    "@vue/cli-plugin-pwa": "^3.6.0",
-    "@vue/cli-plugin-unit-jest": "^3.8.0",
-    "@vue/cli-service": "^3.6.0",
+    "@vue/cli-plugin-babel": "^4.0.5",
+    "@vue/cli-plugin-eslint": "^4.0.5",
+    "@vue/cli-plugin-pwa": "^4.0.5",
+    "@vue/cli-plugin-unit-jest": "^4.0.5",
+    "@vue/cli-service": "^4.0.5",
     "@vue/eslint-config-prettier": "^4.0.1",
     "@vue/test-utils": "1.0.0-beta.29",
     "@vuedoc/md": "^1.5.0",
@@ -38,20 +46,12 @@
     "eslint-plugin-vue": "^5.0.0",
     "sass": "^1.22.10",
     "sass-loader": "^7.1.0",
-    "vue-cli-plugin-component": "^1.10.5",
-    "vue-cli-plugin-vuetify": "^0.5.0",
+    "vue-cli-plugin-component": "^1.12.2",
+    "vue-cli-plugin-vuetify": "^1.1.1",
     "vue-template-compiler": "^2.5.21"
   },
-  "files": [
-    "dist/*.css",
-    "dist/*.map",
-    "dist/*.js",
-    "src/*"
-  ],
   "keywords": [
     "vue",
     "component"
-  ],
-  "main": "dist/frontend.umd.js",
-  "module": "dist/frontend.common.min.js"
+  ]
 }

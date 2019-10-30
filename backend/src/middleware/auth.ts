@@ -7,8 +7,9 @@ import {generateToken} from "../util/AuthUtilities";
 export default async function authorize(req:CustomRequest, res:Response, next:Function) {
 
     const token: string = req.cookies[AUTH_COOKIE_NAME];
-    console.log('auth.ts: reading token: ', token);
-
+    // || (req.headers.authorization && req.headers.authorization.split(" ")[1]);
+    // const tokenFromHeader = req.headers.authorization;
+    // console.log('auth.ts: reading token: ', token);
     if(token && token.length > 0){
         try{
             const tokenData:any = jwt.verify(token, API_AUTH_SECRET);
