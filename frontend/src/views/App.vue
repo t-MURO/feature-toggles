@@ -67,14 +67,7 @@
         <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
         <span class="hidden-sm-and-down">Feature Toggles</span>
       </v-toolbar-title>
-      <v-text-field
-        text
-        solo-inverted
-        hide-details
-        prepend-inner-icon="search"
-        label="Search"
-        class="hidden-sm-and-down"
-      ></v-text-field>
+      <global-search />
       <v-spacer></v-spacer>
       <v-btn @click="setDarkMode(!$vuetify.theme.dark)" icon>
         <v-icon>brightness_6</v-icon>
@@ -91,17 +84,19 @@
         <router-view></router-view>
       </v-container>
     </v-content>
-    <create-button></create-button>
+    <create-dialog></create-dialog>
   </v-app>
 </template>
 
 <script>
 import { mapActions, mapGetters } from "vuex";
 import CreateDialog from "../components/CreateDialog.vue";
+import GlobalSearch from "../components/GlobalSearch";
 
 export default {
   components: {
-    "create-button": CreateDialog
+    CreateDialog,
+    GlobalSearch
   },
   data: () => ({
     drawer: null,
