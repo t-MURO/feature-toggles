@@ -10,7 +10,7 @@ import store from "./store/store";
 
 Vue.use(Router);
 
-const LOGIN_ROUTE = "/login"
+const LOGIN_ROUTE = "/login";
 const NON_GUARDED_ROUTES = [LOGIN_ROUTE];
 
 const authenticate = async (to, from, next) => {

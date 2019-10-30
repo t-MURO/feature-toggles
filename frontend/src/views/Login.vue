@@ -19,6 +19,7 @@
                 v-model="userWasCreated"
                 dismissible
                 type="success"
+                tile
               >
                 Registration successful
               </v-alert>
@@ -27,6 +28,7 @@
                 v-model="loginHasErrors"
                 dismissible
                 type="error"
+                tile
               >
                 {{ loginErrorMessage }}
               </v-alert>
@@ -80,6 +82,7 @@
                 v-model="registrationHasErrors"
                 dismissible
                 type="error"
+                tile
               >
                 {{ registrationErrorMessage }}
               </v-alert>
