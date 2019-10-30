@@ -89,7 +89,7 @@ export default {
 
 <style scoped>
 .feature-list {
-  max-height: 30em;
+  max-height: 27.5em;
   overflow-y: auto;
 }
 </style>

@@ -2,7 +2,7 @@
   <v-sparkline
     :labels="labels"
     :value="value"
-    color="white"
+    :color="$vuetify.theme.dark ? 'white' : 'black'"
     line-width="2"
     padding="16"
   ></v-sparkline>

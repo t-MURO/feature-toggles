@@ -1,7 +1,7 @@
 <template>
   <v-card class="feature">
-    <router-link :to="{ path: 'features/' + feature._id }">
-      <v-card-title>{{ feature.name }}</v-card-title>
+    <router-link :to="{ path: '/features/' + feature._id }">
+      <v-card-title primary-title>{{ feature.name }}</v-card-title>
     </router-link>
     <v-divider></v-divider>
     <v-card-text>
@@ -12,7 +12,7 @@
           <v-chip
             v-for="environment in getEnvironmentsForFeature(feature._id)"
             :key="environment._id"
-            :to="{ path: 'environments/' + environment._id }"
+            :to="{ path: '/environments/' + environment._id }"
             outlined
             class="ml-1"
           >
@@ -24,7 +24,7 @@
     </v-card-text>
     <v-card-actions>
       <v-spacer></v-spacer>
-      <v-btn :to="{ path: 'features/' + feature._id }" color="info">
+      <v-btn :to="{ path: '/features/' + feature._id }" color="info">
         <v-icon left>settings</v-icon>
         Configure
       </v-btn>

@@ -1,10 +1,11 @@
 <template>
   <v-card class="environment">
-    <router-link :to="environment._id" append>
+    <router-link :to="{ path: '/environments/' + environment._id }">
       <v-card-title primary-title>
         {{ environment.name }}
       </v-card-title>
     </router-link>
+    <v-divider></v-divider>
     <v-card-text>
       <p>{{ environment.description }}</p>
       <p>
