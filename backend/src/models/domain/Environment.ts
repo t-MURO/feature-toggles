@@ -24,7 +24,7 @@ export default class Environment extends Typegoose{
     @prop({required: true, trim: true, unique: true})
     name!: string;
 
-    @prop({required: true, unique: true, default: crypto.randomBytes(16).toString("hex")})
+    @prop({required: true, unique: true, default: () => crypto.randomBytes(16).toString("hex")})
     identifier!: string;
 
     @arrayProp({required: true, default: [], items: String})
