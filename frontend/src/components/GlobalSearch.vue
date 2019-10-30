@@ -8,23 +8,17 @@
     label="Search"
     :items="getSearchableItems"
     item-text="name"
-    item-value="_id"
+    item-value="path"
+    @input="$router.push($event)"
   >
     <template v-slot:item="data">
-      <v-list-item
-        @keydown="$router.push(data.item.path)"
-        :to="{ path: data.item.path }"
-      >
-        <v-list-item-content @click="$router.push(data.item.path)">
-          <v-list-item-title>
-            {{ data.item.name }}
-            <v-chip dense>{{ data.item.type }}</v-chip>
-          </v-list-item-title>
-          <v-list-item-subtitle>{{
-            data.item.description
-          }}</v-list-item-subtitle>
-        </v-list-item-content>
-      </v-list-item>
+      <v-list-item-content>
+        <v-list-item-title>
+          {{ data.item.name }}
+          <v-chip dense>{{ data.item.type }}</v-chip>
+        </v-list-item-title>
+        <v-list-item-subtitle>{{ data.item.description }}</v-list-item-subtitle>
+      </v-list-item-content>
     </template>
   </v-autocomplete>
 </template>
@@ -36,6 +30,6 @@ export default {
   name: "GlobalSearch",
   computed: {
     ...mapGetters("api", ["getSearchableItems"])
-  }
+  },
 };
 </script>
