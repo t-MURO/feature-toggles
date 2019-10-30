@@ -1,49 +1,60 @@
 <template>
-  <v-list
-    v-if="getFeaturesByIds(environment.features).length > 0"
-    dense
-    subheader
-  >
-    <v-subheader>FEATURES</v-subheader>
-    <v-list-item-group color="primary">
-      <v-list-item
-        v-for="feature in getFeaturesByIds(environment.features)"
-        :key="feature._id"
-        :ripple="false"
-        :inactive="feature.status === 'DELETED'"
+  <v-card>
+    <v-card-text>
+      <v-list
+        v-if="getFeaturesByIds(environment.features).length > 0"
+        dense
+        subheader
       >
-        <v-list-item-icon @click.prevent>
-          <feature-switch :feature="feature"></feature-switch>
-        </v-list-item-icon>
-        <v-chip class="mr-4" color="error" v-if="feature.status === 'DELETED'"
-          >Deleted</v-chip
+        <v-subheader
+          >FEATURES ({{
+            getFeaturesByIds(environment.features).length
+          }})</v-subheader
         >
-        <v-list-item-content>
-          <v-list-item-title v-text="feature.name"></v-list-item-title>
-        </v-list-item-content>
-        <v-list-item-action>
-          <div>
-            <v-btn color="accent" class="mr-1" small>
-              Configure
-            </v-btn>
-            <v-btn small @click="removeFeature(feature._id)">
-              Remove
-            </v-btn>
-          </div>
-        </v-list-item-action>
-      </v-list-item>
-    </v-list-item-group>
-    <v-toolbar elevation="0" flat>
+        <v-list-item-group color="primary" class="feature-list">
+          <v-list-item
+            v-for="feature in getFeaturesByIds(environment.features)"
+            :key="feature._id"
+            :ripple="false"
+            :inactive="feature.status === 'DELETED'"
+          >
+            <v-list-item-icon @click.prevent>
+              <feature-switch :feature="feature"></feature-switch>
+            </v-list-item-icon>
+            <v-chip
+              class="mr-4"
+              color="error"
+              v-if="feature.status === 'DELETED'"
+              >Deleted</v-chip
+            >
+            <v-list-item-content>
+              <v-list-item-title v-text="feature.name"></v-list-item-title>
+            </v-list-item-content>
+            <v-list-item-action>
+              <div>
+                <v-btn color="accent" class="mr-1" small>
+                  Configure
+                </v-btn>
+                <v-btn small @click="removeFeature(feature._id)">
+                  Remove
+                </v-btn>
+              </div>
+            </v-list-item-action>
+          </v-list-item>
+        </v-list-item-group>
+      </v-list>
+    </v-card-text>
+    <v-card-actions>
       <v-spacer></v-spacer>
       <v-btn color="success" @click="selectFeaturesDialog = true">Add</v-btn>
-      <v-dialog v-model="selectFeaturesDialog" scrollable max-width="400px">
-        <select-features
-          @close="selectFeaturesDialog = false"
-          :environment="environment"
-        ></select-features>
-      </v-dialog>
-    </v-toolbar>
-  </v-list>
+    </v-card-actions>
+    <v-dialog v-model="selectFeaturesDialog" scrollable max-width="400px">
+      <select-features
+        @close="selectFeaturesDialog = false"
+        :environment="environment"
+      ></select-features>
+    </v-dialog>
+  </v-card>
 </template>
 
 <script>
@@ -75,3 +86,10 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.feature-list {
+  max-height: 30em;
+  overflow-y: auto;
+}
+</style>
