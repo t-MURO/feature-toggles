@@ -147,7 +147,18 @@ const apiModule = {
     getFeatures: state => state.features.filter(f => f.status !== "DELETED"),
     getAllFeatures: state => state.features,
     getFeature: state => id => state.features.find(f => f._id === id),
-    getEnvironment: state => id => state.environments.find(e => e._id === id)
+    getEnvironment: state => id => state.environments.find(e => e._id === id),
+    getSearchableItems: state => {
+      const searchableItems = state.features.map(f => {
+        return { ...f, type: "FEATURE", path: "/features/" + f._id };
+      });
+      searchableItems.push(
+        ...state.environments.map(e => {
+          return { ...e, type: "ENVIRONMENT", path: "/environments/" + e._id };
+        })
+      );
+      return searchableItems;
+    }
   }
 };
 
