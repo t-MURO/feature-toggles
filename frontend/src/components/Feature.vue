@@ -14,6 +14,7 @@
             :key="environment._id"
             :to="{ path: '/environments/' + environment._id }"
             outlined
+            link
             class="ml-1"
           >
             {{ environment.name }}

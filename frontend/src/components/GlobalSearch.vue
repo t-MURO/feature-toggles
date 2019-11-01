@@ -1,10 +1,12 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <v-autocomplete
+    ref="autocomplete"
     auto-select-first
     text
     solo-inverted
     hide-details
     prepend-inner-icon="search"
+    :menu-props="menuOptions"
     label="Search"
     :items="getSearchableItems"
     item-text="name"
@@ -15,9 +17,13 @@
       <v-list-item-content>
         <v-list-item-title>
           {{ data.item.name }}
-          <v-chip dense>{{ data.item.type }}</v-chip>
+          <v-chip label link x-small :color="getLabelColor(data.item)">{{
+            data.item.type
+          }}</v-chip>
         </v-list-item-title>
-        <v-list-item-subtitle>{{ data.item.description }}</v-list-item-subtitle>
+        <v-list-item-subtitle v-if="$vuetify.breakpoint.lgAndUp">{{
+          data.item.description
+        }}</v-list-item-subtitle>
       </v-list-item-content>
     </template>
   </v-autocomplete>
@@ -28,8 +34,41 @@ import { mapGetters } from "vuex";
 
 export default {
   name: "GlobalSearch",
+  data() {
+    return {
+      menuOptions: {
+        maxHeight: 300,
+        transition: false,
+        maxWidth: 600
+      }
+    };
+  },
+  beforeMount() {
+    window.addEventListener("resize", this.adjustMenuWidth);
+  },
+  mounted() {
+    this.menuOptions = { ...this.menuOptions, maxWidth: undefined };
+  },
+  methods: {
+    adjustMenuWidth() {
+      this.menuOptions = { ...this.menuOptions, maxWidth: undefined };
+    },
+    getLabelColor(item) {
+      switch (item.type) {
+        case "FEATURE":
+          return "primary";
+        case "ENVIRONMENT":
+          return "accent";
+        default:
+          return "primary";
+      }
+    }
+  },
   computed: {
     ...mapGetters("api", ["getSearchableItems"])
   },
+  beforeDestroy() {
+    window.removeEventListener("resize", this.adjustMenuWidth);
+  }
 };
 </script>
