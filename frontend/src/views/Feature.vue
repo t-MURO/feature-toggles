@@ -1,9 +1,32 @@
 <template>
   <v-container v-if="feature">
-    <h2 class="display-1">{{ feature.name }}</h2>
+    <h2 class="display-1">
+      {{ feature.name
+      }}<v-btn small text @click="editDialog = true"
+        ><v-icon>edit</v-icon></v-btn
+      >
+    </h2>
+    <v-dialog
+      v-model="editDialog"
+      scrollable
+      max-width="800px"
+      transition="dialog-transition"
+    >
+      <EditFeatureFields
+        v-if="editDialog"
+        type="edit"
+        :cancel="true"
+        :feature="feature"
+        @close="editDialog = false"
+      />
+    </v-dialog>
     <v-row>
-      <v-col lg="8">
-        <feature-props :feature="feature" />
+      <v-col lg="8" v-if="feature.description">
+        <v-card>
+          <v-card-text>
+            <PreformattedParagraph :text="feature.description" />
+          </v-card-text>
+        </v-card>
       </v-col>
       <v-col lg="4" fill-height>
         <feature-environments :feature="feature" />
@@ -15,19 +38,22 @@
 <script>
 import { mapGetters } from "vuex";
 import APIService from "../services/APIService";
-import FeatureProps from "../components/Features/FeatureProps";
 import FeatureEnvironments from "../components/Features/FeatureEnvironments";
+import EditFeatureFields from "../components/EditFeatureFields";
+import PreformattedParagraph from "../components/PreformattedParagraph";
 
 export default {
   name: "Feature",
   props: ["featureProp"],
   components: {
-    FeatureProps,
-    FeatureEnvironments
+    FeatureEnvironments,
+    EditFeatureFields,
+    PreformattedParagraph
   },
   data() {
     return {
-      feature: null
+      feature: null,
+      editDialog: false
     };
   },
   beforeMount() {
@@ -46,13 +72,11 @@ export default {
   computed: {
     ...mapGetters("api", ["getFeature", "getEnvironmentsForFeature"]),
     featureFromStore() {
-      console.log("computing");
       return this.getFeature(this.$route.params.id);
     }
   },
   watch: {
     featureFromStore(newValue) {
-      console.log("watching!");
       if (newValue) {
         this.feature = newValue;
       }

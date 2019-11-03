@@ -136,7 +136,7 @@ const apiModule = {
   },
 
   getters: {
-    getEnvironments: state => environmentIds =>
+    getEnvironmentsByIds: state => environmentIds =>
       environmentIds.map(env =>
         state.environments.find(e => e._id === env._id)
       ),
@@ -146,6 +146,7 @@ const apiModule = {
       featureIds.map(id => state.features.find(f => f._id === id)),
     getFeatures: state => state.features.filter(f => f.status !== "DELETED"),
     getAllFeatures: state => state.features,
+    getEnvironments: state => state.environments,
     getFeature: state => id => state.features.find(f => f._id === id),
     getEnvironment: state => id => state.environments.find(e => e._id === id),
     getSearchableItems: (state, getters) => {

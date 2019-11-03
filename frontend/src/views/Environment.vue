@@ -1,17 +1,32 @@
 <template>
   <v-container v-if="environment">
-    <h2 class="display-1">{{ environment.name }}</h2>
+    <h2 class="display-1">
+      {{ environment.name
+      }}<v-btn small text @click="editDialog = true"
+        ><v-icon>edit</v-icon></v-btn
+      >
+    </h2>
+    <v-dialog
+      v-model="editDialog"
+      scrollable
+      max-width="800px"
+      transition="dialog-transition"
+    >
+      <EditEnvironmentFields
+        v-if="editDialog"
+        type="edit"
+        :cancel="true"
+        :environment="environment"
+        @close="editDialog = false"
+      />
+    </v-dialog>
     <v-row>
       <v-col lg="5">
         <v-card>
           <v-card-text>
-            <p>{{ environment.description }}</p>
+            <PreformattedParagraph :text="environment.description" />
             Identifier: <strong>{{ environment.identifier }}</strong>
           </v-card-text>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn text>edit</v-btn>
-          </v-card-actions>
         </v-card>
         <v-card class="mt-4">
           <stats />
@@ -31,13 +46,21 @@ import { mapGetters } from "vuex";
 import APIService from "../services/APIService";
 import EnvironmentFeatureList from "../components/EnvironmentFeatureList";
 import Stats from "../components/Playground/Stats.vue";
+import EditEnvironmentFields from "../components/EditEnvironmentFields";
+import PreformattedParagraph from "../components/PreformattedParagraph";
 
 export default {
-  components: { EnvironmentFeatureList, Stats },
+  components: {
+    EnvironmentFeatureList,
+    Stats,
+    EditEnvironmentFields,
+    PreformattedParagraph
+  },
   name: "Environment",
   data: function() {
     return {
-      fetchedEnvironment: null
+      fetchedEnvironment: null,
+      editDialog: false
     };
   },
   beforeMount() {
