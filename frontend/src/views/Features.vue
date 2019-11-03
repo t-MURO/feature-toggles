@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <h2 class="display-3">Features</h2>
+    <h2 class="display-1">Features</h2>
     <v-spacer></v-spacer>
     <feature
       v-for="feature in getFeatures"

@@ -1,7 +1,9 @@
 import Vue from "vue";
 import Router from "vue-router";
 import Features from "./views/Features";
+import Feature from "./views/Feature";
 import Environments from "./views/Environments";
+import Environment from "./views/Environment";
 import Login from "./views/Login";
 import App from "./views/App";
 import Playground from "./views/Playground";
@@ -42,13 +44,23 @@ const router = new Router({
       children: [
         {
           path: "/features",
-          name: "feats",
+          name: "features",
           component: Features
+        },
+        {
+          path: "/features/:id",
+          name: "Feature",
+          component: Feature
         },
         {
           path: "/environments",
           name: "environments",
           component: Environments
+        },
+        {
+          path: "/environments/:id",
+          name: "Environment",
+          component: Environment
         },
         {
           path: "/playground",

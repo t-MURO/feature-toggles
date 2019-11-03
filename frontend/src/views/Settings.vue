@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <h2 class="display-3">Settings</h2>
+    <h2 class="display-1">Settings</h2>
   </v-container>
 </template>
 

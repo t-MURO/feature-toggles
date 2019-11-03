@@ -31,6 +31,10 @@ export default class APIService {
     return api.get(ENVIRONMENT_ROUTE).then(res => res.data);
   }
 
+  static getEnvironment(id) {
+    return api.get(ENVIRONMENT_ROUTE + id).then(res => res.data);
+  }
+
   static createEnvironment(environment) {
     return api.post(ENVIRONMENT_ROUTE, environment).then(res => res.data);
   }

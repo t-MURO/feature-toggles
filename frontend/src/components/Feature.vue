@@ -1,22 +1,34 @@
 <template>
   <v-card class="feature">
-    <v-card-title>{{ feature.name }}</v-card-title>
+    <router-link :to="{ path: '/features/' + feature._id }">
+      <v-card-title primary-title>{{ feature.name }}</v-card-title>
+    </router-link>
     <v-divider></v-divider>
     <v-card-text>
-      <p>{{ feature.description }}</p>
+      <PreformattedParagraph
+        v-if="feature.description"
+        :text="feature.description"
+      />
       <p v-if="getEnvironmentsForFeature(feature._id).length > 0">
         Used in:
-        <strong>{{
-          getEnvironmentsForFeature(feature._id)
-            .map(e => e.name)
-            .join(", ")
-        }}</strong>
+        <strong>
+          <v-chip
+            v-for="environment in getEnvironmentsForFeature(feature._id)"
+            :key="environment._id"
+            :to="{ path: '/environments/' + environment._id }"
+            outlined
+            link
+            class="ml-1"
+          >
+            {{ environment.name }}
+          </v-chip>
+        </strong>
       </p>
       <feature-switch :feature="feature"></feature-switch>
     </v-card-text>
     <v-card-actions>
       <v-spacer></v-spacer>
-      <v-btn color="info">
+      <v-btn :to="{ path: '/features/' + feature._id }" color="info">
         <v-icon left>settings</v-icon>
         Configure
       </v-btn>
@@ -29,10 +41,11 @@
 </template>
 
 <script>
-import FeatureSwitch from "./Features/Switch";
 import { mapGetters } from "vuex";
+import FeatureSwitch from "./Features/Switch";
+import PreformattedParagraph from "./PreformattedParagraph";
 export default {
-  components: { FeatureSwitch },
+  components: { FeatureSwitch, PreformattedParagraph },
   props: ["feature", "removeFeature", "editFeature"],
   data() {
     return {
@@ -62,5 +75,8 @@ export default {
 <style lang="scss" scoped>
 .feature {
   margin: 1em 0;
+}
+a {
+  text-decoration: none;
 }
 </style>

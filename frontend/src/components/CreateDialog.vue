@@ -1,263 +1,49 @@
 <template>
   <div>
-    <v-dialog v-model="dialog" width="800px">
-      <v-card>
-        <v-card-title class="title">
-          Create
-          <v-spacer></v-spacer>
-          <v-btn-toggle v-model="type" mandatory>
-            <v-btn :small="$vuetify.breakpoint.smAndDown" text value="feature">
-              <span>Feature</span>
-              <v-icon v-if="$vuetify.breakpoint.smAndUp"
-                >power_settings_new</v-icon
-              >
-            </v-btn>
-            <v-btn
-              :small="$vuetify.breakpoint.smAndDown"
-              text
-              value="environment"
-            >
-              <span>Environment</span>
-              <v-icon v-if="$vuetify.breakpoint.smAndUp">phonelink</v-icon>
-            </v-btn>
-          </v-btn-toggle>
-        </v-card-title>
-        <v-divider></v-divider>
-
-        <!-- FEATURE -->
-        <v-container v-if="type === 'feature'" grid-list-sm class="pa-4">
-          <v-form
-            ref="feature"
-            lazy-validation
-            v-model="featureForm.valid"
-            @submit.prevent="createFeatureFromForm()"
-          >
-            <v-layout row wrap>
-              <v-flex xs12 align-center justify-space-between>
-                <v-layout align-center>
-                  <v-text-field
-                    placeholder="Name"
-                    prepend-icon="description"
-                    name="feature-name"
-                    v-model="featureForm.feature.name"
-                    :rules="featureForm.rules.nameRules"
-                  >
-                  </v-text-field>
-                </v-layout>
-              </v-flex>
-              <v-flex xs12 align-center justify-space-between>
-                <v-layout align-center>
-                  <v-textarea
-                    placeholder="Description"
-                    prepend-icon="title"
-                    v-model="featureForm.feature.description"
-                  >
-                  </v-textarea>
-                </v-layout>
-              </v-flex>
-            </v-layout>
-            <v-card-actions>
-              <v-btn text color="primary" @click="dialog = false">Cancel</v-btn>
-              <v-btn text color="primary" @click="$refs.feature.reset()"
-                >Reset</v-btn
-              >
-              <v-spacer></v-spacer>
-              <v-btn
-                color="success"
-                @click="$refs.feature.validate()"
-                :disabled="!featureForm.valid"
-                type="submit"
-                >Save</v-btn
-              >
-            </v-card-actions>
-          </v-form>
-        </v-container>
-
-        <!-- ENVIRONMENT -->
-        <v-container v-if="type === 'environment'" grid-list-sm class="pa-4">
-          <v-form
-            ref="environment"
-            lazy-validation
-            v-model="environmentForm.valid"
-            @submit.prevent="createEnvironmentFromForm()"
-          >
-            <v-layout row wrap>
-              <v-flex xs12 align-center justify-space-between>
-                <v-layout align-center>
-                  <v-text-field
-                    placeholder="Name"
-                    prepend-icon="description"
-                    v-model="environmentForm.environment.name"
-                    name="environment-name"
-                    :rules="environmentForm.rules.nameRules"
-                  >
-                  </v-text-field>
-                </v-layout>
-              </v-flex>
-              <v-flex xs12 align-center justify-space-between>
-                <v-layout align-center>
-                  <v-textarea
-                    placeholder="Description"
-                    prepend-icon="title"
-                    v-model="environmentForm.environment.description"
-                  >
-                  </v-textarea>
-                </v-layout>
-              </v-flex>
-              <v-flex xs12>
-                <v-select
-                  prepend-icon="power_settings_new"
-                  placeholder="Features"
-                  v-model="environmentForm.environment.features"
-                  :items="getFeatures"
-                  item-text="name"
-                  item-value="_id"
-                  clearable
-                  chips
-                  deletable-chips
-                  multiple
-                  hide-selected
-                  :disabled="getFeatures.length < 1"
-                >
-                  <template slot="item" slot-scope="data">
-                    {{ data.item.name }}
-                    <v-spacer></v-spacer>
-                    <template v-if="data.item.isEnabled">
-                      <span v-if="$vuetify.breakpoint.smAndUp">Enabled </span>✔️
-                    </template>
-                  </template>
-                </v-select>
-                <v-flex xs12>
-                  <v-text-field
-                    prepend-icon="lock_open"
-                    placeholder="Identifier"
-                    v-model="environmentForm.environment.identifier"
-                  ></v-text-field>
-                </v-flex>
-              </v-flex>
-            </v-layout>
-            <v-card-actions>
-              <v-btn text color="primary" @click="dialog = false">Cancel</v-btn>
-              <v-btn text color="primary" @click="$refs.environment.reset()">
-                Reset
-              </v-btn>
-              <v-spacer></v-spacer>
-              <v-btn
-                color="success"
-                type="submit"
-                @click="$refs.environment.validate()"
-                :disabled="!environmentForm.valid"
-                >Save</v-btn
-              >
-            </v-card-actions>
-          </v-form>
-        </v-container>
-      </v-card>
+    <v-dialog v-model="featureDialog" width="800px">
+      <EditFeatureFields
+        type="create"
+        :cancel="true"
+        @close="featureDialog = false"
+      />
     </v-dialog>
-    <v-btn
-      class="add-btn"
-      fab
-      color="primary"
-      bottom
-      right
-      fixed
-      @click="
-        dialog = !dialog;
-        setType();
-      "
-    >
-      <v-icon>add</v-icon>
-    </v-btn>
+    <v-dialog v-model="environmentDialog" width="800px">
+      <EditEnvironmentFields
+        type="create"
+        :cancel="true"
+        @close="environmentDialog = false"
+      />
+    </v-dialog>
+    <v-menu open-on-hover left top offset-y>
+      <template v-slot:activator="{ on }">
+        <v-btn color="primary" fab v-on="on" bottom right fixed>
+          <v-icon>add</v-icon>
+        </v-btn>
+      </template>
+
+      <v-list>
+        <v-list-item @click="featureDialog = true">
+          <v-list-item-title>New Feature</v-list-item-title>
+        </v-list-item>
+        <v-list-item @click="environmentDialog = true">
+          <v-list-item-title>New Environment</v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-menu>
   </div>
 </template>
 
 <script>
-import { mapActions, mapState, mapGetters } from "vuex";
+import EditFeatureFields from "./EditFeatureFields";
+import EditEnvironmentFields from "./EditEnvironmentFields";
 
 export default {
+  components: { EditFeatureFields, EditEnvironmentFields },
   data() {
     return {
-      dialog: false,
-      environmentForm: {
-        rules: {
-          nameRules: [
-            v => !!v || "Name is required",
-            v =>
-              this.environments.findIndex(e => e.name === v) < 0 ||
-              "No duplicate names allowed"
-          ],
-          identifierRules: [
-            v =>
-              this.environments.findIndex(e => e.identifier === v) < 0 ||
-              "No duplicate identifiers allowed"
-          ]
-        },
-        valid: false,
-        environment: {
-          name: "",
-          description: "",
-          identifier: "",
-          features: []
-        }
-      },
-      featureForm: {
-        rules: {
-          nameRules: [
-            v => !!v || "Name is required",
-            v =>
-              this.features.findIndex(f => f.name === v) < 0 ||
-              "No duplicate names allowed",
-            v => !/^[0-9][*]*/.test(v) || "Name cannot start with a number",
-            v =>
-              /^[a-zA-Z_$][0-9a-zA-Z_$]*$/.test(v) ||
-              "Name can only contain upper and lower case letters, numbers, $ and _"
-          ]
-        },
-        valid: false,
-        feature: {
-          name: "",
-          description: ""
-        }
-      },
-      type: ""
+      environmentDialog: false,
+      featureDialog: false
     };
-  },
-  methods: {
-    ...mapActions("api", ["createEnvironment", "createFeature"]),
-    setType() {
-      if (!this.dialog) return;
-      const url = window.location.pathname;
-      if (url.includes("environment") && !url.includes("features"))
-        this.type = "environment";
-      else this.type = "feature";
-    },
-    createFeatureFromForm() {
-      if (!this.$refs.feature.validate()) {
-        return;
-      }
-      this.createFeature(this.featureForm.feature).then(() => {
-        this.$refs.feature.reset();
-        this.dialog = false;
-      });
-    },
-    createEnvironmentFromForm() {
-      if (!this.$refs.environment.validate()) {
-        return;
-      }
-      this.createEnvironment(this.environmentForm.environment).then(() => {
-        this.$refs.environment.reset();
-        this.dialog = false;
-      });
-    }
-  },
-  computed: {
-    ...mapGetters("api", ["getFeatures"]),
-    ...mapState("api", {
-      features: state => state.features,
-      environments: state => state.environments
-    })
   }
 };
 </script>
-
-<style lang="scss" scoped></style>

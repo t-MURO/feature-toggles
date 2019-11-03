@@ -1,6 +1,6 @@
 <template>
   <div class="t-layout">
-    <h2 class="display-3">Playground</h2>
+    <h2 class="display-1">Playground</h2>
 
     <v-card class="mt-4" color="#385F73" dark max-width="500" height="500">
       <span>TL</span><v-spacer></v-spacer>
