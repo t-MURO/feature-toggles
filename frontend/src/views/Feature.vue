@@ -5,11 +5,7 @@
       <v-col lg="8">
         <feature-props :feature="feature" />
       </v-col>
-      <v-col
-        v-if="getEnvironmentsForFeature(feature._id).length > 0"
-        lg="4"
-        fill-height
-      >
+      <v-col lg="4" fill-height>
         <feature-environments :feature="feature" />
       </v-col>
     </v-row>

@@ -1,7 +1,11 @@
 <template>
   <v-card>
     <v-list-item-group two-line>
-      <v-subheader>USED IN</v-subheader>
+      <v-subheader>{{
+        getEnvironmentsForFeature(feature._id).length > 0
+          ? "USED IN"
+          : "NOT USED IN ANY ENVIRONMENT"
+      }}</v-subheader>
       <v-list-item
         v-for="environment in getEnvironmentsForFeature(feature._id)"
         :key="environment._id"

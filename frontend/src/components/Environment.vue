@@ -7,7 +7,10 @@
     </router-link>
     <v-divider></v-divider>
     <v-card-text>
-      <p>{{ environment.description }}</p>
+      <preformatted-paragraph
+        v-if="environment.description"
+        :text="environment.description"
+      />
       <p>
         Identifier: <strong>{{ environment.identifier }}</strong>
       </p>
@@ -39,9 +42,10 @@
 import { mapGetters, mapActions } from "vuex";
 import SelectFeatures from "./Features/SelectFeatures";
 import EnvironmentFeatureList from "./EnvironmentFeatureList";
+import PreformattedParagraph from "./PreformattedParagraph";
 
 export default {
-  components: { SelectFeatures, EnvironmentFeatureList },
+  components: { SelectFeatures, EnvironmentFeatureList, PreformattedParagraph },
   data() {
     return {
       selectFeaturesDialog: false

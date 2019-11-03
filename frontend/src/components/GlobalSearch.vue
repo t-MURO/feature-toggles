@@ -21,9 +21,7 @@
             data.item.type
           }}</v-chip>
         </v-list-item-title>
-        <v-list-item-subtitle v-if="$vuetify.breakpoint.lgAndUp">{{
-          data.item.description
-        }}</v-list-item-subtitle>
+        <v-list-item-subtitle>{{ data.item.description }}</v-list-item-subtitle>
       </v-list-item-content>
     </template>
   </v-autocomplete>
@@ -47,11 +45,17 @@ export default {
     window.addEventListener("resize", this.adjustMenuWidth);
   },
   mounted() {
-    this.menuOptions = { ...this.menuOptions, maxWidth: undefined };
+    this.menuOptions = {
+      ...this.menuOptions,
+      maxWidth: this.$refs.autocomplete.$el.clientWidth
+    };
   },
   methods: {
     adjustMenuWidth() {
-      this.menuOptions = { ...this.menuOptions, maxWidth: undefined };
+      this.menuOptions = {
+        ...this.menuOptions,
+        maxWidth: this.$refs.autocomplete.$el.clientWidth
+      };
     },
     getLabelColor(item) {
       switch (item.type) {

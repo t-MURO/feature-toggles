@@ -148,8 +148,8 @@ const apiModule = {
     getAllFeatures: state => state.features,
     getFeature: state => id => state.features.find(f => f._id === id),
     getEnvironment: state => id => state.environments.find(e => e._id === id),
-    getSearchableItems: state => {
-      const searchableItems = state.features.map(f => {
+    getSearchableItems: (state, getters) => {
+      const searchableItems = getters.getFeatures.map(f => {
         return { ...f, type: "FEATURE", path: "/features/" + f._id };
       });
       searchableItems.push(

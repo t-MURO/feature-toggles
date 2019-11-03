@@ -8,9 +8,10 @@
         id="id"
         v-model="localFeature.name"
         :readonly="!editMode"
+        dense
+        solo
         flat
         :outlined="editMode"
-        solo
       ></v-text-field>
       <div v-if="localFeature.description">
         <strong>Description: </strong>

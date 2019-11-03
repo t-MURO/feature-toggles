@@ -5,7 +5,10 @@
     </router-link>
     <v-divider></v-divider>
     <v-card-text>
-      <p>{{ feature.description }}</p>
+      <PreformattedParagraph
+        v-if="feature.description"
+        :text="feature.description"
+      />
       <p v-if="getEnvironmentsForFeature(feature._id).length > 0">
         Used in:
         <strong>
@@ -38,10 +41,11 @@
 </template>
 
 <script>
-import FeatureSwitch from "./Features/Switch";
 import { mapGetters } from "vuex";
+import FeatureSwitch from "./Features/Switch";
+import PreformattedParagraph from "./PreformattedParagraph";
 export default {
-  components: { FeatureSwitch },
+  components: { FeatureSwitch, PreformattedParagraph },
   props: ["feature", "removeFeature", "editFeature"],
   data() {
     return {
