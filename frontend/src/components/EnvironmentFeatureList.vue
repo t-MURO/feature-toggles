@@ -1,16 +1,13 @@
 <template>
   <v-card>
     <v-card-text>
-      <v-list
-        v-if="getFeaturesByIds(environment.features).length > 0"
-        dense
-        subheader
-      >
-        <v-subheader
+      <v-list dense subheader>
+        <v-subheader v-if="getFeaturesByIds(environment.features).length > 0"
           >FEATURES ({{
             getFeaturesByIds(environment.features).length
           }})</v-subheader
         >
+        <v-subheader v-else>THIS ENVIRONMENT HAS NO FEATURES</v-subheader>
         <v-list-item-group color="primary" class="feature-list">
           <v-list-item
             v-for="feature in getFeaturesByIds(environment.features)"
