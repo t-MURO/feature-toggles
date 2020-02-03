@@ -2,6 +2,7 @@ import { Router } from 'express';
 import Feature from '../models/domain/Feature';
 import FeatureService from '../services/FeatureService';
 import CustomRequest from "../models/interfaces/CustomRequest";
+import { updateFeatures } from '../socket';
 
 const featureController = Router();
 const featureService = new FeatureService();
@@ -39,6 +40,7 @@ featureController
         featureService.update(newFeature)
             .then(feature => res.status(200).json(feature))
             .catch(err => res.status(400).json(err));
+        // updateFeatures();
     })
 
     .delete('/remove/:id', async (req, res, next) => {
