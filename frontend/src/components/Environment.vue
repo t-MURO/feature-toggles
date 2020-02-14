@@ -14,12 +14,20 @@
       <p>
         Identifier: <strong>{{ environment.identifier }}</strong>
       </p>
-
-      <environment-feature-list
-        :environment="environment"
-        v-if="getFeaturesByIds(environment.features).length > 0"
-      ></environment-feature-list>
-      <v-btn v-else @click="selectFeaturesDialog = true">Add Features</v-btn>
+      <div>
+        <environment-feature-list
+          :environment="environment"
+          v-if="getFeaturesByIds(environment.features).length > 0"
+        ></environment-feature-list>
+        <v-btn v-else @click="selectFeaturesDialog = true">Add Features</v-btn>
+      </div>
+      <div class="mt-2">
+        <EnvironmentRuleList
+          v-if="environment.rules.length > 0"
+          :environment="environment"
+        ></EnvironmentRuleList>
+        <v-btn v-else @click="addRulesDialog = true">Add Rules</v-btn>
+      </div>
     </v-card-text>
     <v-card-actions>
       <v-spacer></v-spacer>
@@ -29,6 +37,21 @@
         Delete
       </v-btn>
     </v-card-actions>
+
+    <v-dialog
+      v-model="addRulesDialog"
+      scrollable
+      max-width="600px"
+      @input="newRule = !newRule"
+    >
+      <edit-rule-fields
+        :type="'create'"
+        :environment="environment"
+        @close="addRulesDialog = false"
+        :update="newRule"
+      ></edit-rule-fields>
+    </v-dialog>
+
     <v-dialog v-model="selectFeaturesDialog" scrollable max-width="400px">
       <select-features
         @close="selectFeaturesDialog = false"
@@ -42,13 +65,23 @@
 import { mapGetters, mapActions } from "vuex";
 import SelectFeatures from "./Features/SelectFeatures";
 import EnvironmentFeatureList from "./EnvironmentFeatureList";
+import EnvironmentRuleList from "./EnvironmentRuleList";
+import EditRuleFields from "../components/Rules/EditRuleFields";
 import PreformattedParagraph from "./PreformattedParagraph";
 
 export default {
-  components: { SelectFeatures, EnvironmentFeatureList, PreformattedParagraph },
+  components: {
+    SelectFeatures,
+    EnvironmentFeatureList,
+    PreformattedParagraph,
+    EditRuleFields,
+    EnvironmentRuleList
+  },
   data() {
     return {
-      selectFeaturesDialog: false
+      selectFeaturesDialog: false,
+      addRulesDialog: false,
+      newRule: false
     };
   },
   props: ["environment", "removeEnvironment"],

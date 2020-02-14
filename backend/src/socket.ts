@@ -11,7 +11,7 @@ export const init = (server: Server) => {
         console.log('connected mf');
         socket.on('get-features', async (request: FeaturesRequest) => {
             socket.join(request.environmentId);
-            const features = await getToggles(request.environmentId);
+            const features = await getToggles(request.environmentId, request.options);
             socket.emit('features', features);
         });
     });
@@ -30,10 +30,9 @@ export const getCurrentlyUsedEnvironments = (): string[] => {
 
 export const updateFeatures = () => {
     const environmentIds = getCurrentlyUsedEnvironments();
-    environmentIds.forEach(async (environmentId) => {
-        const features = await getToggles(environmentId);
-        ws.sockets.in(environmentId).emit('features', features);
-    })
+    environmentIds.forEach(environmentId => {
+        ws.sockets.in(environmentId).emit('re-request');
+    });
 } 
 
 export const getIO = () => {

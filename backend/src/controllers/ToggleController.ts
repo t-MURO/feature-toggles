@@ -5,7 +5,7 @@ const toggleController = Router();
 
 toggleController.post('/:identifier', async (req, res, next) => {
     try {
-        const features = await getToggles(req.params.identifier);
+        const features = await getToggles(req.params.identifier, req.body);
         return res.json({features});
     } catch (e) {
         console.log(e);

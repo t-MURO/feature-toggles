@@ -1,19 +1,19 @@
 <template>
   <v-card>
     <v-card-text>
-      <v-list dense subheader>
+      <v-list dense subheader inactive>
         <v-subheader v-if="getFeaturesByIds(environment.features).length > 0"
           >FEATURES ({{
             getFeaturesByIds(environment.features).length
           }})</v-subheader
         >
         <v-subheader v-else>THIS ENVIRONMENT HAS NO FEATURES</v-subheader>
-        <v-list-item-group color="primary" class="feature-list">
+        <v-list-item-group inactive color="primary" class="feature-list">
           <v-list-item
             v-for="feature in getFeaturesByIds(environment.features)"
             :key="feature._id"
             :ripple="false"
-            :inactive="feature.status === 'DELETED'"
+            inactive
           >
             <v-list-item-action @click.prevent>
               <feature-switch :feature="feature"></feature-switch>
@@ -35,8 +35,13 @@
             </v-list-item-content>
             <v-list-item-action>
               <div>
-                <v-btn color="accent" class="mr-1" small>
-                  Configure
+                <v-btn
+                  v-if="feature.status !== 'DELETED'"
+                  color="accent"
+                  class="mr-1"
+                  small
+                >
+                  Configure rules
                 </v-btn>
                 <v-btn small @click="removeFeature(feature._id)">
                   Remove
@@ -70,7 +75,10 @@ export default {
   props: ["environment"],
   data() {
     return {
-      selectFeaturesDialog: false
+      selectFeaturesDialog: false,
+      addRulesDialog: false,
+      addRulesEnv: null,
+      addRulesFeature: null
     };
   },
   methods: {

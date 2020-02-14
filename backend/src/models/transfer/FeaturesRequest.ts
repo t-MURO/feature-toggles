@@ -1,8 +1,9 @@
-import { RequestOptions } from "https";
+import RequestOptions from "./RequestOptions";
+
 
 export default class FeaturesRequest {
     constructor(
         public environmentId: string,
-        public options?: RequestOptions 
+        public options?: RequestOptions
     ){}
 }
