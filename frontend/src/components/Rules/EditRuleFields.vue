@@ -23,7 +23,7 @@
         <v-select
           :items="possibleRoles"
           v-model="roles"
-          placeholder="Roles (Optional)"
+          placeholder="Roles (No selection means everyone gets the feature)"
           clearable
           multiple
           chips
@@ -40,14 +40,13 @@
           v-if="enabledPercentage"
           :disabled="!enabledPercentage"
         >
-          <template v-slot:prepend>
-            {{ displayToPercentage }}% of users will get the feature
-          </template>
+          <template v-slot:prepend
+            >{{ displayToPercentage }}% of users will get the feature</template
+          >
         </v-slider>
       </v-card-text>
       <v-card-actions>
         <v-btn text color="primary" @click="close()">Cancel</v-btn>
-        <v-btn @click="resetForm()">text</v-btn>
         <v-spacer></v-spacer>
         <v-btn
           color="success"
@@ -74,6 +73,7 @@ export default {
       displayToPercentage: 100,
       name: "",
       nameRules: [
+        v => !!v || "Name is required",
         v =>
           (this.type === "create" &&
             this.environment.rules.findIndex(r => r.name === v) < 0) ||
@@ -126,6 +126,7 @@ export default {
         const index = this.environment.rules.findIndex(
           r => r.name === this.rule.name
         );
+        updatedRule.featureIds = this.environment.rules[index].featureIds || [];
         this.environment.rules[index] = updatedRule;
       }
       this.editEnvironment(this.environment);

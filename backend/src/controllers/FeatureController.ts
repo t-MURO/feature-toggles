@@ -43,8 +43,8 @@ featureController
     featureService
       .update(newFeature)
       .then(feature => res.status(200).json(feature))
-      .catch(err => res.status(400).json(err));
-    updateFeatures();
+      .catch(err => res.status(400).json(err))
+      .finally(() => updateFeatures());
   })
 
   .delete("/remove/:id", async (req, res, next) => {

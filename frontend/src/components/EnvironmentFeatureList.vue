@@ -13,7 +13,6 @@
             v-for="feature in getFeaturesByIds(environment.features)"
             :key="feature._id"
             :ripple="false"
-            inactive
           >
             <v-list-item-action @click.prevent>
               <feature-switch :feature="feature"></feature-switch>
@@ -31,21 +30,21 @@
                   v-if="feature.status === 'DELETED'"
                   >Deleted</v-chip
                 >
+                <RuleChipGroup
+                  :environment="environment"
+                  :feature="feature"
+                  class="ml-2"
+                />
               </v-list-item-title>
             </v-list-item-content>
             <v-list-item-action>
               <div>
-                <v-btn
-                  v-if="feature.status !== 'DELETED'"
-                  color="accent"
-                  class="mr-1"
-                  small
-                >
-                  Configure rules
-                </v-btn>
-                <v-btn small @click="removeFeature(feature._id)">
-                  Remove
-                </v-btn>
+                <SelectRules
+                  v-if="feature"
+                  :feature="feature"
+                  :environment="environment"
+                />
+                <v-btn small @click="removeFeature(feature._id)">Remove</v-btn>
               </div>
             </v-list-item-action>
           </v-list-item>
@@ -69,9 +68,11 @@
 import { mapGetters, mapActions } from "vuex";
 import FeatureSwitch from "./Features/Switch";
 import SelectFeatures from "./Features/SelectFeatures";
+import SelectRules from "./Rules/SelectRules";
+import RuleChipGroup from "./Rules/RuleChipGroup";
 
 export default {
-  components: { FeatureSwitch, SelectFeatures },
+  components: { FeatureSwitch, SelectFeatures, RuleChipGroup, SelectRules },
   props: ["environment"],
   data() {
     return {
