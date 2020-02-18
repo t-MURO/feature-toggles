@@ -1,10 +1,10 @@
 <template>
   <v-container v-if="environment">
     <h2 class="display-1">
-      {{ environment.name
-      }}<v-btn small text @click="editDialog = true"
-        ><v-icon>edit</v-icon></v-btn
-      >
+      {{ environment.name }}
+      <v-btn small text @click="editDialog = true">
+        <v-icon>edit</v-icon>
+      </v-btn>
     </h2>
     <v-dialog
       v-model="editDialog"
@@ -24,10 +24,11 @@
       <v-col lg="5">
         <v-card>
           <v-card-text>
-            <PreformattedParagraph :text="environment.description" />
-            Identifier: <strong>{{ environment.identifier }}</strong>
+            <PreformattedParagraph :text="environment.description" />Identifier:
+            <strong>{{ environment.identifier }}</strong>
           </v-card-text>
         </v-card>
+        <EnvironmentRuleList class="mt-4" :environment="environment" />
         <v-card class="mt-4">
           <stats />
         </v-card>
@@ -48,13 +49,15 @@ import EnvironmentFeatureList from "../components/EnvironmentFeatureList";
 import Stats from "../components/Playground/Stats.vue";
 import EditEnvironmentFields from "../components/EditEnvironmentFields";
 import PreformattedParagraph from "../components/PreformattedParagraph";
+import EnvironmentRuleList from "../components/EnvironmentRuleList";
 
 export default {
   components: {
     EnvironmentFeatureList,
     Stats,
     EditEnvironmentFields,
-    PreformattedParagraph
+    PreformattedParagraph,
+    EnvironmentRuleList
   },
   name: "Environment",
   data: function() {

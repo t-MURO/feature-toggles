@@ -1,19 +1,18 @@
 <template>
   <v-card>
     <v-card-text>
-      <v-list dense subheader>
+      <v-list dense subheader inactive>
         <v-subheader v-if="getFeaturesByIds(environment.features).length > 0"
           >FEATURES ({{
             getFeaturesByIds(environment.features).length
           }})</v-subheader
         >
         <v-subheader v-else>THIS ENVIRONMENT HAS NO FEATURES</v-subheader>
-        <v-list-item-group color="primary" class="feature-list">
+        <v-list-item-group inactive color="primary" class="feature-list">
           <v-list-item
             v-for="feature in getFeaturesByIds(environment.features)"
             :key="feature._id"
             :ripple="false"
-            :inactive="feature.status === 'DELETED'"
           >
             <v-list-item-action @click.prevent>
               <feature-switch :feature="feature"></feature-switch>
@@ -31,16 +30,21 @@
                   v-if="feature.status === 'DELETED'"
                   >Deleted</v-chip
                 >
+                <RuleChipGroup
+                  :environment="environment"
+                  :feature="feature"
+                  class="ml-2"
+                />
               </v-list-item-title>
             </v-list-item-content>
             <v-list-item-action>
               <div>
-                <v-btn color="accent" class="mr-1" small>
-                  Configure
-                </v-btn>
-                <v-btn small @click="removeFeature(feature._id)">
-                  Remove
-                </v-btn>
+                <SelectRules
+                  v-if="feature"
+                  :feature="feature"
+                  :environment="environment"
+                />
+                <v-btn small @click="removeFeature(feature._id)">Remove</v-btn>
               </div>
             </v-list-item-action>
           </v-list-item>
@@ -64,13 +68,18 @@
 import { mapGetters, mapActions } from "vuex";
 import FeatureSwitch from "./Features/Switch";
 import SelectFeatures from "./Features/SelectFeatures";
+import SelectRules from "./Rules/SelectRules";
+import RuleChipGroup from "./Rules/RuleChipGroup";
 
 export default {
-  components: { FeatureSwitch, SelectFeatures },
+  components: { FeatureSwitch, SelectFeatures, RuleChipGroup, SelectRules },
   props: ["environment"],
   data() {
     return {
-      selectFeaturesDialog: false
+      selectFeaturesDialog: false,
+      addRulesDialog: false,
+      addRulesEnv: null,
+      addRulesFeature: null
     };
   },
   methods: {

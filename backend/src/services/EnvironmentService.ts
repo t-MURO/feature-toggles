@@ -27,6 +27,7 @@ export default class EnvironmentService implements MongoRepository<Environment>{
     }
 
     public update(environment: Environment):Promise<any>{
+        environment.features = [...new Set(environment.features)]; // TODO: see if this is necessary, maybe implement validation fn in model
         return new Promise((resolve, reject) => {
             EnvironmentModel.findOneAndUpdate({_id: environment._id}, environment, {new: true})
                 .then(t => resolve(t))

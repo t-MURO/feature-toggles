@@ -1,8 +1,6 @@
 <template>
   <v-card>
-    <v-card-title primary-title>
-      Select Features
-    </v-card-title>
+    <v-card-title primary-title>Select Features</v-card-title>
     <v-divider></v-divider>
     <v-card-text>
       <v-data-table
@@ -16,25 +14,45 @@
         no-data-text="No features available"
         :mobile-breakpoint="10"
         :loading="loading"
-      >
-      </v-data-table>
+      ></v-data-table>
     </v-card-text>
     <v-card-actions>
       <v-btn text color="primary" @click="close()">Cancel</v-btn>
       <v-spacer></v-spacer>
-      <v-btn color="success" :loading="loading" @click="saveEnvironment()">
-        Add
-      </v-btn>
+      <v-btn text color="primary" @click="addNewDialog = true"
+        >Create new</v-btn
+      >
+      <v-btn color="success" :loading="loading" @click="saveEnvironment()"
+        >Add</v-btn
+      >
     </v-card-actions>
+    <v-dialog
+      v-model="addNewDialog"
+      scrollable
+      max-width="500px"
+      transition="dialog-transition"
+    >
+      <EditFeatureFields
+        type="create"
+        :cancel="true"
+        @close="addNewDialog = false"
+      />
+    </v-dialog>
   </v-card>
 </template>
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+import EditFeatureFields from "../EditFeatureFields";
+
 export default {
+  components: {
+    EditFeatureFields
+  },
   data() {
     return {
       loading: false,
+      addNewDialog: false,
       selectedFeatures: [],
       headers: [
         {
