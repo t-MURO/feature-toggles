@@ -1,4 +1,6 @@
 import axios from "axios";
+import router from "../router";
+
 const BASE_URL = "http://localhost:3333/";
 const API_URL = BASE_URL + "api/";
 const FEATURE_ROUTE = "features/";
@@ -9,6 +11,15 @@ const api = axios.create({
   withCredentials: true,
   baseURL: API_URL
 });
+
+api.interceptors.response.use(
+  res => res,
+  err => {
+    if (err.response.status === 401) {
+      router.push("/login");
+    }
+  }
+);
 
 const user = axios.create({
   withCredentials: true,
@@ -74,7 +85,12 @@ export default class APIService {
   }
 
   static login(email, password) {
-    return user.post("login", { email, password }).then(res => res.data);
+    return user
+      .post("login", {
+        email,
+        password
+      })
+      .then(res => res.data);
   }
 
   static logout() {
@@ -82,6 +98,11 @@ export default class APIService {
   }
 
   static register(email, password) {
-    return user.post("register", { email, password }).then(res => res.data);
+    return user
+      .post("register", {
+        email,
+        password
+      })
+      .then(res => res.data);
   }
 }
