@@ -1,4 +1,3 @@
-import crypto from "crypto";
 import EnvironmentModel from '../models/mongoose/EnvironmentModel';
 import Environment from '../models/domain/Environment';
 import { Error } from 'mongoose';
@@ -14,8 +13,9 @@ export default class EnvironmentService implements MongoRepository<Environment>{
         return new Promise((resolve, reject) => EnvironmentModel.findOne({identifier}, (err:Error, environment:Environment) => err ? reject(err) : resolve(environment)));
     }
 
-    public findAll():Promise<Environment[]|Error>{
-        return new Promise((resolve, reject) => EnvironmentModel.find({}, (err:Error, environments:Environment[]) => err ? reject(err) : resolve(environments)));
+    public findAll(conditions?: any):Promise<Environment[]>{
+        conditions = conditions || {};
+        return new Promise((resolve, reject) => EnvironmentModel.find(conditions, (err:Error, environments:Environment[]) => err ? reject(err) : resolve(environments)));
     }
 
     public create(environment:Environment):Promise<any>{

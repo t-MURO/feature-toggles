@@ -48,6 +48,11 @@
           </template>
         </v-select>
         <v-text-field
+          prepend-icon="http"
+          placeholder="Server Address (optional)"
+          v-model="localEnvironment.serverAddress"
+        ></v-text-field>
+        <v-text-field
           prepend-icon="lock_open"
           placeholder="Identifier (optional)"
           v-model="localEnvironment.identifier"
@@ -82,7 +87,8 @@ export default {
         name: "",
         description: "",
         identifier: "",
-        features: []
+        features: [],
+        serverAddress: ""
       },
       nameRules: [
         v => !!v || "Name is required",

@@ -1,3 +1,4 @@
+import fetch from "node-fetch";
 import { Rule, evaluate } from "./../models/domain/Rule";
 import Environment from "../models/domain/Environment";
 import EnvironmentService from "./EnvironmentService";
@@ -8,13 +9,21 @@ import RequestOptions from "../models/transfer/RequestOptions";
 const environmentService = new EnvironmentService();
 const featureService = new FeatureService();
 
+export const getTogglesWithoutOptions = async (identifier: string): Promise<string[]> => {
+  const environment = await environmentService.findOneByIdentifier(identifier);
+  const features: Feature[] = await featureService.findAll({
+    _id: { $in: environment.features }
+  });
+  return features.filter(f => f.isEnabled && f.status === FeatureStatus.ACTIVE).map(f => f.name);
+}
+
 export const getToggles = async (
-  environmentId: string,
+  identifier: string,
   requestOptions?: RequestOptions
 ): Promise<string[]> => {
   try {
     const environment: Environment = await environmentService.findOneByIdentifier(
-      environmentId
+      identifier
     );
     const features: Feature[] = await featureService.findAll({
       _id: { $in: environment.features }
@@ -57,6 +66,35 @@ export const getToggles = async (
     throw new Error(e);
   }
 };
+
+
+export const sendFeaturesToServer = async (environment: Environment) => {
+  if(!environment.serverAddress || environment.serverAddress === "") {
+    return;
+  }
+  const features: Feature[] = await featureService.findAll({
+    _id: { $in: environment.features },
+    isEnabled: true
+  });
+
+  fetch(environment.serverAddress, {
+    method: "POST",
+    body: JSON.stringify(features.map(f => f.name)),
+    headers: { 'Content-Type': 'application/json' }
+  })
+  .then(res => console.log(`successfully notified ${environment.name}`));
+}
+
+export const notifyServersAfterChangedFeature = async (feature: Feature) => {
+  try {
+    const environments: Environment[] = await environmentService.findAll({
+      features: feature._id
+    });
+    environments.forEach(async e => sendFeaturesToServer(e));
+  } catch (e) {
+    throw new Error(e);
+  }
+}
 
 export const getRulesForFeature = (feature: Feature, rules: Rule[]): Rule[] => {
   return rules.filter(rule => rule.featureIds.includes(`${feature._id}`));

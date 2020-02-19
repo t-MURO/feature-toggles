@@ -24,8 +24,16 @@
       <v-col lg="5">
         <v-card>
           <v-card-text>
-            <PreformattedParagraph :text="environment.description" />Identifier:
+            <PreformattedParagraph :text="environment.description" />
+            Identifier:
             <strong>{{ environment.identifier }}</strong>
+            <p
+              v-if="
+                environment.serverAddress && environment.serverAddress !== ''
+              "
+            >
+              Server address: <strong>{{ environment.serverAddress }}</strong>
+            </p>
           </v-card-text>
         </v-card>
         <EnvironmentRuleList class="mt-4" :environment="environment" />

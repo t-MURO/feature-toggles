@@ -28,7 +28,7 @@ export const getCurrentlyUsedEnvironments = (): string[] => {
   return uniqueEnvIds;
 };
 
-export const updateFeatures = () => {
+export const updateFeaturesThroughWebSocket = () => {
   const environmentIds = getCurrentlyUsedEnvironments();
   environmentIds.forEach(environmentId => {
     ws.sockets.in(environmentId).emit("re-request");

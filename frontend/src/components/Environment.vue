@@ -14,6 +14,9 @@
       <p>
         Identifier: <strong>{{ environment.identifier }}</strong>
       </p>
+      <p v-if="environment.serverAddress && environment.serverAddress !== ''">
+        Server address: <strong>{{ environment.serverAddress }}</strong>
+      </p>
       <div>
         <environment-feature-list
           :environment="environment"

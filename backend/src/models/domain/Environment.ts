@@ -39,6 +39,9 @@ export default class Environment extends Typegoose {
   features!: string[];
 
   @prop()
+  serverAddress!: string;
+
+  @prop()
   description?: string;
 
   @arrayProp({ required: true, default: [], items: Rule })

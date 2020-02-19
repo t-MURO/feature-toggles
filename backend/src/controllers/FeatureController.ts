@@ -2,7 +2,8 @@ import { Router } from "express";
 import Feature from "../models/domain/Feature";
 import FeatureService from "../services/FeatureService";
 import CustomRequest from "../models/interfaces/CustomRequest";
-import { updateFeatures } from "../socket";
+import { updateFeaturesThroughWebSocket } from "../socket";
+import { notifyServersAfterChangedFeature } from "../services/ToggleService";
 
 const featureController = Router();
 const featureService = new FeatureService();
@@ -36,15 +37,23 @@ featureController
       .catch((err: Error) => res.status(400).send(err));
   })
 
-  .put("/:id", (req: CustomRequest, res, next) => {
+  .put("/:id", async (req: CustomRequest, res, next) => {
     let newFeature: Feature = req.body;
     newFeature.updatedBy = (req.user && req.user.email) || "Unknown";
     req.body._id = req.params.id;
+
+    const oldFeature: Feature = await featureService.findOne(req.body._id);
+    const changedEnabledStatus = oldFeature.isEnabled !== newFeature.isEnabled;
+    console.log('changedEnabledStatus', changedEnabledStatus)
     featureService
       .update(newFeature)
       .then(feature => {
         res.status(200).json(feature)
-        updateFeatures();
+        updateFeaturesThroughWebSocket();
+        if(changedEnabledStatus) {
+          console.log("hier")
+          notifyServersAfterChangedFeature(newFeature);
+        }
       })
       .catch(err => res.status(400).json(err));
   })
