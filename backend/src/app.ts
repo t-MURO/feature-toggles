@@ -7,7 +7,7 @@ import cookieParser from "cookie-parser";
 import morgan from "morgan";
 
 import auth from './middleware/auth';
-import { init } from './socket';
+import { init, updateFeatures } from './socket';
 
 import featureController from './controllers/FeatureController';
 import environmentController from './controllers/EnvironmentController';
@@ -66,5 +66,8 @@ app.use('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-const server = app.listen(PORT, () => console.log('running'));
+const server = app.listen(PORT, () => {
+    console.log(`Feature Toggle Service listening at port ${PORT}`);
+});
+
 init(server);

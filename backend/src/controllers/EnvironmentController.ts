@@ -40,9 +40,11 @@ environmentController
     newEnvironment.updatedBy = (req.user && req.user.email) || "Unknown";
     environmentService
       .update(newEnvironment)
-      .then(environment => res.status(200).json(environment))
-      .catch(err => res.status(400).json(err))
-      .finally(() => updateFeatures());
+      .then(environment => {
+        res.status(200).json(environment)
+        updateFeatures();
+      })
+      .catch(err => res.status(400).json(err));
   })
 
   .delete("/:id", (req: CustomRequest, res, next) => {

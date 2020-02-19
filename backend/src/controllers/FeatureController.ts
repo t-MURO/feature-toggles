@@ -42,9 +42,11 @@ featureController
     req.body._id = req.params.id;
     featureService
       .update(newFeature)
-      .then(feature => res.status(200).json(feature))
-      .catch(err => res.status(400).json(err))
-      .finally(() => updateFeatures());
+      .then(feature => {
+        res.status(200).json(feature)
+        updateFeatures();
+      })
+      .catch(err => res.status(400).json(err));
   })
 
   .delete("/remove/:id", async (req, res, next) => {
