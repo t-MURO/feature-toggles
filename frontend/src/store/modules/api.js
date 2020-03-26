@@ -23,21 +23,27 @@ const apiModule = {
   },
 
   actions: {
-    loadInitialData({ dispatch }) {
+    loadInitialData({
+      dispatch
+    }) {
       dispatch("getFeaturesByIds");
       dispatch("getEnvironments");
     },
 
-    async getUser({ commit }) {
+    async getUser({
+      commit
+    }) {
       try {
         const user = await APIService.getUser();
         commit("SET_USER", user);
       } catch (e) {
-        console.log(e);
+        // console.log(e);
       }
     },
 
-    async getFeaturesByIds({ commit }) {
+    async getFeaturesByIds({
+      commit
+    }) {
       try {
         const features = await APIService.getFeaturesByIds();
         commit("SET_FEATURES", features);
@@ -46,18 +52,24 @@ const apiModule = {
       }
     },
 
-    async createFeature({ commit, state }, feature) {
+    async createFeature({
+      commit,
+      state
+    }, feature) {
       try {
         const updatedFeature = await APIService.createFeature(feature);
         const updatedFeatures = [updatedFeature, ...state.features];
         commit("SET_FEATURES", updatedFeatures);
       } catch (e) {
-        console.log(e);
+        // console.log(e);
         alert("error creating feature");
       }
     },
 
-    async editFeature({ commit, state }, feature) {
+    async editFeature({
+      commit,
+      state
+    }, feature) {
       try {
         const updatedFeature = await APIService.editFeature(feature);
         const index = state.features.findIndex(f => f._id === feature._id);
@@ -66,11 +78,13 @@ const apiModule = {
         updatedFeatures[index] = updatedFeature;
         commit("SET_FEATURES", updatedFeatures);
       } catch (e) {
-        console.log(e);
+        // console.log(e);
       }
     },
 
-    async getEnvironments({ commit }) {
+    async getEnvironments({
+      commit
+    }) {
       try {
         const environments = await APIService.getEnvironments();
         commit("SET_ENVIRONMENTS", environments);
@@ -79,7 +93,10 @@ const apiModule = {
       }
     },
 
-    async createEnvironment({ commit, state }, environment) {
+    async createEnvironment({
+      commit,
+      state
+    }, environment) {
       try {
         const updatedEnvironment = await APIService.createEnvironment(
           environment
@@ -87,12 +104,15 @@ const apiModule = {
         const updatedEnvironments = [updatedEnvironment, ...state.environments];
         commit("SET_ENVIRONMENTS", updatedEnvironments);
       } catch (e) {
-        console.log(e);
+        // console.log(e);
         alert("error creating feature");
       }
     },
 
-    async editEnvironment({ commit, state }, environment) {
+    async editEnvironment({
+      commit,
+      state
+    }, environment) {
       try {
         const updatedEnvironment = await APIService.editEnvironment(
           environment
@@ -105,11 +125,14 @@ const apiModule = {
         updatedEnvironments[index] = updatedEnvironment;
         commit("SET_ENVIRONMENTS", updatedEnvironments);
       } catch (e) {
-        console.log(e);
+        // console.log(e);
       }
     },
 
-    async removeFeature({ commit, state }, id) {
+    async removeFeature({
+      commit,
+      state
+    }, id) {
       try {
         const feature = await APIService.removeFeature(id);
         const index = state.features.findIndex(f => f._id === feature._id);
@@ -122,7 +145,10 @@ const apiModule = {
       }
     },
 
-    async removeEnvironment({ commit, state }, id) {
+    async removeEnvironment({
+      commit,
+      state
+    }, id) {
       try {
         await APIService.removeEnvironment(id);
         commit(
@@ -151,11 +177,19 @@ const apiModule = {
     getEnvironment: state => id => state.environments.find(e => e._id === id),
     getSearchableItems: (state, getters) => {
       const searchableItems = getters.getFeatures.map(f => {
-        return { ...f, type: "FEATURE", path: "/features/" + f._id };
+        return {
+          ...f,
+          type: "FEATURE",
+          path: "/features/" + f._id
+        };
       });
       searchableItems.push(
         ...state.environments.map(e => {
-          return { ...e, type: "ENVIRONMENT", path: "/environments/" + e._id };
+          return {
+            ...e,
+            type: "ENVIRONMENT",
+            path: "/environments/" + e._id
+          };
         })
       );
       return searchableItems;
