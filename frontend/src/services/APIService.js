@@ -1,7 +1,11 @@
 import axios from "axios";
 import router from "../router";
 
-const BASE_URL = "http://localhost:3333/";
+const HOST_URL = `${window.location.protocol}//${window.location.host}/`;
+const BASE_URL =
+  process.env.NODE_ENV === "production"
+    ? HOST_URL
+    : `${HOST_URL}${window.location.port}/`;
 const API_URL = BASE_URL + "api/";
 const FEATURE_ROUTE = "features/";
 const ENVIRONMENT_ROUTE = "environments/";
