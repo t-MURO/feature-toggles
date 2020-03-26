@@ -1,11 +1,11 @@
 import axios from "axios";
 import router from "../router";
 
-const HOST_URL = `${window.location.protocol}//${window.location.host}/`;
 const BASE_URL =
   process.env.NODE_ENV === "production"
-    ? HOST_URL
-    : `${HOST_URL}${window.location.port}/`;
+    ? `${window.location.protocol}//${window.location.host}/`
+    : "http://localhost:3333/";
+
 const API_URL = BASE_URL + "api/";
 const FEATURE_ROUTE = "features/";
 const ENVIRONMENT_ROUTE = "environments/";
@@ -35,12 +35,7 @@ const user = axios.create({
 
 export default class APIService {
   static getFeaturesByIds() {
-    return api.get(FEATURE_ROUTE).then(res =>
-      res.data.catch(err => {
-        alert(err);
-        //console.log("hallo", err);
-      })
-    );
+    return api.get(FEATURE_ROUTE).then(res => res.data);
   }
 
   static getFeature(id) {
