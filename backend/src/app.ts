@@ -22,8 +22,8 @@ const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost:27017/featur
 const whitelist = ['http://localhost:8080', 'http://localhost:8080'];
 
 const init = async (application: express.Application) => {
+    console.log("Initializing App...");
     try {
-        console.log("Initializing App...");
         const db = await mongoose.connect(MONGODB_URI, {
             useNewUrlParser: true,
             useCreateIndex: true,
@@ -31,8 +31,10 @@ const init = async (application: express.Application) => {
             useUnifiedTopology: true
         });
         console.log(`MongoDB: Connected to ${db.connection.host}:${db.connection.port}`);
+        
         const server = await application.listen(PORT);
         console.log(`Feature Toggle Service listening at port ${PORT}`);
+        
         initSocket(server);
         console.log("WebSocket ready");
     } catch (e) {
