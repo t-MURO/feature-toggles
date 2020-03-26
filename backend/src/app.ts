@@ -1,6 +1,6 @@
-import express, {Request, Response} from "express";
+import express from "express";
 import bodyParser from "body-parser";
-import mongoose from "mongoose";
+import { mongoose } from "@typegoose/typegoose";
 import cors from "cors";
 import path from 'path';
 import cookieParser from "cookie-parser";
@@ -12,11 +12,8 @@ import { init } from './socket';
 import featureController from './controllers/FeatureController';
 import environmentController from './controllers/EnvironmentController';
 import userController from "./controllers/UserController";
-import workspaceController from "./controllers/WorkspaceController";
 import loginController from './controllers/LoginController';
 import toggleController from "./controllers/ToggleController";
-import FeaturesRequest from "./models/transfer/FeaturesRequest";
-import { getToggles } from "./services/ToggleService";
 
 
 const PORT = process.env.PORT || 3333;
@@ -24,12 +21,13 @@ const PORT = process.env.PORT || 3333;
 const whitelist = ['http://localhost:8080', 'http://localhost:8080'];
 
 mongoose.connect('mongodb://localhost:27017/feature-toggles', {
-        useNewUrlParser: true,
-        useCreateIndex: true,
-        useFindAndModify: false,
-    })
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useFindAndModify: false,
+    useUnifiedTopology: true
+})
     .then(db => {
-        console.log('db up and running')
+        console.log('db up and running');
     })
     .catch(err => console.log(err));
 
@@ -53,7 +51,6 @@ app.use('/api/*', auth);
 app.use('/api/features', featureController);
 app.use('/api/environments', environmentController);
 app.use('/api/users', userController);
-app.use('/api/workspaces', workspaceController);
 
 app.use('/api/*', (req, res) => {
     res.status(404).end();

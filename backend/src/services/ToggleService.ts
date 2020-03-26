@@ -69,20 +69,24 @@ export const getToggles = async (
 
 
 export const sendFeaturesToServer = async (environment: Environment) => {
-  if(!environment.serverAddress || environment.serverAddress === "") {
-    return;
-  }
-  const features: Feature[] = await featureService.findAll({
-    _id: { $in: environment.features },
-    isEnabled: true
-  });
+  try {
+    if (!environment.serverAddress || environment.serverAddress === "") {
+      return;
+    }
+    const features: Feature[] = await featureService.findAll({
+      _id: { $in: environment.features },
+      isEnabled: true
+    });
 
-  fetch(environment.serverAddress, {
-    method: "POST",
-    body: JSON.stringify(features.map(f => f.name)),
-    headers: { 'Content-Type': 'application/json' }
-  })
-  .then(res => console.log(`successfully notified ${environment.name}`));
+    await fetch(environment.serverAddress, {
+      method: "POST",
+      body: JSON.stringify(features.map(f => f.name)),
+      headers: { 'Content-Type': 'application/json' }
+    });
+    console.log(`successfully notified ${environment.name}`);
+  } catch (e) {
+    console.warn(`${environment.name} could not be reached and was not notified of changes`);
+  }
 }
 
 export const notifyServersAfterChangedFeature = async (feature: Feature) => {

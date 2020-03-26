@@ -1,13 +1,26 @@
 import crypto from "crypto";
 import RequestOptions from "../transfer/RequestOptions";
 import Roles from "../enum/Roles";
+import Mongoose from "mongoose";
+import { prop, arrayProp } from "@typegoose/typegoose"
 
 export class Rule {
+  @prop()
+  _id!: Mongoose.Types.ObjectId;
+
+  @prop({ required: true })
   name!: string;
+
+  @arrayProp({ default: [], items: String })
   featureIds!: string[];
+
+  @arrayProp({ default: [], enum: Roles, items: String })
   roles!: Roles[];
-  displayToPercentage!: number;
+
+  @prop({ required: true, default: null })
+  displayToPercentage!: number | null;
 }
+
 
 export const evaluate = (
   rule: Rule,
@@ -31,7 +44,7 @@ export const evaluate = (
     const decimalValue = parseInt(shortenedHexValue, 16);
     console.log(
       `displayPercentage calculation: value from id = ${decimalValue /
-        2.55} | percentage: ${rule.displayToPercentage}`
+      2.55} | percentage: ${rule.displayToPercentage}`
     );
     if (decimalValue > rule.displayToPercentage * 2.55) {
       return false;

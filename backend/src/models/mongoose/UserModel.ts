@@ -1,13 +1,6 @@
-import mongoose from 'mongoose';
-import { ModelType } from 'typegoose';
+import { getModelForClass } from "@typegoose/typegoose";
 import User from "../domain/User";
 
-const UserModel: ModelType<User> = new User().setModelForClass(User, {
-    existingMongoose: mongoose,
-    schemaOptions: {
-        collection: 'users',
-        timestamps: true,
-    }
-});
+const UserModel = getModelForClass(User);
 
 export default UserModel;

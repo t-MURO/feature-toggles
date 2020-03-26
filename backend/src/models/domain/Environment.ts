@@ -1,23 +1,32 @@
 import { Rule } from "./Rule";
 import crypto from "crypto";
-import { Typegoose, prop, pre, arrayProp } from "typegoose";
+import { prop, pre, arrayProp, modelOptions, mongoose } from "@typegoose/typegoose";
 import Mongoose from "mongoose";
-import Feature from "./Feature";
 
 const randomBytes = () => crypto.randomBytes(16).toString("hex");
 
-@pre<Environment>("validate", function(this: any, next) {
+@pre<Environment>("validate", function (this: any, next) {
   if (!this.identifier || this.identifier.length === 0) {
     this.identifier = randomBytes();
   }
   next();
 })
-@pre<Environment>("findOneAndUpdate", function(this: any, next) {
+@pre<Environment>("findOneAndUpdate", function (this: any, next) {
   this._update.updatedAt = new Date();
-  next();
+  if (next) {
+    next();
+  }
 })
-export default class Environment extends Typegoose {
-  _id?: Mongoose.Types.ObjectId;
+
+@modelOptions({
+  existingMongoose: mongoose,
+  schemaOptions: {
+    collection: 'environments',
+    timestamps: true,
+  }
+})
+export default class Environment {
+  _id?: Mongoose.Types.ObjectId | string;
 
   @prop({ required: true })
   createdBy!: string;
@@ -44,8 +53,6 @@ export default class Environment extends Typegoose {
   @prop()
   description?: string;
 
-  @arrayProp({ required: true, default: [], items: Rule })
+  @arrayProp({ default: [], items: Rule })
   rules!: Rule[];
-
-  featuresComplete?: Feature[];
 }

@@ -9,12 +9,13 @@
     "build": "concurrently \"cd backend && npm run build\" \"cd frontend && npm run build-server\"",
     "edit": "node startEditors -v",
     "postinstall": "concurrently \"cd backend && npm i\" \"cd frontend && npm i\"",
-    "audit-fix": "concurrently \" npm audit fix\" \"cd backend && npm audit fix\" \"cd frontend && npm audit fix\""
+    "audit-fix": "concurrently \" npm audit fix\" \"cd backend && npm audit fix\" \"cd frontend && npm audit fix\"",
+    "start": "node backend/dist/app"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "concurrently": "^4.1.0",
+    "concurrently": "^4.1.2",
     "minimist": "^1.2.0"
   }
 }
