@@ -18,8 +18,8 @@ api.interceptors.response.use(
     if (err.response.status === 401) {
       router.push("/login");
     } else if (err.response.status >= 400) {
-      console.log(err);
-      throw(err);
+      // console.log(err);
+      throw (err);
     }
   }
 );
@@ -34,7 +34,9 @@ export default class APIService {
     return api
       .get(FEATURE_ROUTE)
       .then(res => res.data)
-      .catch(err => console.log("hallo", err));
+      .catch(err => {
+        //console.log("hallo", err);
+      });
   }
 
   static getFeature(id) {
@@ -55,9 +57,9 @@ export default class APIService {
 
   static removeEnvironment(environment) {
     let id;
-    typeof environment == "string"
-      ? (id = environment)
-      : (id = environment._id);
+    typeof environment == "string" ?
+      (id = environment) :
+      (id = environment._id);
     return api.delete(ENVIRONMENT_ROUTE + id).then(res => res.data);
   }
 
