@@ -19,7 +19,7 @@ api.interceptors.response.use(
       router.push("/login");
     } else if (err.response.status >= 400) {
       // console.log(err);
-      throw (err);
+      throw err;
     }
   }
 );
@@ -31,12 +31,12 @@ const user = axios.create({
 
 export default class APIService {
   static getFeaturesByIds() {
-    return api
-      .get(FEATURE_ROUTE)
-      .then(res => res.data)
-      .catch(err => {
+    return api.get(FEATURE_ROUTE).then(res =>
+      res.data.catch(err => {
+        alert(err);
         //console.log("hallo", err);
-      });
+      })
+    );
   }
 
   static getFeature(id) {
@@ -57,9 +57,9 @@ export default class APIService {
 
   static removeEnvironment(environment) {
     let id;
-    typeof environment == "string" ?
-      (id = environment) :
-      (id = environment._id);
+    typeof environment == "string"
+      ? (id = environment)
+      : (id = environment._id);
     return api.delete(ENVIRONMENT_ROUTE + id).then(res => res.data);
   }
 

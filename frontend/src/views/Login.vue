@@ -20,18 +20,16 @@
                 dismissible
                 type="success"
                 tile
+                >Registration successful</v-alert
               >
-                Registration successful
-              </v-alert>
               <v-alert
                 class="v-alert-custom"
                 v-model="loginHasErrors"
                 dismissible
                 type="error"
                 tile
+                >{{ loginErrorMessage }}</v-alert
               >
-                {{ loginErrorMessage }}
-              </v-alert>
               <v-card-text>
                 <v-text-field
                   prepend-icon="person"
@@ -52,9 +50,9 @@
                 ></v-text-field>
               </v-card-text>
               <v-card-actions>
-                <v-btn text color="primary" @click="switchForm()">
-                  Register
-                </v-btn>
+                <v-btn text color="primary" @click="switchForm()"
+                  >Register</v-btn
+                >
                 <v-spacer></v-spacer>
                 <v-btn
                   type="submit"
@@ -83,9 +81,8 @@
                 dismissible
                 type="error"
                 tile
+                >{{ registrationErrorMessage }}</v-alert
               >
-                {{ registrationErrorMessage }}
-              </v-alert>
               <v-card-text>
                 <v-text-field
                   prepend-icon="person"
@@ -114,9 +111,7 @@
                 ></v-text-field>
               </v-card-text>
               <v-card-actions>
-                <v-btn text color="primary" @click="switchForm()">
-                  Login
-                </v-btn>
+                <v-btn text color="primary" @click="switchForm()">Login</v-btn>
                 <v-spacer></v-spacer>
                 <v-btn
                   type="submit"
@@ -179,7 +174,7 @@ export default {
           this.$router.push("/");
         })
         .catch(err => {
-          console.log(err.response.data.message);
+          // console.log(err.response.data.message);
           this.loginErrorMessage = err.response.data.message;
           this.loginHasErrors = true;
         });
