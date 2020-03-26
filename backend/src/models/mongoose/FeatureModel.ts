@@ -1,12 +1,5 @@
-import mongoose from 'mongoose';
 import Feature from '../domain/Feature';
-import { ModelType } from 'typegoose';
+import { getModelForClass } from "@typegoose/typegoose";
 
-const FeatureModel:ModelType<Feature> = new Feature().setModelForClass(Feature, {
-    existingMongoose: mongoose,
-    schemaOptions: {
-        collection: 'features',
-        timestamps: true,
-    }
-});
-export default FeatureModel
+const FeatureModel = getModelForClass(Feature);
+export default FeatureModel;
