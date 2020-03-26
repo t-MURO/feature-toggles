@@ -19,6 +19,7 @@ import toggleController from "./controllers/ToggleController";
 const PORT = process.env.PORT || 3333;
 // const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost:27017/feature-toggles";
 const MONGODB_URI = process.env.MONGODB_URI || "mongodb+srv://tadeo:mamemi@cluster0-0vp0k.mongodb.net/test?retryWrites=true&w=majority";
+// const MONGODB_URI = process.env.MONGODB_URI || "mongodb+srv://tadeo:mamemi@cluster0-0vp0k.mongodb.net/test?retryWrites=true&w=majority";
 
 const whitelist = ['http://localhost:8080', 'http://localhost:8080'];
 
