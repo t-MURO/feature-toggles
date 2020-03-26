@@ -1,13 +1,13 @@
 import express from "express";
 import bodyParser from "body-parser";
-import { mongoose } from "@typegoose/typegoose";
+import mongoose from "mongoose";
 import cors from "cors";
 import path from 'path';
 import cookieParser from "cookie-parser";
 import morgan from "morgan";
 
 import auth from './middleware/auth';
-import { init } from './socket';
+import { initSocket } from './socket';
 
 import featureController from './controllers/FeatureController';
 import environmentController from './controllers/EnvironmentController';
@@ -17,19 +17,29 @@ import toggleController from "./controllers/ToggleController";
 
 
 const PORT = process.env.PORT || 3333;
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost:27017/feature-toggles";
 
 const whitelist = ['http://localhost:8080', 'http://localhost:8080'];
 
-mongoose.connect('mongodb://localhost:27017/feature-toggles', {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useFindAndModify: false,
-    useUnifiedTopology: true
-})
-    .then(db => {
-        console.log('db up and running');
-    })
-    .catch(err => console.log(err));
+const init = async (application: express.Application) => {
+    try {
+        console.log("Initializing App...");
+        const db = await mongoose.connect(MONGODB_URI, {
+            useNewUrlParser: true,
+            useCreateIndex: true,
+            useFindAndModify: false,
+            useUnifiedTopology: true
+        });
+        console.log(`MongoDB: Connected to ${db.connection.host}:${db.connection.port}`);
+        const server = await application.listen(PORT);
+        console.log(`Feature Toggle Service listening at port ${PORT}`);
+        initSocket(server);
+        console.log("WebSocket ready");
+    } catch (e) {
+        console.log(e);
+        process.exit(1);
+    }
+}
 
 const app = express();
 
@@ -63,8 +73,4 @@ app.use('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-const server = app.listen(PORT, () => {
-    console.log(`Feature Toggle Service listening at port ${PORT}`);
-});
-
-init(server);
+init(app);

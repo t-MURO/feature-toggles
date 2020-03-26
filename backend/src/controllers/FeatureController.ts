@@ -43,15 +43,15 @@ featureController
     req.body._id = req.params.id;
 
     const oldFeature: Feature = await featureService.findOne(req.body._id);
-    const changedEnabledStatus = oldFeature.isEnabled !== newFeature.isEnabled;
+    // const changedEnabledStatus = oldFeature.isEnabled !== newFeature.isEnabled;
     featureService
       .update(newFeature)
       .then(feature => {
         res.status(200).json(feature)
         updateFeaturesThroughWebSocket();
-        if(changedEnabledStatus) {
-          notifyServersAfterChangedFeature(newFeature);
-        }
+        notifyServersAfterChangedFeature(newFeature);
+        // if(changedEnabledStatus) {
+        // }
       })
       .catch(err => res.status(400).json(err));
   })

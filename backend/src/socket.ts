@@ -5,7 +5,7 @@ import { getToggles } from "./services/ToggleService";
 
 let ws: io.Server;
 
-export const init = (server: Server) => {
+export const initSocket = (server: Server) => {
   ws = io(server);
   ws.on("connection", socket => {
     console.log("connected user");

@@ -17,6 +17,9 @@ api.interceptors.response.use(
   err => {
     if (err.response.status === 401) {
       router.push("/login");
+    } else if (err.response.status >= 400) {
+      console.log(err);
+      throw(err);
     }
   }
 );
