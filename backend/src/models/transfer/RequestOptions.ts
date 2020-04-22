@@ -1,8 +1,8 @@
-import Roles from "../enum/Roles";
+import Role from "../enum/Role";
 
 export default class RequestOptions {
     constructor(
         public userId: string,
-        public userGroup: Roles
+        public userGroup: Role
     ){}
 }

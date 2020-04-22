@@ -1,6 +1,6 @@
 import crypto from "crypto";
 import RequestOptions from "../transfer/RequestOptions";
-import Roles from "../enum/Roles";
+import Role from "../enum/Role";
 import Mongoose from "mongoose";
 import { prop, arrayProp } from "@typegoose/typegoose"
 
@@ -14,8 +14,8 @@ export class Rule {
   @arrayProp({ default: [], items: String })
   featureIds!: string[];
 
-  @arrayProp({ default: [], enum: Roles, items: String })
-  roles!: Roles[];
+  @arrayProp({ default: [], enum: Role, items: String })
+  roles!: Role[];
 
   @prop({ required: true, default: null })
   displayToPercentage!: number | null;

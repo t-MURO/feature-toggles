@@ -10,8 +10,8 @@ export const initSocket = (server: Server) => {
   ws.on("connection", socket => {
     console.log("connected user");
     socket.on("get-features", async (request: FeatureRequest) => {
-      socket.join(request.environmentId);
-      const features = await getToggles(request.environmentId, request.options);
+      socket.join(request.identifier);
+      const features = await getToggles(request.identifier, request.options);
       socket.emit("features", features);
     });
   });
@@ -21,17 +21,17 @@ export const initSocket = (server: Server) => {
 
 export const getCurrentlyUsedEnvironments = (): string[] => {
   const sids = ws.sockets.adapter.sids;
-  const envIds = Object.keys(sids)
+  const identifiers = Object.keys(sids)
     .filter(sid => Object.keys(sids[sid]).length > 1) // gets rid of first entry that doesnt seem to be an user
     .map(sid => Object.keys(sids[sid])[1]); // gets rid of the first entry on one user, seems to be unique id
-  const uniqueEnvIds = [...new Set(envIds)]; // gets rid of double entries
-  return uniqueEnvIds;
+  const uniqueIdentifiers = [...new Set(identifiers)]; // gets rid of double entries
+  return uniqueIdentifiers;
 };
 
 export const updateFeaturesThroughWebSocket = () => {
-  const environmentIds = getCurrentlyUsedEnvironments();
-  environmentIds.forEach(environmentId => {
-    ws.sockets.in(environmentId).emit("re-request");
+  const identifiers = getCurrentlyUsedEnvironments();
+  identifiers.forEach(identifier => {
+    ws.sockets.in(identifier).emit("re-request");
   });
 };
 

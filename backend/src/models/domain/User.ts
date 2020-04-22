@@ -1,6 +1,6 @@
 import { prop, pre, modelOptions, mongoose, } from "@typegoose/typegoose";
 import Mongoose from "mongoose";
-import Roles from "../enum/Roles";
+import Role from "../enum/Role";
 import UserPreferences from "./UserPreferences";
 
 @pre<User>('findOneAndUpdate', function (this: any, next) {
@@ -31,8 +31,8 @@ export default class User {
     @prop()
     lastLogin?: Date;
 
-    @prop({ default: Roles.USER })
-    role!: Roles;
+    @prop({ default: Role.USER })
+    role!: Role;
 
     @prop({ default: new UserPreferences })
     preferences!: UserPreferences;
