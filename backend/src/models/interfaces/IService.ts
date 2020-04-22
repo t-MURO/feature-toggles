@@ -1,4 +1,4 @@
-export default interface MongoRepository<T> {
+export default interface IService<T> {
 
     findOne(id: string):Promise<T|Error>;
 

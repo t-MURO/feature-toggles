@@ -2,9 +2,9 @@ import UserModel from '../models/mongoose/UserModel';
 import User from '../models/domain/User';
 import { Error } from 'mongoose';
 import {MongoError} from "mongodb";
-import MongoRepository from "../models/interfaces/repository";
+import IService from "../models/interfaces/IService";
 
-export default class UserService implements MongoRepository<User> {
+export default class UserService implements IService<User> {
 
     public findOneByEmail(email: string):Promise<User>{
         return new Promise((resolve, reject) => {
