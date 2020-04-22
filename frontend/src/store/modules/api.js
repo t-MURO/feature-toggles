@@ -64,7 +64,7 @@ const apiModule = {
     async editFeature({ commit, state }, feature) {
       try {
         const updatedFeature = await APIService.editFeatureToggle(feature);
-        const index = state.features.findIndex(f => f._id === feature._id);
+        const index = state.features.findIndex(ft => ft._id === feature._id);
         if (index < 0) throw new Error("updated feature doesn't exist");
         let updatedFeatures = [...state.features];
         updatedFeatures[index] = updatedFeature;
@@ -116,7 +116,7 @@ const apiModule = {
     async removeFeature({ commit, state }, id) {
       try {
         const feature = await APIService.removeFeatureToggle(id);
-        const index = state.features.findIndex(f => f._id === feature._id);
+        const index = state.features.findIndex(ft => ft._id === feature._id);
         if (index < 0) throw new Error("updated feature doesn't exist");
         let updatedFeatures = [...state.features];
         updatedFeatures[index] = feature;
@@ -142,18 +142,18 @@ const apiModule = {
   getters: {
     getEnvironmentsByIds: state => environmentIds => environmentIds.map(env => state.environments.find(e => e._id === env._id)),
     getEnvironmentsForFeature: state => featureId => state.environments.filter(e => e.features.includes(featureId)),
-    getFeatureTogglesByIds: state => featureIds => featureIds.map(id => state.features.find(f => f._id === id)),
-    getFeatureToggles: state => state.features.filter(f => f.status !== "DELETED"),
+    getFeatureTogglesByIds: state => featureIds => featureIds.map(id => state.features.find(ft => ft._id === id)),
+    getFeatureToggles: state => state.features.filter(ft => ft.status !== "DELETED"),
     getAllFeatureToggles: state => state.features,
     getEnvironments: state => state.environments,
-    getFeatureToggle: state => id => state.features.find(f => f._id === id),
+    getFeatureToggle: state => id => state.features.find(ft => ft._id === id),
     getEnvironment: state => id => state.environments.find(e => e._id === id),
     getSearchableItems: (state, getters) => {
-      const searchableItems = getters.getFeatureToggles.map(f => {
+      const searchableItems = getters.getFeatureToggles.map(ft => {
         return {
-          ...f,
+          ...ft,
           type: "FEATURE",
-          path: "/feature-toggles/" + f._id
+          path: "/feature-toggles/" + ft._id
         };
       });
       searchableItems.push(

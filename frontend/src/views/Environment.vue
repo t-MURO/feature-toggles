@@ -76,7 +76,7 @@ export default {
   },
   beforeMount() {
     APIService.getEnvironment(this.$route.params.id)
-      .then(f => (this.environmentLocal = f))
+      .then(ft => (this.environmentLocal = ft))
       .catch(err => alert(err));
   },
   computed: {

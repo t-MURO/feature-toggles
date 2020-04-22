@@ -66,7 +66,7 @@ export default {
       this.feature = featureFromStore;
     }
     APIService.getFeatureToggle(this.$route.params.id)
-      .then(f => (this.feature = f))
+      .then(ft => (this.feature = ft))
       .catch(err => alert(err));
   },
   computed: {

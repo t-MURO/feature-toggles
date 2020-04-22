@@ -68,7 +68,7 @@ export default {
     saveEnvironment() {
       if (this.selectedFeatures.length === 0) return this.close();
       this.loading = true;
-      this.environment.features.push(...this.selectedFeatures.map(f => f._id));
+      this.environment.features.push(...this.selectedFeatures.map(ft => ft._id));
       this.editEnvironment(this.environment).then(() => {
         this.close();
       });
@@ -83,7 +83,7 @@ export default {
     ...mapGetters("api", ["getFeatureToggles"]),
     filteredFeatures() {
       return this.getFeatureToggles.filter(
-        f => !this.environment.features.includes(f._id)
+        ft => !this.environment.features.includes(ft._id)
       );
     }
   }

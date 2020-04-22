@@ -2,21 +2,21 @@ import fetch from "node-fetch";
 import { Rule, evaluate } from "./../models/domain/Rule";
 import Environment from "../models/domain/Environment";
 import EnvironmentService from "./EnvironmentService";
-import FeatureService from "./FeatureService";
+import FeatureToggleService from "./FeatureToggleService";
 import FeatureToggle, { FeatureStatus } from "../models/domain/FeatureToggle";
 import RequestOptions from "../models/transfer/RequestOptions";
 
 const environmentService = new EnvironmentService();
-const featureService = new FeatureService();
+const featureToggleService = new FeatureToggleService();
 
 export default class ToggleService {
 
   public getTogglesWithoutOptions = async (identifier: string): Promise<string[]> => {
     const environment = await environmentService.findOneByIdentifier(identifier);
-    const features: FeatureToggle[] = await featureService.findAll({
+    const features: FeatureToggle[] = await featureToggleService.findAll({
       _id: { $in: environment.features }
     });
-    return features.filter(f => f.isEnabled && f.status === FeatureStatus.ACTIVE).map(f => f.name);
+    return features.filter(ft => ft.isEnabled && ft.status === FeatureStatus.ACTIVE).map(ft => ft.name);
   }
 
   public getToggles = async (
@@ -27,11 +27,11 @@ export default class ToggleService {
       const environment: Environment = await environmentService.findOneByIdentifier(
         identifier
       );
-      const features: FeatureToggle[] = await featureService.findAll({
+      const features: FeatureToggle[] = await featureToggleService.findAll({
         _id: { $in: environment.features }
       });
       const enabledFeatureToggles: FeatureToggle[] = features.filter(
-        f => f.isEnabled && f.status !== FeatureStatus.DELETED
+        ft => ft.isEnabled && ft.status !== FeatureStatus.DELETED
       );
 
       const featureIdsWithRules: string[] = [];
@@ -75,14 +75,14 @@ export default class ToggleService {
       if (!environment.serverAddress || environment.serverAddress === "") {
         return;
       }
-      const featureToggles: FeatureToggle[] = await featureService.findAll({
+      const featureToggles: FeatureToggle[] = await featureToggleService.findAll({
         _id: { $in: environment.features },
         isEnabled: true
       });
 
       await fetch(environment.serverAddress, {
         method: "POST",
-        body: JSON.stringify(featureToggles.map(f => f.name)),
+        body: JSON.stringify(featureToggles.map(ft => ft.name)),
         headers: { 'Content-Type': 'application/json' }
       });
       console.log(`successfully notified ${environment.name}`);
@@ -113,7 +113,7 @@ export default class ToggleService {
 //   const features: FeatureToggle[] = await featureService.findAll({
 //     _id: { $in: environment.features }
 //   });
-//   return features.filter(f => f.isEnabled && f.status === FeatureStatus.ACTIVE).map(f => f.name);
+//   return features.filter(ft => ft.isEnabled && ft.status === FeatureStatus.ACTIVE).map(ft => ft.name);
 // }
 
 // export const getToggles = async (
@@ -128,7 +128,7 @@ export default class ToggleService {
 //       _id: { $in: environment.features }
 //     });
 //     const enabledFeatures: FeatureToggle[] = features.filter(
-//       f => f.isEnabled && f.status !== FeatureStatus.DELETED
+//       ft => ft.isEnabled && ft.status !== FeatureStatus.DELETED
 //     );
 
 //     const featureIdsWithRules: string[] = [];
@@ -142,7 +142,7 @@ export default class ToggleService {
 //       // only return features which have no rules
 //       return enabledFeatures
 //         .filter(feature => !featureIdsWithRules.includes(`${feature._id}`))
-//         .map(f => f.name);
+//         .map(ft => ft.name);
 //     }
 
 //     return enabledFeatures
@@ -179,7 +179,7 @@ export default class ToggleService {
 
 //     await fetch(environment.serverAddress, {
 //       method: "POST",
-//       body: JSON.stringify(featureToggles.map(f => f.name)),
+//       body: JSON.stringify(featureToggles.map(ft => ft.name)),
 //       headers: { 'Content-Type': 'application/json' }
 //     });
 //     console.log(`successfully notified ${environment.name}`);

@@ -59,7 +59,7 @@ export default {
         v => !!v || "Name is required",
         v =>
           this.type !== "create" ||
-          this.getAllFeatureToggles.findIndex(f => f.name === v) < 0 ||
+          this.getAllFeatureToggles.findIndex(ft => ft.name === v) < 0 ||
           "No duplicate names allowed",
         v => !/^[0-9][*]*/.test(v) || "Name cannot start with a number",
         v =>

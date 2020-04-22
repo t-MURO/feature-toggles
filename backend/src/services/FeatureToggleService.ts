@@ -3,7 +3,7 @@ import FeatureToggle, { FeatureStatus } from '../models/domain/FeatureToggle';
 import { Error } from 'mongoose';
 import IService from "../models/interfaces/IService";
 
-export default class FeatureService implements IService<FeatureToggle>{
+export default class FeatureToggleService implements IService<FeatureToggle>{
 
     public findOne(_id: string):Promise<FeatureToggle>{
         return new Promise((resolve, reject) => FeatureModel.findById(_id, (err:Error, feature:FeatureToggle) => err ? reject(err) : resolve(feature)));
