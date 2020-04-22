@@ -20,13 +20,21 @@ export default class UserService implements IService<User> {
         return new Promise((resolve, reject) => UserModel.find({}, (err:Error, users:User[]) => err ? reject(err) : resolve(users)));
     }
 
-    public create(users:User|User[]):Promise<any>{
+    public create(user:User):Promise<User>{
         return new Promise((resolve, reject) => {
-            UserModel.create(users)
-                .then((t:User|User[]) => resolve(t))
+            UserModel.create(user)
+                .then((t:User) => resolve(t))
                 .catch((err:MongoError) => reject(err));
         });
     }
+
+    // createMany(users: User[]): Promise<User[]> {
+    //     return new Promise((resolve, reject) => {
+    //         UserModel.create(users)
+    //             .then((t: User[]) => resolve(t))
+    //             .catch((err: MongoError) => reject(err));
+    //     });
+    // }
 
     public update(user: User):Promise<any>{
         return new Promise((resolve, reject) => {

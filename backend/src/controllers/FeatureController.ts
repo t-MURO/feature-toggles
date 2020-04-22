@@ -3,10 +3,11 @@ import FeatureToggle from "../models/domain/FeatureToggle";
 import FeatureService from "../services/FeatureService";
 import CustomRequest from "../models/interfaces/CustomRequest";
 import { updateFeaturesThroughWebSocket } from "../socket";
-import { notifyServersAfterChangedFeature } from "../services/ToggleService";
+import ToggleService from "../services/ToggleService";
 
 const featureController = Router();
 const featureService = new FeatureService();
+const toggleService = new ToggleService();
 
 featureController
 
@@ -49,7 +50,7 @@ featureController
       .then(feature => {
         res.status(200).json(feature)
         updateFeaturesThroughWebSocket();
-        notifyServersAfterChangedFeature(newFeature);
+        toggleService.notifyServersAfterChangedFeature(newFeature);
         // if(changedEnabledStatus) {
         // }
       })

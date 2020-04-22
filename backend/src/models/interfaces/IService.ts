@@ -4,7 +4,9 @@ export default interface IService<T> {
 
     findAll(): Promise<T[]|Error>;
 
-    create(resource: T|T[]): Promise<T|T[]|Error>;
+    create(resource: T): Promise<T|Error>;
+
+    // createMany(resource: T[]): Promise<T[]|Error>;
 
     update(resource: T): Promise<T|Error>;
 

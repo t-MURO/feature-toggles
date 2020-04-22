@@ -3,10 +3,11 @@ import EnvironmentService from "../services/EnvironmentService";
 import Environment from "../models/domain/Environment";
 import CustomRequest from "../models/interfaces/CustomRequest";
 import { updateFeaturesThroughWebSocket } from "../socket";
-import { sendFeaturesToServer } from "../services/ToggleService";
+import ToggleService from "../services/ToggleService";
 
 const environmentController = Router();
 const environmentService = new EnvironmentService();
+const toggleService = new ToggleService();
 
 environmentController
 
@@ -44,7 +45,7 @@ environmentController
       .then(environment => {
         res.status(200).json(environment)
         updateFeaturesThroughWebSocket();
-        sendFeaturesToServer(environment);
+        toggleService.sendFeaturesToServer(environment);
       })
       .catch(err => res.status(400).json(err));
   })
