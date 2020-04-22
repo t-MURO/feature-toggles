@@ -3,7 +3,7 @@ import { Rule, evaluate } from "./../models/domain/Rule";
 import Environment from "../models/domain/Environment";
 import EnvironmentService from "./EnvironmentService";
 import FeatureService from "./FeatureService";
-import Feature, { FeatureStatus } from "../models/domain/Feature";
+import FeatureToggle, { FeatureStatus } from "../models/domain/FeatureToggle";
 import RequestOptions from "../models/transfer/RequestOptions";
 
 const environmentService = new EnvironmentService();
@@ -11,7 +11,7 @@ const featureService = new FeatureService();
 
 export const getTogglesWithoutOptions = async (identifier: string): Promise<string[]> => {
   const environment = await environmentService.findOneByIdentifier(identifier);
-  const features: Feature[] = await featureService.findAll({
+  const features: FeatureToggle[] = await featureService.findAll({
     _id: { $in: environment.features }
   });
   return features.filter(f => f.isEnabled && f.status === FeatureStatus.ACTIVE).map(f => f.name);
@@ -25,10 +25,10 @@ export const getToggles = async (
     const environment: Environment = await environmentService.findOneByIdentifier(
       identifier
     );
-    const features: Feature[] = await featureService.findAll({
+    const features: FeatureToggle[] = await featureService.findAll({
       _id: { $in: environment.features }
     });
-    const enabledFeatures: Feature[] = features.filter(
+    const enabledFeatures: FeatureToggle[] = features.filter(
       f => f.isEnabled && f.status !== FeatureStatus.DELETED
     );
 
@@ -73,14 +73,14 @@ export const sendFeaturesToServer = async (environment: Environment) => {
     if (!environment.serverAddress || environment.serverAddress === "") {
       return;
     }
-    const features: Feature[] = await featureService.findAll({
+    const featureToggles: FeatureToggle[] = await featureService.findAll({
       _id: { $in: environment.features },
       isEnabled: true
     });
 
     await fetch(environment.serverAddress, {
       method: "POST",
-      body: JSON.stringify(features.map(f => f.name)),
+      body: JSON.stringify(featureToggles.map(f => f.name)),
       headers: { 'Content-Type': 'application/json' }
     });
     console.log(`successfully notified ${environment.name}`);
@@ -89,7 +89,7 @@ export const sendFeaturesToServer = async (environment: Environment) => {
   }
 }
 
-export const notifyServersAfterChangedFeature = async (feature: Feature) => {
+export const notifyServersAfterChangedFeature = async (feature: FeatureToggle) => {
   try {
     const environments: Environment[] = await environmentService.findAll({
       features: feature._id
@@ -100,6 +100,6 @@ export const notifyServersAfterChangedFeature = async (feature: Feature) => {
   }
 }
 
-export const getRulesForFeature = (feature: Feature, rules: Rule[]): Rule[] => {
+export const getRulesForFeature = (feature: FeatureToggle, rules: Rule[]): Rule[] => {
   return rules.filter(rule => rule.featureIds.includes(`${feature._id}`));
 };

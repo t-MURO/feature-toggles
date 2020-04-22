@@ -2,15 +2,15 @@
   <v-card>
     <v-card-text>
       <v-list dense subheader inactive>
-        <v-subheader v-if="getFeaturesByIds(environment.features).length > 0"
+        <v-subheader v-if="getFeatureTogglesByIds(environment.features).length > 0"
           >FEATURES ({{
-            getFeaturesByIds(environment.features).length
+            getFeatureTogglesByIds(environment.features).length
           }})</v-subheader
         >
         <v-subheader v-else>THIS ENVIRONMENT HAS NO FEATURES</v-subheader>
         <v-list-item-group inactive color="primary" class="feature-list">
           <v-list-item
-            v-for="feature in getFeaturesByIds(environment.features)"
+            v-for="feature in getFeatureTogglesByIds(environment.features)"
             :key="feature._id"
             :ripple="false"
           >
@@ -91,9 +91,9 @@ export default {
     }
   },
   computed: {
-    ...mapGetters("api", ["getFeaturesByIds"]),
+    ...mapGetters("api", ["getFeatureTogglesByIds"]),
     features() {
-      return this.getFeaturesByIds(this.environment.features);
+      return this.getFeatureTogglesByIds(this.environment.features);
     }
   }
 };

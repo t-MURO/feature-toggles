@@ -6,7 +6,7 @@ export enum FeatureStatus {
     ACTIVE = "ACTIVE",
     DELETED = "DELETED"
 }
-@pre<Feature>('findOneAndUpdate', function (this: any, next) {
+@pre<FeatureToggle>('findOneAndUpdate', function (this: any, next) {
     this._update.updatedAt = new Date();
     if (next) {
         next();
@@ -20,7 +20,7 @@ export enum FeatureStatus {
         timestamps: true,
     }
 })
-export default class Feature {
+export default class FeatureToggle {
 
     _id?: Mongoose.Types.ObjectId;
 

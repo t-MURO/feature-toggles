@@ -61,18 +61,18 @@ export default {
       this.feature = this.featureProp;
       return;
     }
-    const featureFromStore = this.getFeature(this.$route.params.id);
+    const featureFromStore = this.getFeatureToggle(this.$route.params.id);
     if (featureFromStore) {
       this.feature = featureFromStore;
     }
-    APIService.getFeature(this.$route.params.id)
+    APIService.getFeatureToggle(this.$route.params.id)
       .then(f => (this.feature = f))
       .catch(err => alert(err));
   },
   computed: {
-    ...mapGetters("api", ["getFeature", "getEnvironmentsForFeature"]),
+    ...mapGetters("api", ["getFeatureToggle", "getEnvironmentsForFeature"]),
     featureFromStore() {
-      return this.getFeature(this.$route.params.id);
+      return this.getFeatureToggle(this.$route.params.id);
     }
   },
   watch: {

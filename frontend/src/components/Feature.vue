@@ -1,6 +1,6 @@
 <template>
   <v-card class="feature">
-    <router-link :to="{ path: '/features/' + feature._id }">
+    <router-link :to="{ path: '/feature-toggles/' + feature._id }">
       <v-card-title primary-title>{{ feature.name }}</v-card-title>
     </router-link>
     <v-divider></v-divider>
@@ -28,7 +28,7 @@
     </v-card-text>
     <v-card-actions>
       <v-spacer></v-spacer>
-      <v-btn :to="{ path: '/features/' + feature._id }" color="info">
+      <v-btn :to="{ path: '/feature-toggles/' + feature._id }" color="info">
         <v-icon left>settings</v-icon>
         Configure
       </v-btn>

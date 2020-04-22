@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Router from "vue-router";
-import Features from "./views/Features";
-import Feature from "./views/Feature";
+import FeatureToggles from "./views/FeatureToggles";
+import FeatureToggle from "./views/FeatureToggle";
 import Environments from "./views/Environments";
 import Environment from "./views/Environment";
 import Login from "./views/Login";
@@ -43,14 +43,14 @@ const router = new Router({
       component: App,
       children: [
         {
-          path: "/features",
-          name: "features",
-          component: Features
+          path: "/feature-toggles",
+          name: "Feature Toggles",
+          component: FeatureToggles
         },
         {
-          path: "/features/:id",
-          name: "Feature",
-          component: Feature
+          path: "/feature-toggles/:id",
+          name: "Feature Toggle",
+          component: FeatureToggle
         },
         {
           path: "/environments",

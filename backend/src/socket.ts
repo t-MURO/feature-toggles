@@ -1,6 +1,6 @@
 import io from "socket.io";
 import { Server } from "http";
-import FeaturesRequest from "./models/transfer/FeaturesRequest";
+import FeatureRequest from "./models/transfer/FeatureRequest";
 import { getToggles } from "./services/ToggleService";
 
 let ws: io.Server;
@@ -9,7 +9,7 @@ export const initSocket = (server: Server) => {
   ws = io(server);
   ws.on("connection", socket => {
     console.log("connected user");
-    socket.on("get-features", async (request: FeaturesRequest) => {
+    socket.on("get-features", async (request: FeatureRequest) => {
       socket.join(request.environmentId);
       const features = await getToggles(request.environmentId, request.options);
       socket.emit("features", features);

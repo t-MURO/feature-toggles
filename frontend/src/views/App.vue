@@ -103,7 +103,7 @@ export default {
     dark: false,
     items: [
       { icon: "work", text: "Playground", link: "/playground" },
-      { icon: "power_settings_new", text: "Features", link: "/features" },
+      { icon: "power_settings_new", text: "Features", link: "/feature-toggles" },
       { icon: "phonelink", text: "Environments", link: "/environments" },
       // {
       //   icon: 'keyboard_arrow_up',

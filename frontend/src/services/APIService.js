@@ -3,7 +3,7 @@ import router from "../router";
 
 const BASE_URL = "http://localhost:3333/";
 const API_URL = BASE_URL + "api/";
-const FEATURE_ROUTE = "features/";
+const FEATURE_ROUTE = "feature-toggles/";
 const ENVIRONMENT_ROUTE = "environments/";
 const USER_ROUTE = "users/";
 
@@ -30,14 +30,14 @@ const user = axios.create({
 });
 
 export default class APIService {
-  static getFeaturesByIds() {
+  static getFeatureTogglesByIds() {
     return api
       .get(FEATURE_ROUTE)
       .then(res => res.data)
       .catch(err => console.log("hallo", err));
   }
 
-  static getFeature(id) {
+  static getFeatureToggle(id) {
     return api.get(FEATURE_ROUTE + id).then(res => res.data);
   }
 
@@ -67,19 +67,19 @@ export default class APIService {
       .then(res => res.data);
   }
 
-  static createFeature(feature) {
+  static createFeatureToggle(feature) {
     return api.post(FEATURE_ROUTE, feature).then(res => res.data);
   }
 
-  static editFeature(feature) {
+  static editFeatureToggle(feature) {
     return api.put(FEATURE_ROUTE + feature._id, feature).then(res => res.data);
   }
 
-  static removeFeature(id) {
+  static removeFeatureToggle(id) {
     return api.delete(`${FEATURE_ROUTE}/remove/${id}`).then(res => res.data);
   }
 
-  static deleteFeature(id) {
+  static deleteFeatureToggle(id) {
     return api.delete(FEATURE_ROUTE + id).then(res => res.data);
   }
 

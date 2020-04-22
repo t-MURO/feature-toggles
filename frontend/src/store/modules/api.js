@@ -14,7 +14,7 @@ const apiModule = {
     SET_USER(state, user) {
       state.user = user;
     },
-    SET_FEATURES(state, features) {
+    SET_FEATURE_TOGGLES(state, features) {
       state.features = features;
     },
     SET_ENVIRONMENTS(state, environments) {
@@ -26,7 +26,7 @@ const apiModule = {
     loadInitialData({
       dispatch
     }) {
-      dispatch("getFeaturesByIds");
+      dispatch("getFeatureTogglesByIds");
       dispatch("getEnvironments");
     },
 
@@ -41,50 +41,40 @@ const apiModule = {
       }
     },
 
-    async getFeaturesByIds({
-      commit
-    }) {
+    async getFeatureTogglesByIds({ commit }) {
       try {
-        const features = await APIService.getFeaturesByIds();
-        commit("SET_FEATURES", features);
+        const features = await APIService.getFeatureTogglesByIds();
+        commit("SET_FEATURE_TOGGLES", features);
       } catch (e) {
         alert("error while fetching features");
       }
     },
 
-    async createFeature({
-      commit,
-      state
-    }, feature) {
+    async createFeatureToggle({ commit, state }, feature) {
       try {
-        const updatedFeature = await APIService.createFeature(feature);
+        const updatedFeature = await APIService.createFeatureToggle(feature);
         const updatedFeatures = [updatedFeature, ...state.features];
-        commit("SET_FEATURES", updatedFeatures);
+        commit("SET_FEATURE_TOGGLES", updatedFeatures);
       } catch (e) {
         // console.log(e);
         alert("error creating feature");
       }
     },
 
-    async editFeature({
-      commit,
-      state
-    }, feature) {
+    async editFeature({ commit, state }, feature) {
       try {
-        const updatedFeature = await APIService.editFeature(feature);
+        const updatedFeature = await APIService.editFeatureToggle(feature);
         const index = state.features.findIndex(f => f._id === feature._id);
         if (index < 0) throw new Error("updated feature doesn't exist");
         let updatedFeatures = [...state.features];
         updatedFeatures[index] = updatedFeature;
-        commit("SET_FEATURES", updatedFeatures);
+        commit("SET_FEATURE_TOGGLES", updatedFeatures);
       } catch (e) {
         // console.log(e);
       }
     },
 
-    async getEnvironments({
-      commit
-    }) {
+    async getEnvironments({ commit }) {
       try {
         const environments = await APIService.getEnvironments();
         commit("SET_ENVIRONMENTS", environments);
@@ -93,10 +83,7 @@ const apiModule = {
       }
     },
 
-    async createEnvironment({
-      commit,
-      state
-    }, environment) {
+    async createEnvironment({ commit, state }, environment) {
       try {
         const updatedEnvironment = await APIService.createEnvironment(
           environment
@@ -109,10 +96,7 @@ const apiModule = {
       }
     },
 
-    async editEnvironment({
-      commit,
-      state
-    }, environment) {
+    async editEnvironment({ commit, state }, environment) {
       try {
         const updatedEnvironment = await APIService.editEnvironment(
           environment
@@ -129,26 +113,20 @@ const apiModule = {
       }
     },
 
-    async removeFeature({
-      commit,
-      state
-    }, id) {
+    async removeFeature({ commit, state }, id) {
       try {
-        const feature = await APIService.removeFeature(id);
+        const feature = await APIService.removeFeatureToggle(id);
         const index = state.features.findIndex(f => f._id === feature._id);
         if (index < 0) throw new Error("updated feature doesn't exist");
         let updatedFeatures = [...state.features];
         updatedFeatures[index] = feature;
-        commit("SET_FEATURES", updatedFeatures);
+        commit("SET_FEATURE_TOGGLES", updatedFeatures);
       } catch (e) {
         alert("could not delete feature");
       }
     },
 
-    async removeEnvironment({
-      commit,
-      state
-    }, id) {
+    async removeEnvironment({ commit, state }, id) {
       try {
         await APIService.removeEnvironment(id);
         commit(
@@ -162,25 +140,20 @@ const apiModule = {
   },
 
   getters: {
-    getEnvironmentsByIds: state => environmentIds =>
-      environmentIds.map(env =>
-        state.environments.find(e => e._id === env._id)
-      ),
-    getEnvironmentsForFeature: state => featureId =>
-      state.environments.filter(e => e.features.includes(featureId)),
-    getFeaturesByIds: state => featureIds =>
-      featureIds.map(id => state.features.find(f => f._id === id)),
-    getFeatures: state => state.features.filter(f => f.status !== "DELETED"),
-    getAllFeatures: state => state.features,
+    getEnvironmentsByIds: state => environmentIds => environmentIds.map(env => state.environments.find(e => e._id === env._id)),
+    getEnvironmentsForFeature: state => featureId => state.environments.filter(e => e.features.includes(featureId)),
+    getFeatureTogglesByIds: state => featureIds => featureIds.map(id => state.features.find(f => f._id === id)),
+    getFeatureToggles: state => state.features.filter(f => f.status !== "DELETED"),
+    getAllFeatureToggles: state => state.features,
     getEnvironments: state => state.environments,
-    getFeature: state => id => state.features.find(f => f._id === id),
+    getFeatureToggle: state => id => state.features.find(f => f._id === id),
     getEnvironment: state => id => state.environments.find(e => e._id === id),
     getSearchableItems: (state, getters) => {
-      const searchableItems = getters.getFeatures.map(f => {
+      const searchableItems = getters.getFeatureToggles.map(f => {
         return {
           ...f,
           type: "FEATURE",
-          path: "/features/" + f._id
+          path: "/feature-toggles/" + f._id
         };
       });
       searchableItems.push(

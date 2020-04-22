@@ -60,7 +60,7 @@ app.use(cookieParser());
 
 app.use('/api/toggles', toggleController);
 app.use('/api/*', auth);
-app.use('/api/features', featureController);
+app.use('/api/feature-toggles', featureController);
 app.use('/api/environments', environmentController);
 app.use('/api/users', userController);
 

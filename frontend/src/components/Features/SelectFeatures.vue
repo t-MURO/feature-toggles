@@ -80,9 +80,9 @@ export default {
   },
   props: ["environment"],
   computed: {
-    ...mapGetters("api", ["getFeatures"]),
+    ...mapGetters("api", ["getFeatureToggles"]),
     filteredFeatures() {
-      return this.getFeatures.filter(
+      return this.getFeatureToggles.filter(
         f => !this.environment.features.includes(f._id)
       );
     }

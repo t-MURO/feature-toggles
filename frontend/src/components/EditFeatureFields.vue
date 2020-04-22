@@ -59,7 +59,7 @@ export default {
         v => !!v || "Name is required",
         v =>
           this.type !== "create" ||
-          this.getAllFeatures.findIndex(f => f.name === v) < 0 ||
+          this.getAllFeatureToggles.findIndex(f => f.name === v) < 0 ||
           "No duplicate names allowed",
         v => !/^[0-9][*]*/.test(v) || "Name cannot start with a number",
         v =>
@@ -74,7 +74,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions("api", ["createFeature", "editFeature"]),
+    ...mapActions("api", ["createFeatureToggle", "editFeature"]),
     resetForm() {
       if (this.feature) {
         this.localFeature = this.feature;
@@ -87,7 +87,7 @@ export default {
         return;
       }
       if (this.type === "create") {
-        this.createFeature(this.localFeature).then(() => {
+        this.createFeatureToggle(this.localFeature).then(() => {
           this.$emit("close");
           this.$refs.feature.reset(); //look into this
         });
@@ -100,7 +100,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters("api", ["getAllFeatures"])
+    ...mapGetters("api", ["getAllFeatureToggles"])
   }
 };
 </script>

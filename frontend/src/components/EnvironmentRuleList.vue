@@ -105,9 +105,9 @@ export default {
     }
   },
   computed: {
-    ...mapGetters("api", ["getFeaturesByIds"]),
+    ...mapGetters("api", ["getFeatureTogglesByIds"]),
     features() {
-      return this.getFeaturesByIds(this.environment.features);
+      return this.getFeatureTogglesByIds(this.environment.features);
     }
   }
 };

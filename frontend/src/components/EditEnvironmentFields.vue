@@ -29,7 +29,7 @@
           prepend-icon="power_settings_new"
           placeholder="Features (optional)"
           v-model="localEnvironment.features"
-          :items="getFeatures"
+          :items="getFeatureToggles"
           item-text="name"
           item-value="_id"
           clearable
@@ -37,7 +37,7 @@
           deletable-chips
           multiple
           hide-selected
-          :disabled="getFeatures.length < 1"
+          :disabled="getFeatureToggles.length < 1"
         >
           <template slot="item" slot-scope="data">
             {{ data.item.name }}
@@ -140,7 +140,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters("api", ["getEnvironments", "getFeatures"])
+    ...mapGetters("api", ["getEnvironments", "getFeatureToggles"])
   }
 };
 </script>

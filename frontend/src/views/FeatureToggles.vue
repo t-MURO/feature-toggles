@@ -3,13 +3,13 @@
     <h2 class="display-1">Features</h2>
     <v-spacer></v-spacer>
     <feature
-      v-for="feature in getFeatures"
+      v-for="feature in getFeatureToggles"
       :key="feature._id"
       :feature="feature"
       :removeFeature="removeFeature"
       :editFeature="editFeature"
     ></feature>
-    <p class="mt-4" v-if="getFeatures.length === 0">No features configured.</p>
+    <p class="mt-4" v-if="getFeatureToggles.length === 0">No features configured.</p>
   </v-container>
 </template>
 
@@ -25,7 +25,7 @@ export default {
     ...mapActions("api", ["removeFeature", "editFeature"])
   },
   computed: {
-    ...mapGetters("api", ["getFeatures"])
+    ...mapGetters("api", ["getFeatureToggles"])
   }
 };
 </script>

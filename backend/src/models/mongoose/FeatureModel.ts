@@ -1,5 +1,5 @@
-import Feature from '../domain/Feature';
+import FeatureToggle from '../domain/FeatureToggle';
 import { getModelForClass } from "@typegoose/typegoose";
 
-const FeatureModel = getModelForClass(Feature);
+const FeatureModel = getModelForClass(FeatureToggle);
 export default FeatureModel;

@@ -2,18 +2,7 @@
 # frontend
 
 ## Usage
-```HTML
-<Features :text="hello"></Features>
-```
-```javascript
-import { Features } from 'frontend'
 
-export default {
-  components: {
-    Features
-  }
-}
-```
 ## API
 
 ## Installation
