@@ -1,16 +1,18 @@
 import { Router } from "express";
 import User from "../models/domain/User";
 import { AUTH_COOKIE_NAME, TOKEN_EXPIRY_TIME } from "../config/config";
-import LoginService from "../services/LoginService";
+import UserService from "../services/UserService";
+import AuthService from "../services/AuthService";
 
 const loginController = Router();
-const loginService = new LoginService();
+const authService = new AuthService();
+const userService = new UserService();
 
 loginController
 
   .post("/login", async (req, res, next) => {
     try {
-      const { token, user } = await loginService.login(req.body.email, req.body.password);
+      const { token, user } = await authService.authenticate(req.body.email, req.body.password);
       res.cookie(AUTH_COOKIE_NAME, token, {
         maxAge: TOKEN_EXPIRY_TIME * 1000,
         httpOnly: true,
@@ -26,7 +28,7 @@ loginController
   .post("/register", async (req, res, next) => {
     const user: User = req.body;
     try {
-      await loginService.register(user);
+      await userService.create(user);
       res.status(201).end()
     } catch (e) {
       res.status(400)
