@@ -47,10 +47,10 @@
 <script>
 export default {
   name: "FeatureProps",
-  props: ["feature"],
+  props: ["featureToggle"],
   data() {
     return {
-      localFeature: { ...this.feature },
+      localFeature: { ...this.featureToggle },
       loading: false,
       editMode: false
     };

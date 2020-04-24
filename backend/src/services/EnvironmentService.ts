@@ -2,6 +2,9 @@ import EnvironmentModel from '../models/mongoose/EnvironmentModel';
 import Environment from '../models/domain/Environment';
 import { Error } from 'mongoose';
 import IService from "../models/interfaces/IService";
+import { sendFeaturesToServer } from './ToggleService';
+import FeatureToggle from '../models/domain/FeatureToggle';
+import { updateFeaturesThroughWebSocket } from './WebSocketService';
 
 export default class EnvironmentService implements IService<Environment>{
 
@@ -27,10 +30,14 @@ export default class EnvironmentService implements IService<Environment>{
     }
 
     public update(environment: Environment):Promise<any>{
-        environment.features = [...new Set(environment.features)]; // TODO: see if this is necessary, maybe implement validation fn in model
+        environment.featureToggles = [...new Set(environment.featureToggles)]; // TODO: see if this is necessary, maybe implement validation fn in model
         return new Promise((resolve, reject) => {
             EnvironmentModel.findOneAndUpdate({_id: environment._id}, environment, {new: true})
-                .then(t => resolve(t))
+                .then(t => {
+                    updateFeaturesThroughWebSocket();
+                    sendFeaturesToServer(environment);
+                    resolve(t)
+                })
                 .catch((err:Error) => reject(err))
         });
     }
@@ -41,6 +48,10 @@ export default class EnvironmentService implements IService<Environment>{
                 .then((res) => resolve(res))
                 .catch(err => reject(err));
         });
+    }
+
+    public findAllThatContainFeature(featureToggle: FeatureToggle): Promise<Environment[]> {
+        return this.findAll({ featureToggles: featureToggle._id });
     }
     
 }

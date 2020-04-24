@@ -15,21 +15,21 @@
 <script>
 import { mapActions } from "vuex";
 export default {
-  props: ["environment", "feature"],
+  props: ["environment", "featureToggle"],
   methods: {
     ...mapActions("api", ["editEnvironment"]),
     removeFeatureFromRule(name) {
       const index = this.environment.rules.findIndex(r => r.name === name);
       this.environment.rules[index].featureIds = this.environment.rules[
         index
-      ].featureIds.filter(id => id !== this.feature._id);
+      ].featureIds.filter(id => id !== this.featureToggle._id);
       this.editEnvironment(this.environment);
     }
   },
   computed: {
     rules() {
       return this.environment.rules.filter(r =>
-        r.featureIds.includes(this.feature._id)
+        r.featureIds.includes(this.featureToggle._id)
       );
     }
   }

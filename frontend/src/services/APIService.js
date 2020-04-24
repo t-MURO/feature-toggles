@@ -67,12 +67,12 @@ export default class APIService {
       .then(res => res.data);
   }
 
-  static createFeatureToggle(feature) {
-    return api.post(FEATURE_ROUTE, feature).then(res => res.data);
+  static createFeatureToggle(featureToggle) {
+    return api.post(FEATURE_ROUTE, featureToggle).then(res => res.data);
   }
 
-  static editFeatureToggle(feature) {
-    return api.put(FEATURE_ROUTE + feature._id, feature).then(res => res.data);
+  static editFeatureToggle(featureToggle) {
+    return api.put(FEATURE_ROUTE + featureToggle._id, featureToggle).then(res => res.data);
   }
 
   static removeFeatureToggle(id) {

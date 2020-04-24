@@ -2,12 +2,12 @@
   <v-card>
     <v-list-item-group two-line>
       <v-subheader>{{
-        getEnvironmentsForFeature(feature._id).length > 0
+        getEnvironmentsForFeature(featureToggle._id).length > 0
           ? "USED IN"
           : "NOT USED IN ANY ENVIRONMENT"
       }}</v-subheader>
       <v-list-item
-        v-for="environment in getEnvironmentsForFeature(feature._id)"
+        v-for="environment in getEnvironmentsForFeature(featureToggle._id)"
         :key="environment._id"
         :to="{ path: '/environments/' + environment._id }"
       >
@@ -27,7 +27,7 @@ import { mapGetters } from "vuex";
 
 export default {
   name: "FeatureEnvironments",
-  props: ["feature"],
+  props: ["featureToggle"],
   computed: {
     ...mapGetters("api", ["getEnvironmentsForFeature"])
   }

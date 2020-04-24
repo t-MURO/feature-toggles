@@ -2,37 +2,37 @@
   <v-card>
     <v-card-text>
       <v-list dense subheader inactive>
-        <v-subheader v-if="getFeatureTogglesByIds(environment.features).length > 0"
-          >FEATURES ({{
-            getFeatureTogglesByIds(environment.features).length
+        <v-subheader v-if="getFeatureTogglesByIds(environment.featureToggles).length > 0"
+          >FEATURE TOGGLES ({{
+            getFeatureTogglesByIds(environment.featureToggles).length
           }})</v-subheader
         >
         <v-subheader v-else>THIS ENVIRONMENT HAS NO FEATURES</v-subheader>
         <v-list-item-group inactive color="primary" class="feature-list">
           <v-list-item
-            v-for="feature in getFeatureTogglesByIds(environment.features)"
-            :key="feature._id"
+            v-for="featureToggle in getFeatureTogglesByIds(environment.featureToggles)"
+            :key="featureToggle._id"
             :ripple="false"
           >
             <v-list-item-action @click.prevent>
-              <feature-switch :feature="feature"></feature-switch>
+              <feature-switch :featureToggle="featureToggle"></feature-switch>
             </v-list-item-action>
 
             <v-list-item-content>
               <v-list-item-title>
-                {{ feature.name }}
+                {{ featureToggle.name }}
                 <v-chip
                   class="ml-2"
                   color="error"
                   x-small
                   label
                   dense
-                  v-if="feature.status === 'DELETED'"
+                  v-if="featureToggle.status === 'DELETED'"
                   >Deleted</v-chip
                 >
                 <RuleChipGroup
                   :environment="environment"
-                  :feature="feature"
+                  :featureToggle="featureToggle"
                   class="ml-2"
                 />
               </v-list-item-title>
@@ -40,11 +40,11 @@
             <v-list-item-action>
               <div>
                 <SelectRules
-                  v-if="feature"
-                  :feature="feature"
+                  v-if="featureToggle"
+                  :featureToggle="featureToggle"
                   :environment="environment"
                 />
-                <v-btn small @click="removeFeature(feature._id)">Remove</v-btn>
+                <v-btn small @click="removeFeature(featureToggle._id)">Remove</v-btn>
               </div>
             </v-list-item-action>
           </v-list-item>
@@ -86,14 +86,15 @@ export default {
     ...mapActions("api", ["editEnvironment"]),
     removeFeature(featureId) {
       let env = { ...this.$props.environment };
-      env.features = env.features.filter(id => id !== featureId);
+      env.featureToggles = env.featureToggles.filter(id => id !== featureId);
       this.editEnvironment(env);
     }
   },
   computed: {
     ...mapGetters("api", ["getFeatureTogglesByIds"]),
-    features() {
-      return this.getFeatureTogglesByIds(this.environment.features);
+    featureToggles() {
+      this.getFeatureTogglesByIds(this.environment.featureToggles);
+      return null;
     }
   }
 };

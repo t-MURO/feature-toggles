@@ -1,7 +1,7 @@
 <template>
-  <v-container v-if="feature">
+  <v-container v-if="featureToggle">
     <h2 class="display-1">
-      {{ feature.name
+      {{ featureToggle.name
       }}<v-btn small text @click="editDialog = true"
         ><v-icon>edit</v-icon></v-btn
       >
@@ -16,20 +16,20 @@
         v-if="editDialog"
         type="edit"
         :cancel="true"
-        :feature="feature"
+        :featureToggle="featureToggle"
         @close="editDialog = false"
       />
     </v-dialog>
     <v-row>
-      <v-col lg="8" v-if="feature.description">
+      <v-col lg="8" v-if="featureToggle.description">
         <v-card>
           <v-card-text>
-            <PreformattedParagraph :text="feature.description" />
+            <PreformattedParagraph :text="featureToggle.description" />
           </v-card-text>
         </v-card>
       </v-col>
       <v-col lg="4" fill-height>
-        <feature-environments :feature="feature" />
+        <feature-environments :featureToggle="featureToggle" />
       </v-col>
     </v-row>
   </v-container>
@@ -52,21 +52,21 @@ export default {
   },
   data() {
     return {
-      feature: null,
+      featureToggle: null,
       editDialog: false
     };
   },
   beforeMount() {
     if (this.featureProp) {
-      this.feature = this.featureProp;
+      this.featureToggle = this.featureProp;
       return;
     }
     const featureFromStore = this.getFeatureToggle(this.$route.params.id);
     if (featureFromStore) {
-      this.feature = featureFromStore;
+      this.featureToggle = featureFromStore;
     }
     APIService.getFeatureToggle(this.$route.params.id)
-      .then(ft => (this.feature = ft))
+      .then(ft => (this.featureToggle = ft))
       .catch(err => alert(err));
   },
   computed: {
@@ -78,7 +78,7 @@ export default {
   watch: {
     featureFromStore(newValue) {
       if (newValue) {
-        this.feature = newValue;
+        this.featureToggle = newValue;
       }
     }
   }

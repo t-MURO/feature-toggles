@@ -3,9 +3,9 @@
     <h2 class="display-1">Features</h2>
     <v-spacer></v-spacer>
     <feature
-      v-for="feature in getFeatureToggles"
-      :key="feature._id"
-      :feature="feature"
+      v-for="featureToggle in getFeatureToggles"
+      :key="featureToggle._id"
+      :featureToggle="featureToggle"
       :removeFeature="removeFeature"
       :editFeature="editFeature"
     ></feature>

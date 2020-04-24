@@ -7,7 +7,7 @@ import cookieParser from "cookie-parser";
 import morgan from "morgan";
 
 import auth from './middleware/auth';
-import { initSocket } from './socket';
+import { initSocket } from './services/WebSocketService';
 
 import featureController from './controllers/FeatureController';
 import environmentController from './controllers/EnvironmentController';

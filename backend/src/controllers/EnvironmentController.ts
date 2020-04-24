@@ -2,7 +2,6 @@ import { Router } from "express";
 import EnvironmentService from "../services/EnvironmentService";
 import Environment from "../models/domain/Environment";
 import CustomRequest from "../models/interfaces/CustomRequest";
-import { updateFeaturesThroughWebSocket } from "../socket";
 import ToggleService from "../services/ToggleService";
 
 const environmentController = Router();
@@ -42,11 +41,7 @@ environmentController
     newEnvironment.updatedBy = (req.user && req.user.email) || "Unknown";
     environmentService
       .update(newEnvironment)
-      .then(environment => {
-        res.status(200).json(environment)
-        updateFeaturesThroughWebSocket();
-        toggleService.sendFeaturesToServer(environment);
-      })
+      .then(environment => res.status(200).json(environment))
       .catch(err => res.status(400).json(err));
   })
 

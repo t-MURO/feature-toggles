@@ -2,6 +2,9 @@ import FeatureModel from '../models/mongoose/FeatureModel';
 import FeatureToggle, { FeatureStatus } from '../models/domain/FeatureToggle';
 import { Error } from 'mongoose';
 import IService from "../models/interfaces/IService";
+import Environment from '../models/domain/Environment';
+import { notifyServersAfterChangedFeature } from './ToggleService';
+import { updateFeaturesThroughWebSocket } from './WebSocketService';
 
 export default class FeatureToggleService implements IService<FeatureToggle>{
 
@@ -11,6 +14,12 @@ export default class FeatureToggleService implements IService<FeatureToggle>{
 
     public findAll(conditions?:any):Promise<FeatureToggle[]>{
         return new Promise((resolve, reject) => FeatureModel.find(conditions || {}, (err:Error, features:FeatureToggle[]) => err ? reject(err) : resolve(features)));
+    }
+
+    public findAllFeatureTogglesForEnvironment(environment: Environment): Promise<FeatureToggle[]> {
+        return this.findAll({
+            _id: { $in: environment.featureToggles }
+        });
     }
 
     public create(features:FeatureToggle|FeatureToggle[]):Promise<any>{
@@ -24,7 +33,11 @@ export default class FeatureToggleService implements IService<FeatureToggle>{
     public update(feature: FeatureToggle):Promise<FeatureToggle>{
         return new Promise((resolve, reject) => {
             FeatureModel.findOneAndUpdate({_id: feature._id}, feature, {new: true})
-                .then((t:any) => resolve(t))
+                .then((t:any) => {
+                    updateFeaturesThroughWebSocket();
+                    notifyServersAfterChangedFeature(feature);
+                    resolve(t)
+                })
                 .catch((err:Error) => reject(err))
         });
     }

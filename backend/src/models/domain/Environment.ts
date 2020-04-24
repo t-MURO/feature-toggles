@@ -45,7 +45,7 @@ export default class Environment {
   identifier!: string;
 
   @arrayProp({ required: true, default: [], items: String })
-  features!: string[];
+  featureToggles!: string[];
 
   @prop()
   serverAddress!: string;

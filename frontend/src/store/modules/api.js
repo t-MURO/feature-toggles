@@ -5,7 +5,7 @@ const apiModule = {
 
   state: {
     user: null,
-    features: [],
+    featureToggles: [],
     environments: [],
     test: true
   },
@@ -14,8 +14,8 @@ const apiModule = {
     SET_USER(state, user) {
       state.user = user;
     },
-    SET_FEATURE_TOGGLES(state, features) {
-      state.features = features;
+    SET_FEATURE_TOGGLES(state, featureToggles) {
+      state.featureToggles = featureToggles;
     },
     SET_ENVIRONMENTS(state, environments) {
       state.environments = environments;
@@ -43,30 +43,30 @@ const apiModule = {
 
     async getFeatureTogglesByIds({ commit }) {
       try {
-        const features = await APIService.getFeatureTogglesByIds();
-        commit("SET_FEATURE_TOGGLES", features);
+        const featureToggles = await APIService.getFeatureTogglesByIds();
+        commit("SET_FEATURE_TOGGLES", featureToggles);
       } catch (e) {
         alert("error while fetching features");
       }
     },
 
-    async createFeatureToggle({ commit, state }, feature) {
+    async createFeatureToggle({ commit, state }, featureToggle) {
       try {
-        const updatedFeature = await APIService.createFeatureToggle(feature);
-        const updatedFeatures = [updatedFeature, ...state.features];
+        const updatedFeature = await APIService.createFeatureToggle(featureToggle);
+        const updatedFeatures = [updatedFeature, ...state.featureToggles];
         commit("SET_FEATURE_TOGGLES", updatedFeatures);
       } catch (e) {
         // console.log(e);
-        alert("error creating feature");
+        alert("error creating featureToggle");
       }
     },
 
-    async editFeature({ commit, state }, feature) {
+    async editFeature({ commit, state }, featureToggle) {
       try {
-        const updatedFeature = await APIService.editFeatureToggle(feature);
-        const index = state.features.findIndex(ft => ft._id === feature._id);
+        const updatedFeature = await APIService.editFeatureToggle(featureToggle);
+        const index = state.featureToggles.findIndex(ft => ft._id === featureToggle._id);
         if (index < 0) throw new Error("updated feature doesn't exist");
-        let updatedFeatures = [...state.features];
+        let updatedFeatures = [...state.featureToggles];
         updatedFeatures[index] = updatedFeature;
         commit("SET_FEATURE_TOGGLES", updatedFeatures);
       } catch (e) {
@@ -92,7 +92,7 @@ const apiModule = {
         commit("SET_ENVIRONMENTS", updatedEnvironments);
       } catch (e) {
         // console.log(e);
-        alert("error creating feature");
+        alert("error creating feature toggle");
       }
     },
 
@@ -115,14 +115,14 @@ const apiModule = {
 
     async removeFeature({ commit, state }, id) {
       try {
-        const feature = await APIService.removeFeatureToggle(id);
-        const index = state.features.findIndex(ft => ft._id === feature._id);
-        if (index < 0) throw new Error("updated feature doesn't exist");
-        let updatedFeatures = [...state.features];
-        updatedFeatures[index] = feature;
+        const featureToggle = await APIService.removeFeatureToggle(id);
+        const index = state.featureToggles.findIndex(ft => ft._id === featureToggle._id);
+        if (index < 0) throw new Error("updated feature toggle doesn't exist");
+        let updatedFeatures = [...state.featureToggles];
+        updatedFeatures[index] = featureToggle;
         commit("SET_FEATURE_TOGGLES", updatedFeatures);
       } catch (e) {
-        alert("could not delete feature");
+        alert("could not delete feature toggle");
       }
     },
 
@@ -141,12 +141,12 @@ const apiModule = {
 
   getters: {
     getEnvironmentsByIds: state => environmentIds => environmentIds.map(env => state.environments.find(e => e._id === env._id)),
-    getEnvironmentsForFeature: state => featureId => state.environments.filter(e => e.features.includes(featureId)),
-    getFeatureTogglesByIds: state => featureIds => featureIds.map(id => state.features.find(ft => ft._id === id)),
-    getFeatureToggles: state => state.features.filter(ft => ft.status !== "DELETED"),
-    getAllFeatureToggles: state => state.features,
+    getEnvironmentsForFeature: state => featureId => state.environments.filter(e => e.featureToggles.includes(featureId)),
+    getFeatureTogglesByIds: state => featureIds => featureIds.map(id => state.featureToggles.find(ft => ft._id === id)),
+    getFeatureToggles: state => state.featureToggles.filter(ft => ft.status !== "DELETED"),
+    getAllFeatureToggles: state => state.featureToggles,
     getEnvironments: state => state.environments,
-    getFeatureToggle: state => id => state.features.find(ft => ft._id === id),
+    getFeatureToggle: state => id => state.featureToggles.find(ft => ft._id === id),
     getEnvironment: state => id => state.environments.find(e => e._id === id),
     getSearchableItems: (state, getters) => {
       const searchableItems = getters.getFeatureToggles.map(ft => {

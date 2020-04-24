@@ -2,7 +2,6 @@ import { Router } from "express";
 import FeatureToggle from "../models/domain/FeatureToggle";
 import FeatureToggleService from "../services/FeatureToggleService";
 import CustomRequest from "../models/interfaces/CustomRequest";
-import { updateFeaturesThroughWebSocket } from "../socket";
 import ToggleService from "../services/ToggleService";
 
 const featureController = Router();
@@ -39,21 +38,13 @@ featureController
   })
 
   .put("/:id", async (req: CustomRequest, res, next) => {
-    let newFeature: FeatureToggle = req.body;
-    newFeature.updatedBy = (req.user && req.user.email) || "Unknown";
+    let newFeatureToggle: FeatureToggle = req.body;
+    newFeatureToggle.updatedBy = (req.user && req.user.email) || "Unknown";
     req.body._id = req.params.id;
 
-    const oldFeature: FeatureToggle = await featureToggleService.findOne(req.body._id);
-    // const changedEnabledStatus = oldFeature.isEnabled !== newFeature.isEnabled;
     featureToggleService
-      .update(newFeature)
-      .then(feature => {
-        res.status(200).json(feature)
-        updateFeaturesThroughWebSocket();
-        toggleService.notifyServersAfterChangedFeature(newFeature);
-        // if(changedEnabledStatus) {
-        // }
-      })
+      .update(newFeatureToggle)
+      .then(featureToggle => res.status(200).json(featureToggle))
       .catch(err => res.status(400).json(err));
   })
 

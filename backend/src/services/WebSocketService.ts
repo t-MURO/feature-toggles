@@ -1,7 +1,7 @@
 import io from "socket.io";
 import { Server } from "http";
-import FeatureRequest from "./models/transfer/FeatureRequest";
-import ToggleService from "./services/ToggleService";
+import FeatureRequest from "../models/transfer/FeatureRequest";
+import ToggleService from "./ToggleService";
 
 const toggleService = new ToggleService();
 
@@ -21,7 +21,7 @@ export const initSocket = (server: Server) => {
   return ws;
 };
 
-export const getCurrentlyUsedEnvironments = (): string[] => {
+const getCurrentlyUsedEnvironments = (): string[] => {
   const sids = ws.sockets.adapter.sids;
   const identifiers = Object.keys(sids)
     .filter(sid => Object.keys(sids[sid]).length > 1) // gets rid of first entry that doesnt seem to be an user
@@ -37,9 +37,9 @@ export const updateFeaturesThroughWebSocket = () => {
   });
 };
 
-export const getIO = () => {
-  if (!ws) {
-    throw new Error("Socket.io not initialized");
-  }
-  return ws;
-};
+// export const getIO = () => {
+//   if (!ws) {
+//     throw new Error("Socket.io not initialized");
+//   }
+//   return ws;
+// };

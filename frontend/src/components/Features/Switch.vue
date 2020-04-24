@@ -1,9 +1,9 @@
 <template>
   <v-switch
-    v-model="feature.isEnabled"
+    v-model="featureToggle.isEnabled"
     @change="featureSwitch($event)"
     :loading="loading"
-    :disabled="feature.status === 'DELETED'"
+    :disabled="featureToggle.status === 'DELETED'"
   ></v-switch>
 </template>
 
@@ -12,7 +12,7 @@ import { mapActions } from "vuex";
 
 export default {
   name: "feature-switch",
-  props: ["feature"],
+  props: ["featureToggle"],
   data() {
     return {
       loading: false
@@ -21,10 +21,10 @@ export default {
   methods: {
     ...mapActions("api", ["editFeature"]),
     featureSwitch(event) {
-      let feature = { ...this.feature };
-      feature.isEnabled = event;
+      let featureToggle = { ...this.featureToggle };
+      featureToggle.isEnabled = event;
       this.loading = true;
-      this.editFeature(feature).then(() => {
+      this.editFeature(featureToggle).then(() => {
         this.loading = false;
       });
     }

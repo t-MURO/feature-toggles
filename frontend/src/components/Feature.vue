@@ -1,19 +1,19 @@
 <template>
   <v-card class="feature">
-    <router-link :to="{ path: '/feature-toggles/' + feature._id }">
-      <v-card-title primary-title>{{ feature.name }}</v-card-title>
+    <router-link :to="{ path: '/feature-toggles/' + featureToggle._id }">
+      <v-card-title primary-title>{{ featureToggle.name }}</v-card-title>
     </router-link>
     <v-divider></v-divider>
     <v-card-text>
       <PreformattedParagraph
-        v-if="feature.description"
-        :text="feature.description"
+        v-if="featureToggle.description"
+        :text="featureToggle.description"
       />
-      <p v-if="getEnvironmentsForFeature(feature._id).length > 0">
+      <p v-if="getEnvironmentsForFeature(featureToggle._id).length > 0">
         Used in:
         <strong>
           <v-chip
-            v-for="environment in getEnvironmentsForFeature(feature._id)"
+            v-for="environment in getEnvironmentsForFeature(featureToggle._id)"
             :key="environment._id"
             :to="{ path: '/environments/' + environment._id }"
             outlined
@@ -24,15 +24,15 @@
           </v-chip>
         </strong>
       </p>
-      <feature-switch :feature="feature"></feature-switch>
+      <feature-switch :featureToggle="featureToggle"></feature-switch>
     </v-card-text>
     <v-card-actions>
       <v-spacer></v-spacer>
-      <v-btn :to="{ path: '/feature-toggles/' + feature._id }" color="info">
+      <v-btn :to="{ path: '/feature-toggles/' + featureToggle._id }" color="info">
         <v-icon left>settings</v-icon>
         Configure
       </v-btn>
-      <v-btn @click="removeFeature(feature._id)" color="error">
+      <v-btn @click="removeFeature(featureToggle._id)" color="error">
         <v-icon left>delete</v-icon>
         Delete
       </v-btn>
@@ -46,7 +46,7 @@ import FeatureSwitch from "./Features/Switch";
 import PreformattedParagraph from "./PreformattedParagraph";
 export default {
   components: { FeatureSwitch, PreformattedParagraph },
-  props: ["feature", "removeFeature", "editFeature"],
+  props: ["featureToggle", "removeFeature", "editFeature"],
   data() {
     return {
       loading: false,
@@ -54,14 +54,14 @@ export default {
     };
   },
   created() {
-    this.enabled = this.feature.isEnabled;
+    this.enabled = this.featureToggle.isEnabled;
   },
   methods: {
     featureSwitch(event) {
-      let feature = { ...this.feature };
-      feature.isEnabled = event;
+      let featureToggle = { ...this.featureToggle };
+      featureToggle.isEnabled = event;
       this.loading = true;
-      this.editFeature(feature).then(() => {
+      this.editFeature(featureToggle).then(() => {
         this.loading = false;
       });
     }

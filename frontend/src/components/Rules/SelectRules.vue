@@ -2,7 +2,7 @@
   <span>
     <v-btn
       @click="dialog = true"
-      v-if="feature.status !== 'DELETED'"
+      v-if="featureToggle.status !== 'DELETED'"
       color="accent"
       class="mr-1"
       small
@@ -16,7 +16,7 @@
     >
       <v-card>
         <v-card-title primary-title
-          >Select rules for '{{ feature.name }}'</v-card-title
+          >Select rules for '{{ featureToggle.name }}'</v-card-title
         >
         <v-divider></v-divider>
         <v-card-text>
@@ -89,7 +89,7 @@ export default {
       if (this.selectedRules.length === 0) return this.close();
       this.loading = true;
       this.selectedRules.forEach(r => {
-        r.featureIds.push(this.feature._id);
+        r.featureIds.push(this.featureToggle._id);
         const index = this.environment.rules.findIndex(
           oldRule => oldRule.name === r.name
         );
@@ -105,11 +105,11 @@ export default {
       this.dialog = false;
     }
   },
-  props: ["environment", "feature"],
+  props: ["environment", "featureToggle"],
   computed: {
     filteredRules() {
       return this.environment.rules.filter(
-        r => !r.featureIds.includes(this.feature._id)
+        r => !r.featureIds.includes(this.featureToggle._id)
       );
     }
   }

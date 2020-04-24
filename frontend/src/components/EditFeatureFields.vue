@@ -1,6 +1,6 @@
 <template>
   <v-form
-    ref="feature"
+    ref="featureToggle"
     lazy-validation
     v-model="isValid"
     @submit.prevent="save()"
@@ -8,20 +8,20 @@
     <v-card>
       <v-card-title primary-title>
         <span v-if="type === 'create'">Create Feature</span>
-        <span v-if="type === 'edit'">Edit {{ feature.name }}</span>
+        <span v-if="type === 'edit'">Edit {{ featureToggle.name }}</span>
       </v-card-title>
       <v-card-text>
         <v-text-field
           placeholder="Name"
           prepend-icon="description"
-          name="feature-name"
-          v-model="localFeature.name"
+          name="feature-toggle-name"
+          v-model="localFeatureToggle.name"
           :rules="nameRules"
         />
         <v-textarea
           placeholder="Description (optional)"
           prepend-icon="title"
-          v-model="localFeature.description"
+          v-model="localFeatureToggle.description"
           rows="3"
           auto-grow
         />
@@ -34,7 +34,7 @@
         <v-spacer></v-spacer>
         <v-btn
           color="success"
-          @click="$refs.feature.validate()"
+          @click="$refs.featureToggle.validate()"
           :disabled="!isValid"
           type="submit"
           >Save</v-btn
@@ -47,11 +47,11 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 export default {
-  props: ["feature", "type", "cancel"],
+  props: ["featureToggle", "type", "cancel"],
   data() {
     return {
       isValid: false,
-      localFeature: {
+      localFeatureToggle: {
         name: "",
         description: ""
       },
@@ -69,32 +69,32 @@ export default {
     };
   },
   beforeMount() {
-    if (this.feature) {
-      this.localFeature = { ...this.feature };
+    if (this.featureToggle) {
+      this.localFeatureToggle = { ...this.featureToggle };
     }
   },
   methods: {
     ...mapActions("api", ["createFeatureToggle", "editFeature"]),
     resetForm() {
-      if (this.feature) {
-        this.localFeature = this.feature;
+      if (this.featureToggle) {
+        this.localFeatureToggle = this.featureToggle;
       } else {
-        this.$refs.feature.reset();
+        this.$refs.featureToggle.reset();
       }
     },
     save() {
-      if (!this.$refs.feature.validate()) {
+      if (!this.$refs.featureToggle.validate()) {
         return;
       }
       if (this.type === "create") {
-        this.createFeatureToggle(this.localFeature).then(() => {
+        this.createFeatureToggle(this.localFeatureToggle).then(() => {
           this.$emit("close");
-          this.$refs.feature.reset(); //look into this
+          this.$refs.featureToggle.reset(); //look into this
         });
       } else if (this.type === "edit") {
-        this.editFeature(this.localFeature).then(() => {
+        this.editFeature(this.localFeatureToggle).then(() => {
           this.$emit("close");
-          this.$refs.feature.reset();
+          this.$refs.featureToggle.reset();
         });
       }
     }

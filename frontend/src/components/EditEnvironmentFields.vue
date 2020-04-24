@@ -28,7 +28,7 @@
         <v-select
           prepend-icon="power_settings_new"
           placeholder="Features (optional)"
-          v-model="localEnvironment.features"
+          v-model="localEnvironment.featureToggles"
           :items="getFeatureToggles"
           item-text="name"
           item-value="_id"

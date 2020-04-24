@@ -13,44 +13,40 @@ export default class ToggleService {
 
   public getTogglesWithoutOptions = async (identifier: string): Promise<string[]> => {
     const environment = await environmentService.findOneByIdentifier(identifier);
-    const features: FeatureToggle[] = await featureToggleService.findAll({
-      _id: { $in: environment.features }
-    });
-    return features.filter(ft => ft.isEnabled && ft.status === FeatureStatus.ACTIVE).map(ft => ft.name);
+    if (!environment) {
+      console.log(`Environment with identifier: ${identifier} was not found, returning empty array`);
+      return [];
+    }
+    const featureToggles: FeatureToggle[] = await featureToggleService.findAllFeatureTogglesForEnvironment(environment);
+    return featureToggles.filter(ft => ft.isEnabled && ft.status === FeatureStatus.ACTIVE).map(ft => ft.name);
   }
 
-  public getToggles = async (
-    identifier: string,
-    requestOptions?: RequestOptions
-  ): Promise<string[]> => {
+  public getToggles = async (identifier: string, requestOptions?: RequestOptions): Promise<string[]> => {
+
+    if(!requestOptions) {
+      // only return features which have no rules
+      console.log("no request options");
+      return this.getTogglesWithoutOptions(identifier);
+    }
+
     try {
       const environment: Environment = await environmentService.findOneByIdentifier(
         identifier
       );
-      const features: FeatureToggle[] = await featureToggleService.findAll({
-        _id: { $in: environment.features }
-      });
-      const enabledFeatureToggles: FeatureToggle[] = features.filter(
+      const featureToggles: FeatureToggle[] = await featureToggleService.findAllFeatureTogglesForEnvironment(environment);
+      const enabledFeatureToggles: FeatureToggle[] = featureToggles.filter(
         ft => ft.isEnabled && ft.status !== FeatureStatus.DELETED
       );
 
-      const featureIdsWithRules: string[] = [];
+      const featureToggleIdsWithRules: string[] = [];
 
       environment.rules.forEach(rule =>
-        featureIdsWithRules.push(...rule.featureIds)
+        featureToggleIdsWithRules.push(...rule.featureIds)
       );
-
-      if (!requestOptions) {
-        console.log("no request options");
-        // only return features which have no rules
-        return enabledFeatureToggles
-          .filter(featureToggle => !featureIdsWithRules.includes(`${featureToggle._id}`))
-          .map(ft => ft.name);
-      }
 
       return enabledFeatureToggles
         .filter(enabledFeatureToggle => {
-          if (!featureIdsWithRules.includes(`${enabledFeatureToggle._id}`)) {
+          if (!featureToggleIdsWithRules.includes(`${enabledFeatureToggle._id}`)) {
             return true;
           } else {
             const rules = this.getRulesForFeatureToggle(enabledFeatureToggle, environment.rules);
@@ -69,135 +65,43 @@ export default class ToggleService {
     }
   };
 
-
-  public sendFeaturesToServer = async (environment: Environment) => {
-    try {
-      if (!environment.serverAddress || environment.serverAddress === "") {
-        return;
-      }
-      const featureToggles: FeatureToggle[] = await featureToggleService.findAll({
-        _id: { $in: environment.features },
-        isEnabled: true
-      });
-
-      await fetch(environment.serverAddress, {
-        method: "POST",
-        body: JSON.stringify(featureToggles.map(ft => ft.name)),
-        headers: { 'Content-Type': 'application/json' }
-      });
-      console.log(`successfully notified ${environment.name}`);
-    } catch (e) {
-      console.warn(`${environment.name} could not be reached and was not notified of changes`);
-    }
-  }
-
-  public notifyServersAfterChangedFeature = async (featureToggle: FeatureToggle) => {
-    try {
-      const environments: Environment[] = await environmentService.findAll({
-        features: featureToggle._id
-      });
-      environments.forEach(async e => this.sendFeaturesToServer(e));
-    } catch (e) {
-      throw new Error(e);
-    }
-  }
-
-  public getRulesForFeatureToggle = (feature: FeatureToggle, rules: Rule[]): Rule[] => {
+  getRulesForFeatureToggle = (feature: FeatureToggle, rules: Rule[]): Rule[] => {
     return rules.filter(rule => rule.featureIds.includes(`${feature._id}`));
   };
 
 }
 
-// export const getTogglesWithoutOptions = async (identifier: string): Promise<string[]> => {
-//   const environment = await environmentService.findOneByIdentifier(identifier);
-//   const features: FeatureToggle[] = await featureService.findAll({
-//     _id: { $in: environment.features }
-//   });
-//   return features.filter(ft => ft.isEnabled && ft.status === FeatureStatus.ACTIVE).map(ft => ft.name);
-// }
+export const sendFeaturesToServer = async (environment: Environment) => {
+  try {
+    if (!environment.serverAddress || environment.serverAddress === "") {
+      return;
+    }
+    const featureToggles: FeatureToggle[] = await featureToggleService.findAll({
+      _id: { $in: environment.featureToggles },
+      isEnabled: true
+    });
 
-// export const getToggles = async (
-//   identifier: string,
-//   requestOptions?: RequestOptions
-// ): Promise<string[]> => {
-//   try {
-//     const environment: Environment = await environmentService.findOneByIdentifier(
-//       identifier
-//     );
-//     const features: FeatureToggle[] = await featureService.findAll({
-//       _id: { $in: environment.features }
-//     });
-//     const enabledFeatures: FeatureToggle[] = features.filter(
-//       ft => ft.isEnabled && ft.status !== FeatureStatus.DELETED
-//     );
+    await fetch(environment.serverAddress, {
+      method: "POST",
+      body: JSON.stringify(featureToggles.map(ft => ft.name)),
+      headers: { 'Content-Type': 'application/json' }
+    });
+    console.log(`successfully notified ${environment.name}`);
+  } catch (e) {
+    console.warn(`${environment.name} could not be reached and was not notified of changes`);
+  }
+}
 
-//     const featureIdsWithRules: string[] = [];
-
-//     environment.rules.forEach(rule =>
-//       featureIdsWithRules.push(...rule.featureIds)
-//     );
-
-//     if (!requestOptions) {
-//       console.log("no request options");
-//       // only return features which have no rules
-//       return enabledFeatures
-//         .filter(feature => !featureIdsWithRules.includes(`${feature._id}`))
-//         .map(ft => ft.name);
-//     }
-
-//     return enabledFeatures
-//       .filter(enabledFeature => {
-//         if (!featureIdsWithRules.includes(`${enabledFeature._id}`)) {
-//           return true;
-//         } else {
-//           const rules = getRulesForFeature(enabledFeature, environment.rules);
-//           console.log(
-//             `rules for ${enabledFeature.name} : ${rules.map(r => r.name)}`
-//           );
-//           if (rules.every(rule => evaluate(rule, requestOptions))) {
-//             return true;
-//           }
-//         }
-//         return false;
-//       })
-//       .map(feature => feature.name);
-//   } catch (e) {
-//     throw new Error(e);
-//   }
-// };
-
-
-// export const sendFeaturesToServer = async (environment: Environment) => {
-//   try {
-//     if (!environment.serverAddress || environment.serverAddress === "") {
-//       return;
-//     }
-//     const featureToggles: FeatureToggle[] = await featureService.findAll({
-//       _id: { $in: environment.features },
-//       isEnabled: true
-//     });
-
-//     await fetch(environment.serverAddress, {
-//       method: "POST",
-//       body: JSON.stringify(featureToggles.map(ft => ft.name)),
-//       headers: { 'Content-Type': 'application/json' }
-//     });
-//     console.log(`successfully notified ${environment.name}`);
-//   } catch (e) {
-//     console.warn(`${environment.name} could not be reached and was not notified of changes`);
-//   }
-// }
-
-// export const notifyServersAfterChangedFeature = async (feature: FeatureToggle) => {
-//   try {
-//     const environments: Environment[] = await environmentService.findAll({
-//       features: feature._id
-//     });
-//     environments.forEach(async e => sendFeaturesToServer(e));
-//   } catch (e) {
-//     throw new Error(e);
-//   }
-// }
+export const notifyServersAfterChangedFeature = async (featureToggle: FeatureToggle) => {
+  try {
+    const environments: Environment[] = await environmentService.findAllThatContainFeature(featureToggle);
+    environments
+      .filter(e => e.serverAddress && e.serverAddress.length > 0)
+      .forEach(async e => sendFeaturesToServer(e));
+  } catch (e) {
+    throw new Error(e);
+  }
+}
 
 // export const getRulesForFeature = (feature: FeatureToggle, rules: Rule[]): Rule[] => {
 //   return rules.filter(rule => rule.featureIds.includes(`${feature._id}`));

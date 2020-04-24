@@ -20,7 +20,7 @@
       <div>
         <environment-feature-list
           :environment="environment"
-          v-if="getFeatureTogglesByIds(environment.features).length > 0"
+          v-if="getFeatureTogglesByIds(environment.featureToggles).length > 0"
         ></environment-feature-list>
         <v-btn v-else @click="selectFeaturesDialog = true">Add Features</v-btn>
       </div>
@@ -92,7 +92,7 @@ export default {
     ...mapActions("api", ["editEnvironment"]),
     removeFeature(environment, featureId) {
       let env = { ...environment };
-      env.features = environment.features.filter(id => id !== featureId);
+      env.featureToggles = environment.featureToggles.filter(id => id !== featureId);
       this.editEnvironment(env);
     }
   },
