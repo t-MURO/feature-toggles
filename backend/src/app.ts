@@ -6,7 +6,6 @@ import path from 'path';
 import cookieParser from "cookie-parser";
 import morgan from "morgan";
 
-import auth from './middleware/auth';
 import { initSocket } from './services/WebSocketService';
 
 import featureController from './controllers/FeatureController';
@@ -14,6 +13,7 @@ import environmentController from './controllers/EnvironmentController';
 import userController from "./controllers/UserController";
 import loginController from './controllers/LoginController';
 import toggleController from "./controllers/ToggleController";
+import { authorize } from "./services/AuthService";
 
 
 const PORT = process.env.PORT || 3333;
@@ -59,7 +59,7 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 app.use('/api/toggles', toggleController);
-app.use('/api/*', auth);
+app.use('/api/*', authorize);
 app.use('/api/feature-toggles', featureController);
 app.use('/api/environments', environmentController);
 app.use('/api/users', userController);

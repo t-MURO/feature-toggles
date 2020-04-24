@@ -9,11 +9,12 @@ const loginService = new LoginService();
 loginController
 
   .post("/login", async (req, res, next) => {
-
     try {
       const { token, user } = await loginService.login(req.body.email, req.body.password);
       res.cookie(AUTH_COOKIE_NAME, token, {
-        maxAge: TOKEN_EXPIRY_TIME * 1000
+        maxAge: TOKEN_EXPIRY_TIME * 1000,
+        httpOnly: true,
+        // secure: true
       });
       return res.json(user);
     } catch (e) {

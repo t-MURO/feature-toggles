@@ -1,10 +1,10 @@
 import UserService from './UserService';
 import User from '../models/domain/User';
-import { generateToken } from '../util/AuthUtilities';
-import { toUserSimple } from '../util/UserUtilities';
 import { LoginResponse } from '../models/types/LoginResponse';
+import AuthService from './AuthService';
 
 const userService = new UserService();
+const authService = new AuthService();
 
 export default class LoginService {
     public register = async (user : User) => {
@@ -12,12 +12,6 @@ export default class LoginService {
     }
 
     public login = async (email: string, password: string): Promise<LoginResponse> => {
-        const user: User = await userService.findOneByEmail(email);
-        if (!user || user.password !== password) {
-           throw new Error("Authentication failed.");
-        }
-        const token = await generateToken(user);
-
-        return { user: toUserSimple(user), token }
+        return authService.authenticate(email, password);
     }
 }

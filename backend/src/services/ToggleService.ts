@@ -1,5 +1,6 @@
+import crypto from "crypto";
 import fetch from "node-fetch";
-import { Rule, evaluate } from "./../models/domain/Rule";
+import { Rule } from "./../models/domain/Rule";
 import Environment from "../models/domain/Environment";
 import EnvironmentService from "./EnvironmentService";
 import FeatureToggleService from "./FeatureToggleService";
@@ -23,19 +24,13 @@ export default class ToggleService {
 
   public getToggles = async (identifier: string, requestOptions?: RequestOptions): Promise<string[]> => {
 
-    if(!requestOptions) {
-      // only return features which have no rules
-      console.log("no request options");
-      return this.getTogglesWithoutOptions(identifier);
-    }
-
     try {
       const environment: Environment = await environmentService.findOneByIdentifier(
         identifier
       );
       const featureToggles: FeatureToggle[] = await featureToggleService.findAllFeatureTogglesForEnvironment(environment);
       const enabledFeatureToggles: FeatureToggle[] = featureToggles.filter(
-        ft => ft.isEnabled && ft.status !== FeatureStatus.DELETED
+        ft => ft.isEnabled && ft.status === FeatureStatus.ACTIVE
       );
 
       const featureToggleIdsWithRules: string[] = [];
@@ -53,7 +48,7 @@ export default class ToggleService {
             console.log(
               `rules for ${enabledFeatureToggle.name} : ${rules.map(r => r.name)}`
             );
-            if (rules.every(rule => evaluate(rule, requestOptions))) {
+            if (rules.every(rule => this.evaluate(rule, requestOptions))) {
               return true;
             }
           }
@@ -65,10 +60,38 @@ export default class ToggleService {
     }
   };
 
-  getRulesForFeatureToggle = (feature: FeatureToggle, rules: Rule[]): Rule[] => {
+  private getRulesForFeatureToggle = (feature: FeatureToggle, rules: Rule[]): Rule[] => {
     return rules.filter(rule => rule.featureIds.includes(`${feature._id}`));
   };
 
+  private evaluate = (rule: Rule, requestOptions?: RequestOptions): boolean => {
+    if (!requestOptions || !requestOptions.userGroup || !requestOptions.userId) {
+      return false;
+    }
+
+    if (rule.roles.length > 0 && !rule.roles.includes(requestOptions.userGroup)) {
+      console.log(
+        `declining toggle - allowed roles: ${rule.roles}, given role: ${requestOptions.userGroup}`
+      );
+      return false;
+    }
+
+    if (rule.displayToPercentage) {
+      const hash = crypto .createHash("sha256");
+      const hexValue: string = hash.update(requestOptions.userId).digest("hex");
+      const shortenedHexValue = hexValue.substring(0, 2);
+      const decimalValue = parseInt(shortenedHexValue, 16);
+      console.log(
+        `displayPercentage calculation: value from id = ${decimalValue /
+        2.55} | percentage: ${rule.displayToPercentage}`
+      );
+      if (decimalValue > rule.displayToPercentage * 2.55) {
+        return false;
+      }
+    }
+
+    return true;
+  };
 }
 
 export const sendFeaturesToServer = async (environment: Environment) => {
