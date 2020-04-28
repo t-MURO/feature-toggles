@@ -12,26 +12,24 @@ const featureToggleService = new FeatureToggleService();
 
 export default class ToggleService {
 
-  public getTogglesWithoutOptions = async (identifier: string): Promise<string[]> => {
+  public async getTogglesWithoutOptions(identifier: string): Promise<string[]> {
     const environment = await environmentService.findOneByIdentifier(identifier);
     if (!environment) {
       console.log(`Environment with identifier: ${identifier} was not found, returning empty array`);
       return [];
     }
-    const featureToggles: FeatureToggle[] = await featureToggleService.findAllFeatureTogglesForEnvironment(environment);
-    return featureToggles.filter(ft => ft.isEnabled && ft.status === FeatureStatus.ACTIVE).map(ft => ft.name);
+    const featureToggles: FeatureToggle[] = await featureToggleService.findAllEnabledFeatureTogglesForEnvironment(environment);
+    return featureToggles.map(ft => ft.name);
   }
 
-  public getToggles = async (identifier: string, requestOptions?: RequestOptions): Promise<string[]> => {
+  public async getToggles(identifier: string, requestOptions?: RequestOptions): Promise<string[]> {
 
     try {
       const environment: Environment = await environmentService.findOneByIdentifier(
         identifier
       );
-      const featureToggles: FeatureToggle[] = await featureToggleService.findAllFeatureTogglesForEnvironment(environment);
-      const enabledFeatureToggles: FeatureToggle[] = featureToggles.filter(
-        ft => ft.isEnabled && ft.status === FeatureStatus.ACTIVE
-      );
+
+      const featureToggles: FeatureToggle[] = await featureToggleService.findAllEnabledFeatureTogglesForEnvironment(environment);
 
       const featureToggleIdsWithRules: string[] = [];
 
@@ -39,7 +37,7 @@ export default class ToggleService {
         featureToggleIdsWithRules.push(...rule.featureIds)
       );
 
-      return enabledFeatureToggles
+      return featureToggles
         .filter(enabledFeatureToggle => {
           if (!featureToggleIdsWithRules.includes(`${enabledFeatureToggle._id}`)) {
             return true;
@@ -99,10 +97,7 @@ export const sendFeaturesToServer = async (environment: Environment) => {
     if (!environment.serverAddress || environment.serverAddress === "") {
       return;
     }
-    const featureToggles: FeatureToggle[] = await featureToggleService.findAll({
-      _id: { $in: environment.featureToggles },
-      isEnabled: true
-    });
+    const featureToggles = await featureToggleService.findAllEnabledFeatureTogglesForEnvironment(environment);
 
     await fetch(environment.serverAddress, {
       method: "POST",

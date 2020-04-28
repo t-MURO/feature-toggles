@@ -16,9 +16,10 @@ export default class FeatureToggleService implements IService<FeatureToggle>{
         return new Promise((resolve, reject) => FeatureModel.find(conditions || {}, (err:Error, features:FeatureToggle[]) => err ? reject(err) : resolve(features)));
     }
 
-    public findAllFeatureTogglesForEnvironment(environment: Environment): Promise<FeatureToggle[]> {
+    public findAllEnabledFeatureTogglesForEnvironment(environment: Environment): Promise<FeatureToggle[]> {
         return this.findAll({
-            _id: { $in: environment.featureToggles }
+            _id: { $in: environment.featureToggles },
+            isEnabled: true
         });
     }
 
