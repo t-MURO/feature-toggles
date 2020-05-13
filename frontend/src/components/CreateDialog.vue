@@ -23,7 +23,7 @@
 
       <v-list>
         <v-list-item @click="featureDialog = true">
-          <v-list-item-title>New Feature</v-list-item-title>
+          <v-list-item-title>New Feature Toggle</v-list-item-title>
         </v-list-item>
         <v-list-item @click="environmentDialog = true">
           <v-list-item-title>New Environment</v-list-item-title>

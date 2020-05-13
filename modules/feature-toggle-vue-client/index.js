@@ -3,16 +3,16 @@ import openConnection from "socket.io-client";
 
 export let ws;
 
-let environmentId;
+let identifier;
 let previousOptions;
 
 let state = Vue.observable({
-  features: []
+  featureToggles: []
 });
 
 const install = function(Vue, options) {
   ws = openConnection(options.url);
-  environmentId = options.environmentId;
+  identifier = options.identifier;
 
   ws.on("connect", () => {
     console.log("connected to feature toggle service");
@@ -23,7 +23,7 @@ const install = function(Vue, options) {
   });
 
   ws.on("features", featuresFromWs => {
-    state.features = featuresFromWs;
+    state.featureToggles = featuresFromWs;
   });
 
   if (options.automaticFirstFetch) {
@@ -31,7 +31,7 @@ const install = function(Vue, options) {
   }
 
   Vue.prototype.$isEnabled = function(feature) {
-    return state.features.includes(feature);
+    return state.featureToggles.includes(feature);
   };
 };
 
@@ -42,13 +42,13 @@ export const fetchFeatures = options => {
     options = previousOptions;
   }
   ws.emit("get-features", {
-    environmentId,
+    identifier,
     options
   });
 };
 
 export const resetFeatures = () => {
-  state.features = [];
+  state.featureToggles = [];
   previousOptions = null;
 };
 

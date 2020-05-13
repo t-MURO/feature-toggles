@@ -7,13 +7,7 @@ let address;
 
 const isEnabled = feature => features.includes(feature);
 
-const init = (options) => {
-    identifier = options.identifier;
-    address = options.address;
-    getToggles();
-}
-
-getToggles = () => {
+const getToggles = () => {
     fetch(`${address}/api/toggles/${identifier}`)
         .then(res => res.json())
         .then(data => {
@@ -26,10 +20,23 @@ getToggles = () => {
 }
 
 router.post('/feature-toggles', (req, res, next) => {
-    console.log(`setting feature toggles: ${JSON.stringify(req.body)}`);
-    features = req.body;
+    console.log('lol')
+    const newFeatures = req.body;
+    console.log(newFeatures);
+    if (!Array.isArray(newFeatures)) {
+        console.log('features value ivalid, no features available')
+        return res.status(422).end();
+    }
+    features = newFeatures;
+    console.log(`setting feature toggles: ${JSON.stringify(newFeatures)}`);
     res.end();
 });
+
+const init = (options) => {
+    identifier = options.identifier;
+    address = options.address;
+    getToggles();
+}
 
 module.exports = {
     router,

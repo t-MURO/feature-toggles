@@ -48,7 +48,10 @@ export const authorize = async (req:CustomRequest, res:Response, next:Function) 
                 res.cookie(
                     AUTH_COOKIE_NAME,
                     token,
-                    { maxAge: TOKEN_EXPIRY_TIME * 1000, httpOnly: true }
+                    {
+                        maxAge: TOKEN_EXPIRY_TIME * 1000,
+                        // httpOnly: true
+                    }
                 );
             }
 
