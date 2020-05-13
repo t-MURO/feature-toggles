@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <h2 class="display-1">Features</h2>
+    <h2 class="display-1">Feature Toggles</h2>
     <v-spacer></v-spacer>
     <feature
       v-for="featureToggle in getFeatureToggles"
