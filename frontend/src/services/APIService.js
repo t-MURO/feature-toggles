@@ -30,11 +30,8 @@ const user = axios.create({
 });
 
 export default class APIService {
-  static getFeatureTogglesByIds() {
-    return api
-      .get(FEATURE_ROUTE)
-      .then(res => res.data)
-      .catch(err => console.log("hallo", err));
+  static getFeatureToggles() {
+    return api.get(FEATURE_ROUTE).then(res => res.data);
   }
 
   static getFeatureToggle(id) {

@@ -6,8 +6,7 @@ const apiModule = {
   state: {
     user: null,
     featureToggles: [],
-    environments: [],
-    test: true
+    environments: []
   },
 
   mutations: {
@@ -26,7 +25,7 @@ const apiModule = {
     loadInitialData({
       dispatch
     }) {
-      dispatch("getFeatureTogglesByIds");
+      dispatch("getFeatureToggles");
       dispatch("getEnvironments");
     },
 
@@ -41,9 +40,9 @@ const apiModule = {
       }
     },
 
-    async getFeatureTogglesByIds({ commit }) {
+    async getFeatureToggles({ commit }) {
       try {
-        const featureToggles = await APIService.getFeatureTogglesByIds();
+        const featureToggles = await APIService.getFeatureToggles();
         commit("SET_FEATURE_TOGGLES", featureToggles);
       } catch (e) {
         alert("error while fetching features");
