@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-card-title primary-title>Select Features</v-card-title>
+    <v-card-title primary-title>Select Feature Toggles</v-card-title>
     <v-divider></v-divider>
     <v-card-text>
       <v-data-table
@@ -11,7 +11,7 @@
         show-select
         :items="filteredFeatures"
         item-key="name"
-        no-data-text="No features available"
+        no-data-text="No feature toggles available"
         :mobile-breakpoint="10"
         :loading="loading"
       ></v-data-table>

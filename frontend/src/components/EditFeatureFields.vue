@@ -7,7 +7,7 @@
   >
     <v-card>
       <v-card-title primary-title>
-        <span v-if="type === 'create'">Create Feature</span>
+        <span v-if="type === 'create'">Create Feature Toggle</span>
         <span v-if="type === 'edit'">Edit {{ featureToggle.name }}</span>
       </v-card-title>
       <v-card-text>
