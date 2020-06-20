@@ -119,7 +119,7 @@ export default {
       //   ]
       // },
 
-      // { icon: "settings", text: "Settings", link: "settings" }
+      // { icon: "settings"w, text: "Settings", link: "settings" }
     ]
   }),
   created() {
