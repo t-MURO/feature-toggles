@@ -92,7 +92,9 @@ export default {
     ...mapActions("api", ["editEnvironment"]),
     removeFeature(environment, featureId) {
       let env = { ...environment };
-      env.featureToggles = environment.featureToggles.filter(id => id !== featureId);
+      env.featureToggles = environment.featureToggles.filter(
+        id => id !== featureId
+      );
       this.editEnvironment(env);
     }
   },

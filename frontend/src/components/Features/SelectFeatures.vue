@@ -68,7 +68,9 @@ export default {
     saveEnvironment() {
       if (this.selectedFeatures.length === 0) return this.close();
       this.loading = true;
-      this.environment.featureToggles.push(...this.selectedFeatures.map(ft => ft._id));
+      this.environment.featureToggles.push(
+        ...this.selectedFeatures.map(ft => ft._id)
+      );
       this.editEnvironment(this.environment).then(() => {
         this.close();
       });

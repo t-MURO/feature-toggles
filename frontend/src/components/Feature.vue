@@ -24,11 +24,17 @@
           </v-chip>
         </strong>
       </p>
-      <feature-switch :featureToggle="featureToggle"></feature-switch>
     </v-card-text>
     <v-card-actions>
+      <feature-switch
+        class="ml-3"
+        :featureToggle="featureToggle"
+      ></feature-switch>
       <v-spacer></v-spacer>
-      <v-btn :to="{ path: '/feature-toggles/' + featureToggle._id }" color="info">
+      <v-btn
+        :to="{ path: '/feature-toggles/' + featureToggle._id }"
+        color="info"
+      >
         <v-icon left>settings</v-icon>
         Configure
       </v-btn>

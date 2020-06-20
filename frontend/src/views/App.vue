@@ -102,8 +102,12 @@ export default {
     drawer: null,
     dark: false,
     items: [
-      { icon: "work", text: "Playground", link: "/playground" },
-      { icon: "power_settings_new", text: "Feature Toggles", link: "/feature-toggles" },
+      // { icon: "work", text: "Playground", link: "/playground" },
+      {
+        icon: "power_settings_new",
+        text: "Feature Toggles",
+        link: "/feature-toggles"
+      },
       { icon: "phonelink", text: "Environments", link: "/environments" },
       // {
       //   icon: 'keyboard_arrow_up',
@@ -115,7 +119,7 @@ export default {
       //   ]
       // },
 
-      { icon: "settings", text: "Settings", link: "settings" }
+      // { icon: "settings", text: "Settings", link: "settings" }
     ]
   }),
   created() {

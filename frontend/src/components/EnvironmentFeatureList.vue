@@ -2,7 +2,8 @@
   <v-card>
     <v-card-text>
       <v-list dense subheader inactive>
-        <v-subheader v-if="getFeatureTogglesByIds(environment.featureToggles).length > 0"
+        <v-subheader
+          v-if="getFeatureTogglesByIds(environment.featureToggles).length > 0"
           >FEATURE TOGGLES ({{
             getFeatureTogglesByIds(environment.featureToggles).length
           }})</v-subheader
@@ -10,7 +11,9 @@
         <v-subheader v-else>THIS ENVIRONMENT HAS NO FEATURES</v-subheader>
         <v-list-item-group inactive color="primary" class="feature-list">
           <v-list-item
-            v-for="featureToggle in getFeatureTogglesByIds(environment.featureToggles)"
+            v-for="featureToggle in getFeatureTogglesByIds(
+              environment.featureToggles
+            )"
             :key="featureToggle._id"
             :ripple="false"
           >
@@ -44,7 +47,9 @@
                   :featureToggle="featureToggle"
                   :environment="environment"
                 />
-                <v-btn small @click="removeFeature(featureToggle._id)">Remove</v-btn>
+                <v-btn small @click="removeFeature(featureToggle._id)"
+                  >Remove</v-btn
+                >
               </div>
             </v-list-item-action>
           </v-list-item>

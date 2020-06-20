@@ -19,7 +19,7 @@ api.interceptors.response.use(
       router.push("/login");
     } else if (err.response.status >= 400) {
       console.log(err);
-      throw(err);
+      throw err;
     }
   }
 );
@@ -69,7 +69,9 @@ export default class APIService {
   }
 
   static editFeatureToggle(featureToggle) {
-    return api.put(FEATURE_ROUTE + featureToggle._id, featureToggle).then(res => res.data);
+    return api
+      .put(FEATURE_ROUTE + featureToggle._id, featureToggle)
+      .then(res => res.data);
   }
 
   static removeFeatureToggle(id) {

@@ -9,7 +9,9 @@
       :removeFeature="removeFeature"
       :editFeature="editFeature"
     ></feature>
-    <p class="mt-4" v-if="getFeatureToggles.length === 0">No features configured.</p>
+    <p class="mt-4" v-if="getFeatureToggles.length === 0">
+      No features configured.
+    </p>
   </v-container>
 </template>
 
